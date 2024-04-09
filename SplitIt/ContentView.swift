@@ -9,16 +9,46 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            VStack(spacing: 20) {
+                SplitwiseTextView()
+                
+                VStack {
+                    Button(action: {
+                           // Signup action
+                       }) {
+                           Text("Sign in")
+                               .foregroundColor(.white)
+                               .padding()
+                               .background(Color.green)
+                               .cornerRadius(10)
+                       }
+                    NavigationLink(destination: SignupView()){
+                        Text("Sign up")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.green)
+                            .cornerRadius(10)
+                    }
+                }.font(.custom("Rubik-Regular", size: 16))
+                
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.white)
+            .ignoresSafeArea(.all)
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
+}
+
+struct SplitwiseTextView: View {
+    var body: some View {
+        HStack(spacing: 0){
+            Text("split").foregroundColor(.green)
+            Text("wise").foregroundColor(.gray)
+        }.font(.custom("Rubik-Regular", size: 48))
+    }
 }

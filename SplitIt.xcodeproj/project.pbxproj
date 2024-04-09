@@ -11,6 +11,9 @@
 		61E0E2C82BC48EE800640097 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E0E2C72BC48EE800640097 /* ContentView.swift */; };
 		61E0E2CA2BC48EEA00640097 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61E0E2C92BC48EEA00640097 /* Assets.xcassets */; };
 		61E0E2CD2BC48EEA00640097 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61E0E2CC2BC48EEA00640097 /* Preview Assets.xcassets */; };
+		61E0E3102BC545BE00640097 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E0E30F2BC545BE00640097 /* SignupView.swift */; };
+		61E0E3122BC546BD00640097 /* SigninView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E0E3112BC546BD00640097 /* SigninView.swift */; };
+		61E0E3152BC553D200640097 /* SignupTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E0E3142BC553D200640097 /* SignupTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +22,10 @@
 		61E0E2C72BC48EE800640097 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		61E0E2C92BC48EEA00640097 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		61E0E2CC2BC48EEA00640097 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		61E0E30E2BC4965000640097 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		61E0E30F2BC545BE00640097 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
+		61E0E3112BC546BD00640097 /* SigninView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninView.swift; sourceTree = "<group>"; };
+		61E0E3142BC553D200640097 /* SignupTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +58,11 @@
 		61E0E2C42BC48EE800640097 /* SplitIt */ = {
 			isa = PBXGroup;
 			children = (
+				61E0E3132BC553B600640097 /* Components */,
+				61E0E30E2BC4965000640097 /* Info.plist */,
 				61E0E2C52BC48EE800640097 /* SplitItApp.swift */,
+				61E0E3112BC546BD00640097 /* SigninView.swift */,
+				61E0E30F2BC545BE00640097 /* SignupView.swift */,
 				61E0E2C72BC48EE800640097 /* ContentView.swift */,
 				61E0E2C92BC48EEA00640097 /* Assets.xcassets */,
 				61E0E2CB2BC48EEA00640097 /* Preview Content */,
@@ -65,6 +76,14 @@
 				61E0E2CC2BC48EEA00640097 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		61E0E3132BC553B600640097 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				61E0E3142BC553D200640097 /* SignupTextField.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +156,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61E0E3152BC553D200640097 /* SignupTextField.swift in Sources */,
 				61E0E2C82BC48EE800640097 /* ContentView.swift in Sources */,
 				61E0E2C62BC48EE800640097 /* SplitItApp.swift in Sources */,
+				61E0E3122BC546BD00640097 /* SigninView.swift in Sources */,
+				61E0E3102BC545BE00640097 /* SignupView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +297,7 @@
 				DEVELOPMENT_TEAM = 5VSKL623NP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SplitIt/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -304,6 +327,7 @@
 				DEVELOPMENT_TEAM = 5VSKL623NP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SplitIt/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
