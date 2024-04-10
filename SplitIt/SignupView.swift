@@ -14,6 +14,8 @@ struct SignupView: View {
     @State private var password: String = ""
     @State private var currency: String = ""
     
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -31,7 +33,7 @@ struct SignupView: View {
                 Spacer()
             }
             .padding()
-            .background(.green)
+            .background(Color.primaryGreen)
         }
         .background(.white)
         .ignoresSafeArea(.all)
@@ -52,14 +54,14 @@ struct SignupView: View {
     
     private var backButton: some View {
         Button(action: {
-                
+            dismiss()
             }) {
                 Image(systemName: "chevron.left")
                     .aspectRatio(contentMode: .fit)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(Color.primaryGreen)
                     .padding(10)
                     .background(.white)
-                    .overlay(Circle().stroke(Color.green, lineWidth: 2))
+                    .overlay(Circle().stroke(Color.primaryGreen, lineWidth: 2))
                     .clipShape(Circle())
             }
         
