@@ -16,7 +16,7 @@ struct SignupView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing: 0) {
                 Spacer()
                 
                 VStack(spacing: 20) {
@@ -38,10 +38,16 @@ struct SignupView: View {
         .navigationTitle("")
         .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(leading: HStack{
-            backButton
-            SplitwiseTextView()
-        })
+        .navigationBarItems(leading: 
+            HStack{
+                backButton
+                Spacer()
+                SplitwiseTextView()
+                Spacer()
+            }
+            .background(.white)
+            .edgesIgnoringSafeArea(.all)
+        )
     }
     
     private var backButton: some View {
