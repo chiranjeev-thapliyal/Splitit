@@ -18,38 +18,60 @@ struct SignupView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
-                Spacer()
+            ZStack(alignment: .top) {
                 
                 VStack(spacing: 20) {
-                    SignupTextField(icon: "person", placeholder: "Full Name", text: $fullName)
-                    SignupTextField(icon: "phone", placeholder: "Phone Number", text: $phoneNumber)
-                    SignupTextField(icon: "at", placeholder: "Email", text: $email)
-                    SignupTextField(icon: "lock", placeholder: "Password", text: $password)
-                    SignupTextField(icon: "dollarsign", placeholder: "Currency", text: $currency)
+                    Spacer().frame(height: 40)
+                    
+                    Group {
+                        SignupTextField(icon: "person", placeholder: "Full Name", text: $fullName)
+                        SignupTextField(icon: "phone", placeholder: "Phone Number", text: $phoneNumber)
+                        SignupTextField(icon: "at", placeholder: "Email", text: $email)
+                        SignupTextField(icon: "lock", placeholder: "Password", text: $password)
+                        SignupTextField(icon: "dollarsign", placeholder: "Currency", text: $currency)
+                        
+                        Button(action: {
+                            
+                        }) {
+                            Text("Signup")
+                                .frame(maxWidth: 240)
+                                .padding()
+                                .background(Color.darkGreen)
+                                .foregroundColor(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                        }.padding(.horizontal)
+                        
+                    }.padding(.horizontal, 16)
+                    
+                    Spacer()
                 }
+                .background(LinearGradient(colors: [.darkGreen, .regularGreen, .lightGreen], startPoint: .top, endPoint: .bottom))
+                .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+                .padding(.top, 100) // Adjust this padding to control where the bottom sheet starts.
+                .edgesIgnoringSafeArea(.bottom)
                 
+                VStack {
+                    HStack {
+                        backButton
+                        Spacer()
+                        SplitwiseTextView()
+                        Spacer()
+                    }
+                    .padding()
+                    .background(Color.tertiaryWhite) // Ensure this matches your app's theme
+                    .foregroundColor(.black)
+                    
+                    Spacer() // This pushes the top bar to the top
+                }
+                .frame(height: 100)
+                .background(Color.tertiaryWhite)
                 
-                Spacer()
-            }
-            .padding()
-            .background(Color.primaryGreen)
+            }.background(Color.tertiaryWhite)
+            
         }
-        .background(.white)
         .ignoresSafeArea(.all)
-        .navigationTitle("")
-        .navigationBarBackButtonHidden(true)
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(leading: 
-            HStack{
-                backButton
-                Spacer()
-                SplitwiseTextView()
-                Spacer()
-            }
-            .background(.white)
-            .edgesIgnoringSafeArea(.all)
-        )
+        .navigationBarHidden(true)
+        .background(Color.tertiaryWhite)
     }
     
     private var backButton: some View {
@@ -58,10 +80,10 @@ struct SignupView: View {
             }) {
                 Image(systemName: "chevron.left")
                     .aspectRatio(contentMode: .fit)
-                    .foregroundStyle(Color.primaryGreen)
+                    .foregroundStyle(Color.darkGreen)
                     .padding(10)
-                    .background(.white)
-                    .overlay(Circle().stroke(Color.primaryGreen, lineWidth: 2))
+                    .background(Color.tertiaryWhite)
+                    .overlay(Circle().stroke(Color.darkGreen, lineWidth: 2))
                     .clipShape(Circle())
             }
         

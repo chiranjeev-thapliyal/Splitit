@@ -29,7 +29,7 @@ struct MenuView: View {
     var body: some View {
         NavigationStack {
             ZStack{
-                Color.primaryGreen.ignoresSafeArea(.all)
+                Color.darkGreen.ignoresSafeArea(.all)
                 Spacer()
                 VStack(spacing: 20) {
                     ForEach(menuList) { item in
