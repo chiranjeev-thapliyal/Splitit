@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+struct SignupFormData: Codable {
+    let fullName: String
+    let phoneNumber: String
+    let email: String
+    let password: String
+    let currency: String
+}
+
 struct SignupView: View {
     @State private var fullName: String = ""
     @State private var phoneNumber: String = ""
@@ -15,6 +23,42 @@ struct SignupView: View {
     @State private var currency: String = ""
     
     @Environment(\.dismiss) var dismiss
+    
+    func submitSignupForm(data: SignupFormData){
+        guard let url = URL(string: "http://127.0.0.1:8080/user/register") else {
+            print("Unable to parse url")
+            return
+        }
+        
+        
+        
+        // Create a http request
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        
+        do {
+             let payload = try JSONEncoder().encode(data)
+            
+            request.httpBody = payload
+            
+            // Send the information inside req.body
+            URLSession.shared.dataTask(with: request){ data, response, error in
+                if let data = data {
+                    if let responseString = String(data: data, encoding: .utf8) {
+                        print("response: \(responseString)")
+                    }
+                } else if let error = error {
+                    print("http request failed \(error)")
+                }
+                
+            }.resume()
+        } catch {
+            print("Failed to encode formData")
+        }
+        
+    }
     
     var body: some View {
         NavigationView {
@@ -27,11 +71,14 @@ struct SignupView: View {
                         SignupTextField(icon: "person", placeholder: "Full Name", text: $fullName)
                         SignupTextField(icon: "phone", placeholder: "Phone Number", text: $phoneNumber)
                         SignupTextField(icon: "at", placeholder: "Email", text: $email)
-                        SignupTextField(icon: "lock", placeholder: "Password", text: $password)
+                        SignupTextField(icon: "lock", placeholder: "Password", text: $password, isSecure: true)
                         SignupTextField(icon: "dollarsign", placeholder: "Currency", text: $currency)
                         
                         Button(action: {
+                            // Gather information
+                            let formData = SignupFormData(fullName: fullName, phoneNumber: phoneNumber, email: email, password: password, currency: currency)
                             
+                            submitSignupForm(data: formData)
                         }) {
                             Text("Signup")
                                 .frame(maxWidth: 240)

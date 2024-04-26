@@ -11,13 +11,18 @@ struct SignupTextField: View {
     let icon: String
     let placeholder: String
     @Binding var text: String
+    var isSecure: Bool = false
     
     var body: some View {
         HStack {
             Spacer()
             Image(systemName: icon).foregroundColor(.gray).padding(.leading, 10)
             Divider().frame(height: 10).background(.gray)
-            TextField(placeholder, text: $text).padding(.leading, 10)
+            if isSecure {
+                SecureField(placeholder, text: $text).padding(.leading, 10)
+            } else {
+                TextField(placeholder, text: $text).padding(.leading, 10)
+            }
             Spacer()
         }
         .padding(.vertical, 10)
@@ -30,5 +35,5 @@ struct SignupTextField: View {
 
 #Preview {
     @State var fullName: String = ""
-    return SignupTextField(icon: "person", placeholder: "Full Name", text: $fullName)
+    return SignupTextField(icon: "person", placeholder: "Full Name", text: $fullName, isSecure: true)
 }
