@@ -12,7 +12,6 @@ struct SignupFormData: Codable {
     let phoneNumber: String
     let email: String
     let password: String
-    let currency: String
 }
 
 struct SignupView: View {
@@ -25,12 +24,10 @@ struct SignupView: View {
     @Environment(\.dismiss) var dismiss
     
     func submitSignupForm(data: SignupFormData){
-        guard let url = URL(string: "http://127.0.0.1:8080/user/register") else {
+        guard let url = URL(string: "https://wealthos.onrender.com/user/register") else {
             print("Unable to parse url")
             return
         }
-        
-        
         
         // Create a http request
         var request = URLRequest(url: url)
@@ -72,11 +69,11 @@ struct SignupView: View {
                         SignupTextField(icon: "phone", placeholder: "Phone Number", text: $phoneNumber)
                         SignupTextField(icon: "at", placeholder: "Email", text: $email)
                         SignupTextField(icon: "lock", placeholder: "Password", text: $password, isSecure: true)
-                        SignupTextField(icon: "dollarsign", placeholder: "Currency", text: $currency)
+//                        SignupTextField(icon: "dollarsign", placeholder: "Currency", text: $currency)
                         
                         Button(action: {
                             // Gather information
-                            let formData = SignupFormData(fullName: fullName, phoneNumber: phoneNumber, email: email, password: password, currency: currency)
+                            let formData = SignupFormData(fullName: fullName, phoneNumber: phoneNumber, email: email, password: password)
                             
                             submitSignupForm(data: formData)
                         }) {
@@ -99,7 +96,7 @@ struct SignupView: View {
                 
                 VStack {
                     HStack {
-                        backButton
+                        BackButton(action: { dismiss()})
                         Spacer()
                         SplitwiseTextView()
                         Spacer()
@@ -119,21 +116,6 @@ struct SignupView: View {
         .ignoresSafeArea(.all)
         .navigationBarHidden(true)
         .background(Color.tertiaryWhite)
-    }
-    
-    private var backButton: some View {
-        Button(action: {
-            dismiss()
-            }) {
-                Image(systemName: "chevron.left")
-                    .aspectRatio(contentMode: .fit)
-                    .foregroundStyle(Color.darkGreen)
-                    .padding(10)
-                    .background(Color.tertiaryWhite)
-                    .overlay(Circle().stroke(Color.darkGreen, lineWidth: 2))
-                    .clipShape(Circle())
-            }
-        
     }
 }
 

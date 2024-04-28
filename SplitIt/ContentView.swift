@@ -14,9 +14,7 @@ struct ContentView: View {
                 SplitwiseTextView()
                 
                 VStack {
-                    Button(action: {
-                           // Signup action
-                       }) {
+                    NavigationLink(destination: SigninView()){
                            Text("Sign in")
                                .foregroundColor(.white)
                                .padding(.vertical, 12)
