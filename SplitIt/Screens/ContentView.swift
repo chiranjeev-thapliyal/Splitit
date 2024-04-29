@@ -11,7 +11,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                SplitwiseTextView()
+                HeaderTitle(first: "wealth", second: "OS")
                 
                 VStack {
                     NavigationLink(destination: SigninView()){
@@ -46,11 +46,3 @@ struct ContentView: View {
     ContentView()
 }
 
-struct SplitwiseTextView: View {
-    var body: some View {
-        HStack(spacing: 0){
-            Text("Wealth").foregroundColor(.darkGreen)
-            Text("OS").foregroundColor(.gray)
-        }.font(.custom("Rubik-Light", size: 48))
-    }
-}

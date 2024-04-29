@@ -98,7 +98,7 @@ struct SignupView: View {
                     HStack {
                         BackButton(action: { dismiss()})
                         Spacer()
-                        SplitwiseTextView()
+                        HeaderTitle(first: "Wealth", second: "OS")
                         Spacer()
                     }
                     .padding()

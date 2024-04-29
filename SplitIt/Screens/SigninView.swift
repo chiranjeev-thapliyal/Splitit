@@ -25,9 +25,7 @@ struct SigninView: View {
                             
                             Spacer().frame(height: 40)
                             
-                            Button (action: {
-                                
-                            }) {
+                            NavigationLink (destination: Home()) {
                                 Text("Sign in")
                                     .frame(maxWidth: 240)
                                     .padding()
@@ -51,7 +49,7 @@ struct SigninView: View {
                     HStack {
                         BackButton(action: { dismiss() })
                         Spacer()
-                        SplitwiseTextView()
+                        HeaderTitle(first: "wealth", second: "OS")
                         Spacer()
                     }
                     .padding()
