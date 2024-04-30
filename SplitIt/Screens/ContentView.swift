@@ -11,7 +11,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                HeaderTitle(first: "wealth", second: "OS")
+                HeaderTitle(first: "wealth", second: "OS").font(.system(size: 56)).kerning(2).fontWeight(.thin)
                 
                 VStack {
                     NavigationLink(destination: SigninView()){
@@ -20,7 +20,7 @@ struct ContentView: View {
                                .padding(.vertical, 12)
                                .padding(.horizontal, 60)
                                .background(Color.darkGreen)
-                               .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                               .clipShape(RoundedRectangle(cornerRadius: 24.0))
                        }
                     NavigationLink(destination: SignupView()){
                         Text("Sign up")
@@ -28,10 +28,12 @@ struct ContentView: View {
                             .padding(.vertical, 12)
                             .padding(.horizontal, 60)
                             .background(Color.darkGreen)
-                            .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                            .clipShape(RoundedRectangle(cornerRadius: 24.0))
                     }
                 }
-                .font(.custom("Rubik-Light", size: 20))
+                .font(.headline)
+                .kerning(1)
+                .fontWeight(.light)
                 .padding(.horizontal, 40)
                 
             }

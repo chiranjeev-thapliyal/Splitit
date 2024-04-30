@@ -77,12 +77,14 @@ struct SignupView: View {
                             
                             submitSignupForm(data: formData)
                         }) {
-                            Text("Signup")
-                                .frame(maxWidth: 240)
-                                .padding()
+                            Text("Sign up")
+                                .padding(.horizontal, 32)
+                                .padding(.vertical, 16)
                                 .background(Color.darkGreen)
                                 .foregroundColor(.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                                .fontWeight(.light)
+                            
                         }.padding(.horizontal)
                         
                     }.padding(.horizontal, 16)
@@ -98,7 +100,9 @@ struct SignupView: View {
                     HStack {
                         BackButton(action: { dismiss()})
                         Spacer()
-                        HeaderTitle(first: "Wealth", second: "OS")
+                        HeaderTitle(first: "wealth", second: "OS")
+                            .font(.largeTitle)
+                            .fontWeight(.thin)
                         Spacer()
                     }
                     .padding()

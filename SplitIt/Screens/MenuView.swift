@@ -35,15 +35,17 @@ struct MenuView: View {
                     ForEach(menuList) { item in
                         NavigationLink(destination: item.view) {
                             Text(item.title)
-                                .font(.custom("Rubik-Light", size: 28))
+                                .font(.title)
                                 .foregroundStyle(.white)
                                 .lineLimit(1)
+                                .kerning(3)
+                                .fontWeight(.thin)
                         }
                         
                         
                         if item != menuList.last {
                             Rectangle()
-                                .frame(height: 2).foregroundStyle(.white).clipShape(RoundedRectangle(cornerRadius: 20))
+                                .frame(height: 1).foregroundStyle(.white).clipShape(RoundedRectangle(cornerRadius: 20))
                         }
                         
                         

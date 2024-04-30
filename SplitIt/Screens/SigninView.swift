@@ -27,11 +27,12 @@ struct SigninView: View {
                             
                             NavigationLink (destination: Home()) {
                                 Text("Sign in")
-                                    .frame(maxWidth: 240)
-                                    .padding()
+                                    .padding(.vertical, 16)
+                                    .padding(.horizontal, 32)
                                     .background(Color.darkGreen)
                                     .foregroundStyle(.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 25))
+                                    .fontWeight(.light)
                                     
                                     
                             }
@@ -50,6 +51,9 @@ struct SigninView: View {
                         BackButton(action: { dismiss() })
                         Spacer()
                         HeaderTitle(first: "wealth", second: "OS")
+                            .font(.largeTitle)
+                            .fontWeight(.thin)
+                        
                         Spacer()
                     }
                     .padding()

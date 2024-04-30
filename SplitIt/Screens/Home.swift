@@ -53,6 +53,8 @@ struct Home: View {
                         Spacer()
                         HeaderTitle(first: "wealth", second: "OS")
                             .kerning(2)
+                            .font(.largeTitle)
+                            .fontWeight(.thin)
                         
                         Spacer()
                     }

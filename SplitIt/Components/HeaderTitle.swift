@@ -15,7 +15,7 @@ struct HeaderTitle: View {
         HStack(spacing: 0){
             Text(first).foregroundColor(.darkGreen)
             Text(second).foregroundColor(.gray)
-        }.font(.custom("Rubik-Light", size: 48))
+        }
     }
 }
 #Preview {
