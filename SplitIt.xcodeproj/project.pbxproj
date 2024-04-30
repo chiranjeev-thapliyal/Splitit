@@ -19,6 +19,8 @@
 		61FF06812BDF099A00DDAD45 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF06802BDF099A00DDAD45 /* BackButton.swift */; };
 		61FF06832BDF119900DDAD45 /* HeaderTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF06822BDF119900DDAD45 /* HeaderTitle.swift */; };
 		61FF068B2BDF133400DDAD45 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF068A2BDF133400DDAD45 /* Home.swift */; };
+		61FF068D2BE06ACD00DDAD45 /* FriendHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF068C2BE06ACD00DDAD45 /* FriendHome.swift */; };
+		61FF068F2BE0798900DDAD45 /* BottomRoundedRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61FF068E2BE0798900DDAD45 /* BottomRoundedRectangle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		61FF06802BDF099A00DDAD45 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		61FF06822BDF119900DDAD45 /* HeaderTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderTitle.swift; sourceTree = "<group>"; };
 		61FF068A2BDF133400DDAD45 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		61FF068C2BE06ACD00DDAD45 /* FriendHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendHome.swift; sourceTree = "<group>"; };
+		61FF068E2BE0798900DDAD45 /* BottomRoundedRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomRoundedRectangle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,8 @@
 				61E0E3142BC553D200640097 /* SignupTextField.swift */,
 				61FF06802BDF099A00DDAD45 /* BackButton.swift */,
 				61FF06822BDF119900DDAD45 /* HeaderTitle.swift */,
+				61FF068C2BE06ACD00DDAD45 /* FriendHome.swift */,
+				61FF068E2BE0798900DDAD45 /* BottomRoundedRectangle.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -189,10 +195,12 @@
 			files = (
 				61FF06812BDF099A00DDAD45 /* BackButton.swift in Sources */,
 				61FF06832BDF119900DDAD45 /* HeaderTitle.swift in Sources */,
+				61FF068F2BE0798900DDAD45 /* BottomRoundedRectangle.swift in Sources */,
 				61FF068B2BDF133400DDAD45 /* Home.swift in Sources */,
 				61E0E3152BC553D200640097 /* SignupTextField.swift in Sources */,
 				61C2C5C62BC7266700D74DF5 /* MenuView.swift in Sources */,
 				61C2C5C82BC7305800D74DF5 /* Color.swift in Sources */,
+				61FF068D2BE06ACD00DDAD45 /* FriendHome.swift in Sources */,
 				61E0E2C82BC48EE800640097 /* ContentView.swift in Sources */,
 				61E0E2C62BC48EE800640097 /* SplitItApp.swift in Sources */,
 				61E0E3122BC546BD00640097 /* SigninView.swift in Sources */,
