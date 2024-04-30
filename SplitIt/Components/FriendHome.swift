@@ -13,15 +13,7 @@ struct FriendHome: View {
     
     var body: some View {
         VStack{
-            Circle()
-                .strokeBorder(Color.tertiaryWhite, lineWidth: 4)
-                .overlay(
-                    Image(image)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                ).frame(width: 60, height: 60)
+            CircularImage(width: 60, height: 60, icon: "profile")
             
             Text(name)
                 .font(.caption2)

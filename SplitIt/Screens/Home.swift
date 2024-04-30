@@ -47,7 +47,8 @@ struct Home: View {
     
     var body: some View {
         NavigationView {
-            ScrollView {
+            ZStack(alignment: .bottomTrailing) {
+                VStack(spacing: 0) {
                     HStack {
                         Spacer()
                         HeaderTitle(first: "wealth", second: "OS")
@@ -56,103 +57,147 @@ struct Home: View {
                         Spacer()
                     }
                     .padding(.top, 8)
-
-                    VStack(spacing: 0) {
-                        
-                        // User's Summary Card
-                        VStack(spacing: 12) {
-                            Text("Chiranjeev Thapliyal")
-                                .font(.headline)
-                                .foregroundStyle(Color.tertiaryWhite)
-                                .textCase(.uppercase)
-                                .fontWeight(.light)
-                                .kerning(1)
-                            
-                            ProfileHome()
-                            
-                            VStack(spacing: 4) {
-                                Text("TOTAL BALANCE")
-                                    .font(.caption)
-                                    .foregroundColor(.white.opacity(0.7))
-                                Text("₹ 2254.75")
-                                    .font(.title2)
-                                    .bold()
-                                    .foregroundColor(Color.tertiaryWhite)
-                            }
-
-                        }
-                        .frame(maxWidth: .infinity) // Use infinity to ensure it expands
-                        .padding(.horizontal, 8) // Add horizontal padding to the card
-                        .padding(.vertical, 16)
-                        .background(LinearGradient(colors: [.darkGreen, .regularGreen, .lightGreen], startPoint: .top, endPoint: .bottom))
-                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                        .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
-                        .zIndex(1)
-                        
-                        // Friends Card
+                    
+                    ScrollView {
                         VStack(spacing: 0) {
-                            Text("Friends")
-                                .textCase(.uppercase)
-                                .font(.subheadline)
-                                .kerning(1)
-                                .foregroundStyle(Color.tertiaryWhite)
-                                .padding(.top, 16)
-                            
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 12) {
-                                    ForEach(friends, id: \.self){friend in
-                                        FriendHome(name: friend.name, image: friend.imageName)
-                                    }
+                            // User's Summary Card
+                            VStack(spacing: 12) {
+                                Text("Chiranjeev Thapliyal")
+                                    .font(.headline)
+                                    .foregroundStyle(Color.tertiaryWhite)
+                                    .textCase(.uppercase)
+                                    .fontWeight(.light)
+                                    .kerning(1)
+                                
+                                ProfileHome()
+                                
+                                VStack(spacing: 4) {
+                                    Text("TOTAL BALANCE")
+                                        .font(.caption)
+                                        .foregroundColor(.white.opacity(0.7))
+                                    Text("₹ 2254.75")
+                                        .font(.title2)
+                                        .bold()
+                                        .foregroundColor(Color.tertiaryWhite)
                                 }
-                                .padding(.horizontal, 8) // Add horizontal padding to the card
-                                .padding(.vertical, 12)
-                            }
 
+                            }
+                            .frame(maxWidth: .infinity) // Use infinity to ensure it expands
+                            .padding(.horizontal, 8) // Add horizontal padding to the card
+                            .padding(.vertical, 16)
+                            .background(LinearGradient(colors: [.darkGreen, .regularGreen, .lightGreen], startPoint: .top, endPoint: .bottom))
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
+                            .zIndex(1)
+                            
+                            // Friends Card
+                            VStack(spacing: 0) {
+                                Text("Friends")
+                                    .textCase(.uppercase)
+                                    .font(.subheadline)
+                                    .kerning(1)
+                                    .foregroundStyle(Color.tertiaryWhite)
+                                    .padding(.top, 16)
+                                
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 12) {
+                                        ForEach(friends, id: \.self){friend in
+                                            FriendHome(name: friend.name, image: friend.imageName)
+                                        }
+                                    }
+                                    .padding(.horizontal, 8) // Add horizontal padding to the card
+                                    .padding(.vertical, 12)
+                                }
+
+                            }
+                            .background(Color.regularGreen)
+                            .clipShape(BottomRoundedRectangle(radius: 16))
+                            .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
+                            
+                            // Groups Card
+                            VStack(spacing: 0){
+                                Text("Groups")
+                                    .font(.subheadline)
+                                    .textCase(.uppercase)
+                                    .kerning(1)
+                                    .foregroundStyle(Color.tertiaryWhite)
+                                    .padding(.top, 16)
+                                
+                                
+                                ScrollView(.horizontal, showsIndicators: false){
+                                    HStack(spacing: 12){
+                                        Spacer()
+                                        ForEach(friends.prefix(4), id: \.self){ group in
+                                            FriendHome(name: group.name, image: group.imageName)
+                                                .multilineTextAlignment(.center)
+                                        }
+                                        Spacer()
+                                    }
+                                    .padding(.horizontal, 8) // Add horizontal padding to the card
+                                    .padding(.vertical, 12)
+                                    
+                                }
+                            }
+                            
+                                
                         }
-                        .background(Color.regularGreen)
-                        .clipShape(BottomRoundedRectangle(radius: 16))
-                        .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
+                        .background(RoundedRectangle(cornerRadius: 16).fill(LinearGradient(colors: [.lightGreen, .regularGreen, .darkGreen], startPoint: .top, endPoint: .bottom)))
+                        .padding(12)
                         
-                        // Groups Card
-                        VStack(spacing: 0){
-                            Text("Groups")
+                        
+                        
+                        // Rest of the content
+                        VStack {
+                            Text("Activity")
                                 .font(.subheadline)
                                 .textCase(.uppercase)
                                 .kerning(1)
-                                .foregroundStyle(Color.tertiaryWhite)
-                                .padding(.top, 16)
+                                .foregroundStyle(Color.darkGreen)
                             
+                            Rectangle()
+                                .frame(height: 1).foregroundStyle(Color.darkGreen).clipShape(RoundedRectangle(cornerRadius: 20))
                             
-                            ScrollView(.horizontal, showsIndicators: false){
-                                HStack(spacing: 12){
-                                    Spacer()
-                                    ForEach(friends.prefix(4), id: \.self){ group in
-                                        FriendHome(name: group.name, image: group.imageName)
-                                            .multilineTextAlignment(.center)
-                                    }
-                                    Spacer()
-                                }
-                                .padding(.horizontal, 8) // Add horizontal padding to the card
-                                .padding(.vertical, 12)
+                            VStack {
+                                TransactionRow(payee: "Chiranjeev", amount: 1000, members: ["Jaskaran", "Abhishek"], label: "Movie", icon: "movieclapper.fill", isSystemIcon: true)
+                                Divider()
+                                TransactionRow(payee: "Chiranjeev", amount: 2000, members: ["Jaskaran", "Abhishek"], label: "Dinner",  icon: "fork.knife", isSystemIcon: true)
+                                Divider()
+                                TransactionRow(payee: "Chiranjeev", amount: 500, members: ["Jaskaran", "Abhishek"], label: "Recharge",  icon: "platter.2.filled.iphone", isSystemIcon: true)
+                                Divider()
+                                TransactionRow(payee: "Chiranjeev", amount: 750, members: ["Jaskaran", "Abhishek"], label: "Cab",  icon: "car", isSystemIcon: true)
+                                Divider()
+                                TransactionRow(payee: "Chiranjeev", amount: 1000, members: ["Jaskaran", "Abhishek"], label: "Flight",  icon: "airplane.departure", isSystemIcon: true)
+                                Divider()
+                                TransactionRow(payee: "Chiranjeev", amount: 1205, members: ["Jaskaran", "Abhishek"], label: "Food",  icon: "fork.knife", isSystemIcon: true)
                                 
                             }
-                        }
-                        
                             
+                            
+                        }
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        
                     }
-                    .background(RoundedRectangle(cornerRadius: 16).fill(LinearGradient(colors: [.lightGreen, .regularGreen, .darkGreen], startPoint: .top, endPoint: .bottom)))
-                    .padding(12)
-                    
-                    
-                    
-                    // Rest of the content
-                    VStack {
-                        Text("Activity")
-                    }
+                    .background(Color.tertiaryWhite)
+                }
+                
+                Button(action: {
+                    print("Add Item Clicked")
+                }){
+                    Image(systemName: "plus")
+                        .font(.title)
+                        .foregroundStyle(Color.tertiaryWhite)
+                        .frame(width: 56, height: 56)
+                        .clipShape(Circle())
+                        .background(Color.darkGreen)
+                        .cornerRadius(28)
                     
                 }
-                .background(Color.tertiaryWhite)
-
+                .padding()
+                .accessibilityLabel("Add New Item")
+            }
+            .background(Color.tertiaryWhite)
+        
         }
         .ignoresSafeArea()
         .navigationBarHidden(true)
