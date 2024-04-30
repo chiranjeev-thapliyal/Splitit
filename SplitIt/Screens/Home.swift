@@ -50,7 +50,9 @@ struct Home: View {
             ScrollView {
                     HStack {
                         Spacer()
-                        HeaderTitle(first: "wealth", second: "OS") // Assuming this is a custom component that you have defined elsewhere
+                        HeaderTitle(first: "wealth", second: "OS")
+                            .kerning(2)
+                        
                         Spacer()
                     }
                     .padding(.top, 8)
@@ -123,12 +125,16 @@ struct Home: View {
                             
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack(spacing: 12){
-                                    ForEach(friends, id: \.self){ group in
+                                    Spacer()
+                                    ForEach(friends.prefix(4), id: \.self){ group in
                                         FriendHome(name: group.name, image: group.imageName)
+                                            .multilineTextAlignment(.center)
                                     }
+                                    Spacer()
                                 }
                                 .padding(.horizontal, 8) // Add horizontal padding to the card
                                 .padding(.vertical, 12)
+                                
                             }
                         }
                         
