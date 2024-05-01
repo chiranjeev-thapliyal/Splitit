@@ -15,7 +15,6 @@ struct SigninView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
-                
                     VStack {
                         Spacer().frame(height: 40)
                         
@@ -25,17 +24,8 @@ struct SigninView: View {
                             
                             Spacer().frame(height: 40)
                             
-                            NavigationLink (destination: Home()) {
-                                Text("Sign in")
-                                    .padding(.vertical, 16)
-                                    .padding(.horizontal, 32)
-                                    .background(Color.darkGreen)
-                                    .foregroundStyle(.white)
-                                    .clipShape(RoundedRectangle(cornerRadius: 25))
-                                    .fontWeight(.light)
-                                    
-                                    
-                            }
+                            NavigationButton(label: "Sign in", destination: Home())
+                            
                         }.padding(.horizontal, 16)
                         
                         

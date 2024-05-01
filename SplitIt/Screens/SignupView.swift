@@ -69,7 +69,6 @@ struct SignupView: View {
                         SignupTextField(icon: "phone", placeholder: "Phone Number", text: $phoneNumber)
                         SignupTextField(icon: "at", placeholder: "Email", text: $email)
                         SignupTextField(icon: "lock", placeholder: "Password", text: $password, isSecure: true)
-//                        SignupTextField(icon: "dollarsign", placeholder: "Currency", text: $currency)
                         
                         Button(action: {
                             // Gather information
