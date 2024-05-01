@@ -14,22 +14,8 @@ struct ContentView: View {
                 HeaderTitle(first: "wealth", second: "OS").font(.system(size: 56)).kerning(2).fontWeight(.thin)
                 
                 VStack {
-                    NavigationLink(destination: SigninView()){
-                           Text("Sign in")
-                               .foregroundColor(.white)
-                               .padding(.vertical, 12)
-                               .padding(.horizontal, 60)
-                               .background(Color.darkGreen)
-                               .clipShape(RoundedRectangle(cornerRadius: 24.0))
-                       }
-                    NavigationLink(destination: SignupView()){
-                        Text("Sign up")
-                            .foregroundColor(.white)
-                            .padding(.vertical, 12)
-                            .padding(.horizontal, 60)
-                            .background(Color.darkGreen)
-                            .clipShape(RoundedRectangle(cornerRadius: 24.0))
-                    }
+                    NavigationButton(label: "Sign in", destination: SigninView())
+                    NavigationButton(label: "Sign up", destination: SignupView())
                 }
                 .font(.headline)
                 .kerning(1)
@@ -47,4 +33,6 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+
+
 

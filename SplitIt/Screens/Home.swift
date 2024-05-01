@@ -17,8 +17,6 @@ struct Home: View {
         Friend(name: "Vaishnavi", imageName: "profile")
     ]
     
-    
-    
     fileprivate func ProfileHome() -> ZStack<TupleView<(some View, some View)>> {
         return ZStack(alignment: .bottomTrailing) {
             // Profile Image
@@ -104,7 +102,10 @@ struct Home: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 12) {
                                         ForEach(friends, id: \.self){friend in
-                                            FriendHome(name: friend.name, image: friend.imageName)
+                                            NavigationLink(destination: FriendSummaryView()){
+                                                FriendHome(name: friend.name, image: friend.imageName)
+                                            }
+                                            
                                         }
                                     }
                                     .padding(.horizontal, 8) // Add horizontal padding to the card

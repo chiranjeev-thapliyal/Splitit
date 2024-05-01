@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6147D9892BE1D274002CF6E8 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D9882BE1D274002CF6E8 /* NavigationButton.swift */; };
+		6147D98B2BE1D391002CF6E8 /* FriendSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D98A2BE1D391002CF6E8 /* FriendSummaryView.swift */; };
 		61C2C5C62BC7266700D74DF5 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C2C5C52BC7266700D74DF5 /* MenuView.swift */; };
 		61C2C5C82BC7305800D74DF5 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C2C5C72BC7305800D74DF5 /* Color.swift */; };
 		61E0E2C62BC48EE800640097 /* SplitItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E0E2C52BC48EE800640097 /* SplitItApp.swift */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6147D9882BE1D274002CF6E8 /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
+		6147D98A2BE1D391002CF6E8 /* FriendSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSummaryView.swift; sourceTree = "<group>"; };
 		61C2C5C52BC7266700D74DF5 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		61C2C5C72BC7305800D74DF5 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		61E0E2C22BC48EE800640097 /* SplitIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplitIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,6 +109,7 @@
 				61FF068E2BE0798900DDAD45 /* BottomRoundedRectangle.swift */,
 				61FF06902BE12ADA00DDAD45 /* TransactionRow.swift */,
 				61FF06922BE12B1A00DDAD45 /* CircularImage.swift */,
+				6147D9882BE1D274002CF6E8 /* NavigationButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -112,11 +117,12 @@
 		61FF06882BDF12CF00DDAD45 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				61C2C5C52BC7266700D74DF5 /* MenuView.swift */,
 				61E0E2C72BC48EE800640097 /* ContentView.swift */,
 				61E0E3112BC546BD00640097 /* SigninView.swift */,
 				61E0E30F2BC545BE00640097 /* SignupView.swift */,
+				61C2C5C52BC7266700D74DF5 /* MenuView.swift */,
 				61FF068A2BDF133400DDAD45 /* Home.swift */,
+				6147D98A2BE1D391002CF6E8 /* FriendSummaryView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -202,11 +208,13 @@
 				61FF06812BDF099A00DDAD45 /* BackButton.swift in Sources */,
 				61FF06832BDF119900DDAD45 /* HeaderTitle.swift in Sources */,
 				61FF06932BE12B1A00DDAD45 /* CircularImage.swift in Sources */,
+				6147D98B2BE1D391002CF6E8 /* FriendSummaryView.swift in Sources */,
 				61FF068F2BE0798900DDAD45 /* BottomRoundedRectangle.swift in Sources */,
 				61FF06912BE12ADA00DDAD45 /* TransactionRow.swift in Sources */,
 				61FF068B2BDF133400DDAD45 /* Home.swift in Sources */,
 				61E0E3152BC553D200640097 /* SignupTextField.swift in Sources */,
 				61C2C5C62BC7266700D74DF5 /* MenuView.swift in Sources */,
+				6147D9892BE1D274002CF6E8 /* NavigationButton.swift in Sources */,
 				61C2C5C82BC7305800D74DF5 /* Color.swift in Sources */,
 				61FF068D2BE06ACD00DDAD45 /* FriendHome.swift in Sources */,
 				61E0E2C82BC48EE800640097 /* ContentView.swift in Sources */,

@@ -33,14 +33,14 @@ struct TransactionRow: View {
                         .fontWeight(.heavy)
                         .foregroundStyle(Color.gray)
                     
-                    Text("you paid AED \(amount)")
+                    Text("you paid ₹ \(amount)")
                         .font(.caption2)
                         .foregroundStyle(Color.gray)
                 }
             }
             Spacer()
             VStack(alignment: .trailing){
-                Text("AED \(remainingAmount)")
+                Text("₹ \(remainingAmount)")
                     .font(.subheadline)
                     .foregroundStyle(Color.regularGreen)
                     .bold()
