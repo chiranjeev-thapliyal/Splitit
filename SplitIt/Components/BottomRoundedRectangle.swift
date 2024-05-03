@@ -13,11 +13,8 @@ struct BottomRoundedRectangle: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
 
-        let width = rect.size.width
         let height = rect.size.height
         let tr = CGPoint(x: rect.maxX, y: rect.minY) // Top right corner
-        let br = CGPoint(x: rect.maxX, y: rect.maxY) // Bottom right corner
-        let bl = CGPoint(x: rect.minX, y: rect.maxY) // Bottom left corner
         let tl = CGPoint(x: rect.minX, y: rect.minY) // Top left corner
 
         path.move(to: tl)

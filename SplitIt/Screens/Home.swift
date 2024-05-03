@@ -184,9 +184,7 @@ struct Home: View {
                     .background(Color.tertiaryWhite)
                 }
                 
-                Button(action: {
-                    print("Add Item Clicked")
-                }){
+                NavigationLink(destination: NewTransactionView()){
                     Image(systemName: "plus")
                         .font(.title)
                         .foregroundStyle(Color.tertiaryWhite)
