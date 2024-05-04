@@ -24,6 +24,7 @@ struct SignupView: View {
     @Environment(\.dismiss) var dismiss
     
     func submitSignupForm(data: SignupFormData){
+        dump(data)
         guard let url = URL(string: "https://wealthos.onrender.com/user/register") else {
             print("Unable to parse url")
             return
@@ -34,6 +35,7 @@ struct SignupView: View {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        dump(request)
         
         do {
              let payload = try JSONEncoder().encode(data)
@@ -43,10 +45,12 @@ struct SignupView: View {
             // Send the information inside req.body
             URLSession.shared.dataTask(with: request){ data, response, error in
                 if let data = data {
+                    dump(data)
                     if let responseString = String(data: data, encoding: .utf8) {
                         print("response: \(responseString)")
                     }
                 } else if let error = error {
+                    dump(error)
                     print("http request failed \(error)")
                 }
                 

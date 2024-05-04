@@ -10,7 +10,65 @@ import SwiftUI
 struct SigninView: View {
     @State var email: String = ""
     @State var password: String = ""
+    @State private var showError: Bool = false
+    @State private var error: String = ""
+    @State private var isAuthenticated: Bool = false
+    @AppStorage("token") var token: String?
+    
     @Environment(\.dismiss) var dismiss
+    
+    func login(email: String, password: String) {
+        guard let url = URL(string: "https://wealthos.onrender.com/user/login") else {
+            print("Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body = ["email": email, "password": password]
+        do {
+            let payload = try JSONSerialization.data(withJSONObject: body, options: [])
+            request.httpBody = payload
+        } catch {
+            print("Error serializing payload: \(error.localizedDescription)")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self.error = "Client error: \(error.localizedDescription)"
+                    self.showError = true
+                    return
+                }
+                
+                
+                if let httpResponse = response as? HTTPURLResponse {
+                    print("HTTP Status Code: \(httpResponse.statusCode)")
+                    if httpResponse.statusCode != 200 {
+                        self.error = "Server error: \(httpResponse.statusCode)"
+                        self.showError = true
+                    } else {
+                        self.isAuthenticated = true
+                    }
+                }
+                
+                if let data = data {
+                    do {
+                        let responseData = try JSONDecoder().decode(LoginResponse.self, from: data)
+                        token = responseData.token
+                    } catch {
+                        print("Error in decoding response data")
+                        return
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+
     
     var body: some View {
         NavigationView {
@@ -24,7 +82,19 @@ struct SigninView: View {
                             
                             Spacer().frame(height: 40)
                             
-                            NavigationButton(label: "Sign in", destination: Home())
+                            Button(action: {
+                                login(email: email, password: password)
+                            }){
+                                Text("Sign in")
+                            }
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 24)
+                            .background(Color.darkGreen)
+                            .foregroundStyle(Color.tertiaryWhite)
+                            .font(.headline)
+                            .kerning(1)
+                            .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                            
                             
                         }.padding(.horizontal, 16)
                         

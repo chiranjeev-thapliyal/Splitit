@@ -9,12 +9,12 @@ import SwiftUI
 
 struct Home: View {
     let friends = [
-        Friend(name: "Chiranjeev", imageName: "profile"),
-        Friend(name: "Aman", imageName: "profile"),
-        Friend(name: "Rishabh", imageName: "profile"),
-        Friend(name: "Jaskaran", imageName: "profile"),
-        Friend(name: "Abhishek", imageName: "profile"),
-        Friend(name: "Vaishnavi", imageName: "profile")
+        Friend(id: 1, name: "Chiranjeev", imageName: "profile"),
+        Friend(id: 2, name: "Aman", imageName: "profile"),
+        Friend(id: 3, name: "Rishabh", imageName: "profile"),
+        Friend(id: 4, name: "Jaskaran", imageName: "profile"),
+        Friend(id: 5, name: "Abhishek", imageName: "profile"),
+        Friend(id: 6, name: "Vaishnavi", imageName: "profile")
     ]
     
     fileprivate func ProfileHome() -> ZStack<TupleView<(some View, some View)>> {
@@ -102,7 +102,7 @@ struct Home: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 12) {
                                         ForEach(friends, id: \.self){friend in
-                                            NavigationLink(destination: FriendSummaryView()){
+                                            NavigationLink(destination: NewTransactionView()){
                                                 FriendHome(name: friend.name, image: friend.imageName)
                                             }
                                             
@@ -206,6 +206,7 @@ struct Home: View {
 }
 
 struct Friend: Hashable {
+    var id: Int
     var name: String
     var imageName: String
 }

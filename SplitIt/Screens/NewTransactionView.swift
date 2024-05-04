@@ -112,7 +112,6 @@ struct NewTransactionView: View {
         }
         .ignoresSafeArea(edges: .all)  // Ignore the safe area for the NavigationView
         .navigationBarHidden(true)
-                
     }
 }
 
