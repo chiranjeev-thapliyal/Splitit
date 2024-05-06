@@ -17,6 +17,10 @@ struct Home: View {
         Friend(id: 6, name: "Vaishnavi", imageName: "profile")
     ]
     
+    func getFriends(){
+        
+    }
+    
     fileprivate func ProfileHome() -> ZStack<TupleView<(some View, some View)>> {
         return ZStack(alignment: .bottomTrailing) {
             // Profile Image
@@ -90,7 +94,7 @@ struct Home: View {
                             .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
                             .zIndex(1)
                             
-                            // Friends Card
+                            // Friends
                             VStack(spacing: 0) {
                                 Text("Friends")
                                     .textCase(.uppercase)
@@ -102,7 +106,7 @@ struct Home: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 12) {
                                         ForEach(friends, id: \.self){friend in
-                                            NavigationLink(destination: NewTransactionView()){
+                                            NavigationLink(destination: NewTransactionView(friend: friend)){
                                                 FriendHome(name: friend.name, image: friend.imageName)
                                             }
                                             
@@ -184,7 +188,7 @@ struct Home: View {
                     .background(Color.tertiaryWhite)
                 }
                 
-                NavigationLink(destination: NewTransactionView()){
+                NavigationLink(destination: {}){
                     Image(systemName: "plus")
                         .font(.title)
                         .foregroundStyle(Color.tertiaryWhite)
