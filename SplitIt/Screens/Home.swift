@@ -9,12 +9,12 @@ import SwiftUI
 
 struct Home: View {
     let friends = [
-        Friend(id: 1, name: "Chiranjeev", imageName: "profile"),
-        Friend(id: 2, name: "Aman", imageName: "profile"),
-        Friend(id: 3, name: "Rishabh", imageName: "profile"),
-        Friend(id: 4, name: "Jaskaran", imageName: "profile"),
-        Friend(id: 5, name: "Abhishek", imageName: "profile"),
-        Friend(id: 6, name: "Vaishnavi", imageName: "profile")
+//        Friend(id: 1, name: "Chiranjeev", imageName: "profile"),
+        Friend(id: 6, name: "Vaishnavi", imageName: "profile4"),
+        Friend(id: 2, name: "Aman", imageName: "profile2"),
+        Friend(id: 4, name: "Jaskaran", imageName: "profile5"),
+        Friend(id: 3, name: "Rishabh", imageName: "profile3"),
+        Friend(id: 5, name: "Abhishek", imageName: "profile")
     ]
     
     func getFriends(){
@@ -104,8 +104,8 @@ struct Home: View {
                                     .padding(.top, 16)
                                 
                                 ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 12) {
-                                        ForEach(friends, id: \.self){friend in
+                                    HStack(spacing: 20) {
+                                        ForEach(friends.shuffled(), id: \.self){friend in
                                             NavigationLink(destination: NewTransactionView(friend: friend)){
                                                 FriendHome(name: friend.name, image: friend.imageName)
                                             }
@@ -132,9 +132,9 @@ struct Home: View {
                                 
                                 
                                 ScrollView(.horizontal, showsIndicators: false){
-                                    HStack(spacing: 12){
+                                    HStack(spacing: 20){
                                         Spacer()
-                                        ForEach(friends.prefix(4), id: \.self){ group in
+                                        ForEach(friends.shuffled().prefix(4), id: \.self){ group in
                                             FriendHome(name: group.name, image: group.imageName)
                                                 .multilineTextAlignment(.center)
                                         }

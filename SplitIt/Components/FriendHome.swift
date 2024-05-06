@@ -13,7 +13,7 @@ struct FriendHome: View {
     
     var body: some View {
         VStack{
-            CircularImage(width: 60, height: 60, icon: "profile")
+            CircularImage(width: 60, height: 60, icon: image)
             
             Text(name)
                 .font(.caption2)

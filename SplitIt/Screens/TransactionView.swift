@@ -29,8 +29,8 @@ struct TransactionView: View {
                     
                     VStack(spacing: 16) {
                         VStack(spacing: 8) {
-                            CircularImage(strokeColor: Color.tertiaryWhite, icon: "phone.fill", isSystemIcon: true)
-                            Text("Mobile Recharge")
+                            CircularImage(width: 80, height: 80, strokeColor: Color.tertiaryWhite, icon: "airplane", isSystemIcon: true)
+                            Text("Goa Flight")
                                 .font(.headline)
                                 .foregroundStyle(Color.tertiaryWhite)
                                 .kerning(1)
@@ -41,7 +41,7 @@ struct TransactionView: View {
                                 .font(.title)
                                 .foregroundStyle(Color.tertiaryWhite)
                             
-                            Text("60.00")
+                            Text("20,000.00")
                                 .font(.largeTitle)
                                 .bold()
                                 .foregroundStyle(Color.tertiaryWhite)
@@ -68,32 +68,44 @@ struct TransactionView: View {
                     Divider()
                     
                     VStack(spacing: 16){
-                        HStack(alignment: .center, spacing: 16) {
+                        HStack(alignment: .center, spacing: 0) {
                             CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: "profile")
-                            Text("Chiranjeev T. paid ₹ 80.00 and owes ₹ 20.00")
+                            Text("Chiranjeev T. paid ₹ \(20000)")
                                 .font(.caption)
                                 .foregroundStyle(Color.gray)
                                 .frame(maxWidth: 200)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(nil)
+                                
                             Spacer()
                         }
                         
-                        HStack(alignment: .center, spacing: 16) {
-                            CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: "profile")
-                            Text("Chiranjeev T. paid ₹ 80.00 and owes ₹ 20.00")
+                        HStack(alignment: .center, spacing: 8) {
+                            CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: "profile5")
+                            Text("Vaibhav P. paid ₹ 2000.00 and owes ₹ \(20000/3)")
                                 .font(.caption)
                                 .foregroundStyle(Color.gray)
                                 .frame(maxWidth: 200)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(nil)
+                                .fixedSize(horizontal: false, vertical: true)
+                            
                             Spacer()
                         }
                         
-                        HStack(alignment: .center, spacing: 16) {
-                            CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: "profile")
-                            Text("Chiranjeev T. paid ₹ 80.00 and owes ₹ 20.00")
+                        HStack(alignment: .center, spacing: 0) {
+                            CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: "profile3")
+                            Text("Chirag G. owes ₹ \(20000/3) to Chiranjeev T.")
                                 .font(.caption)
                                 .foregroundStyle(Color.gray)
                                 .frame(maxWidth: 200)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(nil)
+                                .fixedSize(horizontal: false, vertical: true)
+                            
                             Spacer()
                         }
+
                     }.padding(.vertical, 8)
                     
                     Divider()

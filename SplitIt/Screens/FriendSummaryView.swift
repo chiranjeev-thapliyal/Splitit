@@ -38,7 +38,7 @@ struct FriendSummaryView: View {
                             .fontWeight(.bold)
                             .kerning(1)
                             
-                        Text("+91 9643011147")
+                        Text("+91 9xxxxxxx47")
                             .font(.headline)
                             .foregroundStyle(Color.tertiaryWhite)
                             .fontWeight(.regular)
