@@ -138,5 +138,5 @@ struct NewTransactionView: View {
 }
 
 #Preview {
-    NewTransactionView(friend: Friend(id: 1, name: "Aman", imageName: "profile"))
+    NewTransactionView(friend: Friend(id: "1", name: "Aman", imageName: "profile"))
 }

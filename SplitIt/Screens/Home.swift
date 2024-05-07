@@ -12,22 +12,7 @@ struct Home: View {
     @AppStorage("name") var savedName: String = ""
     @AppStorage("email") var savedEmail: String = ""
     
-    let friends = [
-        Friend(id: 1, name: "Chiranjeev", imageName: "profile"),
-        Friend(id: 6, name: "Vaishnavi", imageName: "profile4"),
-        Friend(id: 2, name: "Aman", imageName: "profile2"),
-        Friend(id: 4, name: "Jaskaran", imageName: "profile5"),
-        Friend(id: 3, name: "Rishabh", imageName: "profile3"),
-        Friend(id: 5, name: "Abhishek", imageName: "profile")
-    ]
-    
-    func getFriends(){
-        
-    }
-    
-    func getGroups(){
-        
-    }
+    @StateObject var friendsModel = FriendsViewModel()
     
     fileprivate func ProfileHome() -> ZStack<TupleView<(some View, some View)>> {
         return ZStack(alignment: .bottomTrailing) {
@@ -87,15 +72,15 @@ struct Home: View {
                                     Text("TOTAL BALANCE")
                                         .font(.caption)
                                         .foregroundColor(.white.opacity(0.7))
-                                    Text("₹ 2254.75")
+                                    Text("₹ 0")
                                         .font(.title2)
                                         .bold()
                                         .foregroundColor(Color.tertiaryWhite)
                                 }
 
                             }
-                            .frame(maxWidth: .infinity) // Use infinity to ensure it expands
-                            .padding(.horizontal, 8) // Add horizontal padding to the card
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 8)
                             .padding(.vertical, 16)
                             .background(LinearGradient(colors: [.darkGreen, .regularGreen, .lightGreen], startPoint: .top, endPoint: .bottom))
                             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
@@ -103,55 +88,19 @@ struct Home: View {
                             .zIndex(1)
                             
                             // Friends
-                            VStack(spacing: 0) {
-                                Text("Friends")
-                                    .textCase(.uppercase)
-                                    .font(.subheadline)
-                                    .kerning(1)
-                                    .foregroundStyle(Color.tertiaryWhite)
-                                    .padding(.top, 16)
-                                
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: 20) {
-                                        ForEach(friends.shuffled(), id: \.self){friend in
-                                            NavigationLink(destination: NewTransactionView(friend: friend)){
-                                                FriendHome(name: friend.name, image: friend.imageName)
-                                            }
-                                            
-                                        }
-                                    }
-                                    .padding(.horizontal, 8) // Add horizontal padding to the card
-                                    .padding(.vertical, 12)
-                                }
-
+                            if !friendsModel.friends.isEmpty {
+                                FriendsList(title: "Friends", friendsList: friendsModel.friends)
+                                    .background(Color.regularGreen)
+                                    .clipShape(BottomRoundedRectangle(radius: 16))
+                                    .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
                             }
-                            .background(Color.regularGreen)
-                            .clipShape(BottomRoundedRectangle(radius: 16))
-                            .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
                             
                             // Groups Card
-                            VStack(spacing: 0){
-                                Text("Groups")
-                                    .font(.subheadline)
-                                    .textCase(.uppercase)
-                                    .kerning(1)
-                                    .foregroundStyle(Color.tertiaryWhite)
-                                    .padding(.top, 16)
-                                
-                                
-                                ScrollView(.horizontal, showsIndicators: false){
-                                    HStack(spacing: 20){
-                                        Spacer()
-                                        ForEach(friends.shuffled().prefix(4), id: \.self){ group in
-                                            FriendHome(name: group.name, image: group.imageName)
-                                                .multilineTextAlignment(.center)
-                                        }
-                                        Spacer()
-                                    }
-                                    .padding(.horizontal, 8) // Add horizontal padding to the card
-                                    .padding(.vertical, 12)
-                                    
-                                }
+                            if !friendsModel.friends.isEmpty {
+                                FriendsList(title: "Groups", friendsList: friendsModel.friends)
+                                    .background(Color.darkGreen.opacity(0.1))
+                                    .clipShape(BottomRoundedRectangle(radius: 16))
+                                    .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
                             }
                             
                                 
@@ -162,35 +111,35 @@ struct Home: View {
                         
                         
                         // Rest of the content
-                        VStack {
-                            Text("Activity")
-                                .font(.subheadline)
-                                .textCase(.uppercase)
-                                .kerning(1)
-                                .foregroundStyle(Color.darkGreen)
-                            
-                            Rectangle()
-                                .frame(height: 1).foregroundStyle(Color.darkGreen).clipShape(RoundedRectangle(cornerRadius: 20))
-                            
-                            VStack {
-                                TransactionRow(payee: "Chiranjeev", amount: 1000, members: ["Jaskaran", "Abhishek"], label: "Movie", icon: "movieclapper.fill", isSystemIcon: true)
-                                Divider()
-                                TransactionRow(payee: "Chiranjeev", amount: 2000, members: ["Jaskaran", "Abhishek"], label: "Dinner",  icon: "fork.knife", isSystemIcon: true)
-                                Divider()
-                                TransactionRow(payee: "Chiranjeev", amount: 500, members: ["Jaskaran", "Abhishek"], label: "Recharge",  icon: "platter.2.filled.iphone", isSystemIcon: true)
-                                Divider()
-                                TransactionRow(payee: "Chiranjeev", amount: 750, members: ["Jaskaran", "Abhishek"], label: "Cab",  icon: "car", isSystemIcon: true)
-                                Divider()
-                                TransactionRow(payee: "Chiranjeev", amount: 1000, members: ["Jaskaran", "Abhishek"], label: "Flight",  icon: "airplane.departure", isSystemIcon: true)
-                                Divider()
-                                TransactionRow(payee: "Chiranjeev", amount: 1205, members: ["Jaskaran", "Abhishek"], label: "Food",  icon: "fork.knife", isSystemIcon: true)
+//                        VStack {
+//                            Text("Activity")
+//                                .font(.subheadline)
+//                                .textCase(.uppercase)
+//                                .kerning(1)
+//                                .foregroundStyle(Color.darkGreen)
+//                            
+//                            Rectangle()
+//                                .frame(height: 1).foregroundStyle(Color.darkGreen).clipShape(RoundedRectangle(cornerRadius: 20))
+//                            
+//                            VStack {
+//                                TransactionRow(payee: "Chiranjeev", amount: 1000, members: ["Jaskaran", "Abhishek"], label: "Movie", icon: "movieclapper.fill", isSystemIcon: true)
+//                                Divider()
+//                                TransactionRow(payee: "Chiranjeev", amount: 2000, members: ["Jaskaran", "Abhishek"], label: "Dinner",  icon: "fork.knife", isSystemIcon: true)
+//                                Divider()
+//                                TransactionRow(payee: "Chiranjeev", amount: 500, members: ["Jaskaran", "Abhishek"], label: "Recharge",  icon: "platter.2.filled.iphone", isSystemIcon: true)
+//                                Divider()
+//                                TransactionRow(payee: "Chiranjeev", amount: 750, members: ["Jaskaran", "Abhishek"], label: "Cab",  icon: "car", isSystemIcon: true)
+//                                Divider()
+//                                TransactionRow(payee: "Chiranjeev", amount: 1000, members: ["Jaskaran", "Abhishek"], label: "Flight",  icon: "airplane.departure", isSystemIcon: true)
+//                                Divider()
+//                                TransactionRow(payee: "Chiranjeev", amount: 1205, members: ["Jaskaran", "Abhishek"], label: "Food",  icon: "fork.knife", isSystemIcon: true)
                                 
-                            }
+//                            }
                             
                             
-                        }
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 16)
+//                        }
+//                        .padding(.vertical, 8)
+//                        .padding(.horizontal, 16)
                         
                     }
                     .background(Color.tertiaryWhite)
@@ -212,6 +161,9 @@ struct Home: View {
             .background(Color.tertiaryWhite)
         
         }
+        .onAppear{
+            friendsModel.getFriends()
+        }
         .ignoresSafeArea()
         .navigationBarHidden(true)
     }
@@ -220,3 +172,4 @@ struct Home: View {
 #Preview {
     Home()
 }
+

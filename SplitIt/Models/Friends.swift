@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 
 struct Friend: Codable, Hashable {
-    var id: Int
+    var id: String
     var name: String
-    var imageName: String
+    var imageName: String?
 }
 
 class FriendsViewModel: ObservableObject {
@@ -25,24 +25,28 @@ class FriendsViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         
-        let url = URL(string: "https://wealthos.onrender.com/user/\(savedUserId)/friends")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        if let userId = savedUserId {
+            let url = URL(string: "http://localhost:8080/user/\(userId)/friends")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            
+            URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+                DispatchQueue.main.async {
+                    self?.isLoading = false
+                    guard let data = data, error == nil else {
+                        self?.errorMessage = "Failed to load friends: \(error?.localizedDescription ?? "Unknown error")"
+                        return
+                    }
+                    
+                    do {
+                        self?.friends = try JSONDecoder().decode([Friend].self, from: data)
+                    } catch {
+                        self?.errorMessage = "Failed to decode friends data"
+                    }
+                }
+            }.resume()
+        }
         
-        URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            DispatchQueue.main.async {
-                self?.isLoading = false
-                guard let data = data, error == nil else {
-                    self?.errorMessage = "Failed to load friends: \(error?.localizedDescription ?? "Unknown error")"
-                    return
-                }
-                
-                do {
-                    self?.friends = try JSONDecoder().decode([Friend].self, from: data)
-                } catch {
-                    self?.errorMessage = "Failed to decode friends data"
-                }
-            }
-        }.resume()
+        
     }
 }
