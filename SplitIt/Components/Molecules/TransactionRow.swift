@@ -9,24 +9,24 @@ import SwiftUI
 
 struct TransactionRow: View {
     let payee: String
-    let amount: Int
+    let amount: Double
     let members: [String]
     let label: String
     let icon: String
     var isSystemIcon: Bool = false
     
-    var share: Int {
-        amount / (members.count + 1)
+    var share: Double {
+        amount / Double((members.count + 1))
     }
     
-    var remainingAmount: Int {
+    var remainingAmount: Double {
         amount - share
     }
     
     var body: some View {
         HStack(alignment: .center){
             HStack(alignment: .center, spacing: 16){
-                CircularImage(width: 48, height: 48, strokeColor: Color.regularGreen, icon: icon, isSystemIcon: isSystemIcon)
+                CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: icon, isSystemIcon: isSystemIcon)
                 VStack(alignment: .leading) {
                     Text(label)
                         .font(.caption)
@@ -55,7 +55,7 @@ struct TransactionRow: View {
 
 #Preview {
     let payee = "Chiranjeev"
-    let amount = 400
+    let amount = 400.00
     let members = ["Jaskaran", "Abhishek"]
     let label = "Movie"
     

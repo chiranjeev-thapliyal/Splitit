@@ -236,6 +236,7 @@ struct SignupView: View {
         .ignoresSafeArea(.all)
         .navigationBarHidden(true)
         .background(Color.tertiaryWhite)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

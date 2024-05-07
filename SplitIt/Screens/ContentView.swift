@@ -14,10 +14,10 @@ struct ContentView: View {
     @AppStorage("email") var savedEmail: String = ""
     
     var body: some View {
-        if !(savedUserId.isEmpty || savedToken.isEmpty || savedName.isEmpty || savedEmail.isEmpty) {
-            Home()
-        } else {
-            NavigationStack {
+        NavigationStack {
+            if !(savedUserId.isEmpty || savedToken.isEmpty || savedName.isEmpty || savedEmail.isEmpty) {
+                Home()
+            } else {
                 VStack(spacing: 20) {
                     HeaderTitle(first: "wealth", second: "OS").font(.system(size: 56)).kerning(2).fontWeight(.thin)
                     
@@ -29,14 +29,13 @@ struct ContentView: View {
                     .kerning(1)
                     .fontWeight(.light)
                     .padding(.horizontal, 40)
-                    
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.tertiaryWhite)
                 .ignoresSafeArea(.all)
             }
         }
-        
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

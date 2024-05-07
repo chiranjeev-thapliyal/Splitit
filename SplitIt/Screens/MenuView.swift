@@ -56,7 +56,9 @@ struct MenuView: View {
                 
                 Spacer()
             }
-        }.navigationTitle("Menu")
+        }
+        .navigationTitle("Menu")
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

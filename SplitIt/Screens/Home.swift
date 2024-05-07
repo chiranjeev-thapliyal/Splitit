@@ -14,6 +14,7 @@ struct Home: View {
     
     @StateObject var friendsModel = FriendsViewModel()
     @StateObject var groupsModel = GroupModel()
+    @StateObject var transactionModel = TransactionModel()
     
     fileprivate func ProfileHome() -> ZStack<TupleView<(some View, some View)>> {
         return ZStack(alignment: .bottomTrailing) {
@@ -111,37 +112,41 @@ struct Home: View {
                         
                         
                         
-                        // Rest of the content
-//                        VStack {
-//                            Text("Activity")
-//                                .font(.subheadline)
-//                                .textCase(.uppercase)
-//                                .kerning(1)
-//                                .foregroundStyle(Color.darkGreen)
-//                            
-//                            Rectangle()
-//                                .frame(height: 1).foregroundStyle(Color.darkGreen).clipShape(RoundedRectangle(cornerRadius: 20))
-//                            
-//                            VStack {
-//                                TransactionRow(payee: "Chiranjeev", amount: 1000, members: ["Jaskaran", "Abhishek"], label: "Movie", icon: "movieclapper.fill", isSystemIcon: true)
-//                                Divider()
-//                                TransactionRow(payee: "Chiranjeev", amount: 2000, members: ["Jaskaran", "Abhishek"], label: "Dinner",  icon: "fork.knife", isSystemIcon: true)
-//                                Divider()
-//                                TransactionRow(payee: "Chiranjeev", amount: 500, members: ["Jaskaran", "Abhishek"], label: "Recharge",  icon: "platter.2.filled.iphone", isSystemIcon: true)
-//                                Divider()
-//                                TransactionRow(payee: "Chiranjeev", amount: 750, members: ["Jaskaran", "Abhishek"], label: "Cab",  icon: "car", isSystemIcon: true)
-//                                Divider()
-//                                TransactionRow(payee: "Chiranjeev", amount: 1000, members: ["Jaskaran", "Abhishek"], label: "Flight",  icon: "airplane.departure", isSystemIcon: true)
-//                                Divider()
-//                                TransactionRow(payee: "Chiranjeev", amount: 1205, members: ["Jaskaran", "Abhishek"], label: "Food",  icon: "fork.knife", isSystemIcon: true)
+                            VStack {
+                                Text("Activity")
+                                    .font(.subheadline)
+                                    .textCase(.uppercase)
+                                    .kerning(1)
+                                    .foregroundStyle(Color.darkGreen)
                                 
-//                            }
-                            
-                            
-//                        }
-//                        .padding(.vertical, 8)
-//                        .padding(.horizontal, 16)
-                        
+                                Rectangle()
+                                    .frame(height: 1).foregroundStyle(Color.darkGreen).clipShape(RoundedRectangle(cornerRadius: 20))
+                                
+                               
+                                VStack {
+                                    if !transactionModel.transactions.isEmpty {
+                                        ForEach(transactionModel.transactions, id: \.self){ transaction in
+                                            TransactionRow(payee: transaction.creatorName, amount: transaction.amount, members: [], label: transaction.description, icon: "movieclapper.fill", isSystemIcon: true)
+                                            Divider()
+                                        }
+                                    } else {
+                                        Image("no-results-found")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 150, height: 150)
+                                        
+                                        Text("No Transactions Found")
+                                            .font(.headline)
+                                            .fontWeight(.light)
+                                            .foregroundStyle(Color.black.opacity(0.9))
+                                            .kerning(1)
+                                    }
+                                
+                                }
+                                
+                            }
+                            .padding(.vertical, 8)
+                            .padding(.horizontal, 16)
                     }
                     .background(Color.tertiaryWhite)
                 }
@@ -165,9 +170,11 @@ struct Home: View {
         .onAppear{
             friendsModel.getFriends()
             groupsModel.getGroups()
+            transactionModel.getUserTransactions()
         }
         .ignoresSafeArea()
         .navigationBarHidden(true)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

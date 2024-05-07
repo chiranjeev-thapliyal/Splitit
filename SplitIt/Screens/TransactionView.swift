@@ -117,6 +117,7 @@ struct TransactionView: View {
         }
         .ignoresSafeArea(edges: .all)
         .navigationBarHidden(true)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
