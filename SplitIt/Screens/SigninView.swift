@@ -54,8 +54,6 @@ struct SigninView: View {
                     if httpResponse.statusCode != 200 {
                         self.error = "Server error: \(httpResponse.statusCode)"
                         self.showError = true
-                    } else {
-                        self.isAuthenticated = true
                     }
                 }
                 
@@ -66,6 +64,7 @@ struct SigninView: View {
                         savedToken = responseData.token
                         savedName = responseData.name
                         savedEmail = responseData.email
+                        isAuthenticated = true
                     } catch {
                         print("Error in decoding response data")
                         return
@@ -129,6 +128,10 @@ struct SigninView: View {
                     
                     Spacer()
                 }.frame(height: 100)
+                
+                NavigationLink(destination: Home(), isActive: $isAuthenticated){
+                    EmptyView()
+                }
                 
             }
             .background(Color.tertiaryWhite)
