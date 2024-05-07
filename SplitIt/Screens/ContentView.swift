@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @AppStorage("token") var token: String?
+    @AppStorage("user_id") var savedUserId: String = ""
+    @AppStorage("token") var savedToken: String = ""
+    @AppStorage("name") var savedName: String = ""
+    @AppStorage("email") var savedEmail: String = ""
     
     var body: some View {
-        if token != nil && !token!.isEmpty {
+        if !(savedUserId.isEmpty || savedToken.isEmpty || savedName.isEmpty || savedEmail.isEmpty) {
             Home()
         } else {
             NavigationStack {

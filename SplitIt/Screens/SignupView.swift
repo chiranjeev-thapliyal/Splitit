@@ -15,7 +15,11 @@ struct SignupFormData: Codable {
 }
 
 struct SignupView: View {
-    @AppStorage("token") var token: String?
+    
+    @AppStorage("user_id") var savedUserId: String?
+    @AppStorage("token") var savedToken: String?
+    @AppStorage("name") var savedName: String?
+    @AppStorage("email") var savedEmail: String?
     
     @State private var fullName: String = ""
     @State private var phoneNumber: String = ""
@@ -52,7 +56,11 @@ struct SignupView: View {
                     if httpResponse.statusCode == 200, let data = data {
                         do {
                             let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
-                            self.token = loginResponse.token
+                            self.savedUserId = loginResponse.id
+                            self.savedToken = loginResponse.token
+                            self.savedName = loginResponse.name
+                            self.savedEmail = loginResponse.email
+                            
                             completionHandler(true, "User created successfully.")
                         } catch {
                             completionHandler(false, "Failed to decode the response")

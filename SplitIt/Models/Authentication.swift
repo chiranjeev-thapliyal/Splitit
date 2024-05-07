@@ -14,6 +14,7 @@ struct LoginCredentials: Codable, Hashable {
 }
 
 struct LoginResponse: Codable, Hashable {
+    let id: String
     let token: String
     let email: String
     let name: String

@@ -13,6 +13,7 @@
 		6147D98F2BE459A8002CF6E8 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D98E2BE459A8002CF6E8 /* TransactionView.swift */; };
 		6147D9922BE52CF7002CF6E8 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D9912BE52CF7002CF6E8 /* Authentication.swift */; };
 		6147D9992BE989D0002CF6E8 /* APIHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D9982BE989D0002CF6E8 /* APIHandler.swift */; };
+		6147D99B2BE9B9F6002CF6E8 /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D99A2BE9B9F6002CF6E8 /* Friends.swift */; };
 		61C2C5C62BC7266700D74DF5 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C2C5C52BC7266700D74DF5 /* MenuView.swift */; };
 		61C2C5C82BC7305800D74DF5 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C2C5C72BC7305800D74DF5 /* Color.swift */; };
 		61E0E2C62BC48EE800640097 /* SplitItApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E0E2C52BC48EE800640097 /* SplitItApp.swift */; };
@@ -38,6 +39,7 @@
 		6147D98E2BE459A8002CF6E8 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		6147D9912BE52CF7002CF6E8 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		6147D9982BE989D0002CF6E8 /* APIHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHandler.swift; sourceTree = "<group>"; };
+		6147D99A2BE9B9F6002CF6E8 /* Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
 		61C2C5C52BC7266700D74DF5 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		61C2C5C72BC7305800D74DF5 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		61E0E2C22BC48EE800640097 /* SplitIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SplitIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				6147D9912BE52CF7002CF6E8 /* Authentication.swift */,
+				6147D99A2BE9B9F6002CF6E8 /* Friends.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -226,6 +229,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61FF06812BDF099A00DDAD45 /* BackButton.swift in Sources */,
+				6147D99B2BE9B9F6002CF6E8 /* Friends.swift in Sources */,
 				61FF06832BDF119900DDAD45 /* HeaderTitle.swift in Sources */,
 				61FF06932BE12B1A00DDAD45 /* CircularImage.swift in Sources */,
 				6147D98B2BE1D391002CF6E8 /* FriendSummaryView.swift in Sources */,

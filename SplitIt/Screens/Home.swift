@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct Home: View {
+    @AppStorage("token") var savedToken: String = ""
+    @AppStorage("name") var savedName: String = ""
+    @AppStorage("email") var savedEmail: String = ""
+    
     let friends = [
-//        Friend(id: 1, name: "Chiranjeev", imageName: "profile"),
+        Friend(id: 1, name: "Chiranjeev", imageName: "profile"),
         Friend(id: 6, name: "Vaishnavi", imageName: "profile4"),
         Friend(id: 2, name: "Aman", imageName: "profile2"),
         Friend(id: 4, name: "Jaskaran", imageName: "profile5"),
@@ -18,6 +22,10 @@ struct Home: View {
     ]
     
     func getFriends(){
+        
+    }
+    
+    func getGroups(){
         
     }
     
@@ -66,7 +74,7 @@ struct Home: View {
                         VStack(spacing: 0) {
                             // User's Summary Card
                             VStack(spacing: 12) {
-                                Text("Chiranjeev Thapliyal")
+                                Text(savedName)
                                     .font(.headline)
                                     .foregroundStyle(Color.tertiaryWhite)
                                     .textCase(.uppercase)
@@ -207,12 +215,6 @@ struct Home: View {
         .ignoresSafeArea()
         .navigationBarHidden(true)
     }
-}
-
-struct Friend: Hashable {
-    var id: Int
-    var name: String
-    var imageName: String
 }
 
 #Preview {

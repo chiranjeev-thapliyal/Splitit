@@ -13,7 +13,11 @@ struct SigninView: View {
     @State private var showError: Bool = false
     @State private var error: String = ""
     @State private var isAuthenticated: Bool = false
-    @AppStorage("token") var token: String?
+    
+    @AppStorage("user_id") var savedUserId: String?
+    @AppStorage("token") var savedToken: String?
+    @AppStorage("name") var savedName: String?
+    @AppStorage("email") var savedEmail: String?
     
     @Environment(\.dismiss) var dismiss
     
@@ -58,7 +62,10 @@ struct SigninView: View {
                 if let data = data {
                     do {
                         let responseData = try JSONDecoder().decode(LoginResponse.self, from: data)
-                        token = responseData.token
+                        savedUserId = responseData.id
+                        savedToken = responseData.token
+                        savedName = responseData.name
+                        savedEmail = responseData.email
                     } catch {
                         print("Error in decoding response data")
                         return
