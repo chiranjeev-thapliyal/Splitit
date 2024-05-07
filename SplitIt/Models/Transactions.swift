@@ -48,7 +48,6 @@ class TransactionModel: ObservableObject {
                     }
                     
                     do {
-                        prettyPrint(data: data)
                         self?.transactions = try JSONDecoder().decode([Transaction].self, from: data)
                     } catch {
                         print("failed to decode \(error.localizedDescription)")

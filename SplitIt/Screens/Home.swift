@@ -30,15 +30,17 @@ struct Home: View {
                 )
                 .frame(width: 100, height: 100)
             
+            EmptyView()
+            
             // Profile Add(+) Button
-            Circle()
-                .fill(Color.darkGreen)
-                .overlay(
-                    Image(systemName: "plus") // System image
-                        .foregroundColor(Color.tertiaryWhite)
-                )
-                .frame(width: 30, height: 30)
-                .offset(x: 0, y: 0)
+//            Circle()
+//                .fill(Color.darkGreen)
+//                .overlay(
+//                    Image(systemName: "plus") // System image
+//                        .foregroundColor(Color.tertiaryWhite)
+//                )
+//                .frame(width: 30, height: 30)
+//                .offset(x: 0, y: 0)
         }
     }
     
@@ -151,18 +153,18 @@ struct Home: View {
                     .background(Color.tertiaryWhite)
                 }
                 
-                NavigationLink(destination: {}){
-                    Image(systemName: "plus")
-                        .font(.title)
-                        .foregroundStyle(Color.tertiaryWhite)
-                        .frame(width: 56, height: 56)
-                        .clipShape(Circle())
-                        .background(Color.darkGreen)
-                        .cornerRadius(28)
-                    
-                }
-                .padding()
-                .accessibilityLabel("Add New Item")
+//                NavigationLink(destination: {}){
+//                    Image(systemName: "plus")
+//                        .font(.title)
+//                        .foregroundStyle(Color.tertiaryWhite)
+//                        .frame(width: 56, height: 56)
+//                        .clipShape(Circle())
+//                        .background(Color.darkGreen)
+//                        .cornerRadius(28)
+//                    
+//                }
+//                .padding()
+//                .accessibilityLabel("Add New Item")
             }
             .background(Color.tertiaryWhite)
         
