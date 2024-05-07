@@ -13,6 +13,7 @@ struct Home: View {
     @AppStorage("email") var savedEmail: String = ""
     
     @StateObject var friendsModel = FriendsViewModel()
+    @StateObject var groupsModel = GroupModel()
     
     fileprivate func ProfileHome() -> ZStack<TupleView<(some View, some View)>> {
         return ZStack(alignment: .bottomTrailing) {
@@ -96,8 +97,8 @@ struct Home: View {
                             }
                             
                             // Groups Card
-                            if !friendsModel.friends.isEmpty {
-                                FriendsList(title: "Groups", friendsList: friendsModel.friends)
+                            if !groupsModel.groups.isEmpty {
+                                GroupsList(title: "Groups", groupsList: groupsModel.groups)
                                     .background(Color.darkGreen.opacity(0.1))
                                     .clipShape(BottomRoundedRectangle(radius: 16))
                                     .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
@@ -163,6 +164,7 @@ struct Home: View {
         }
         .onAppear{
             friendsModel.getFriends()
+            groupsModel.getGroups()
         }
         .ignoresSafeArea()
         .navigationBarHidden(true)
