@@ -40,7 +40,6 @@ struct SignupView: View {
             request.httpMethod = "POST"
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.httpBody = try JSONEncoder().encode(data)
-            print("2. \(request.httpBody)")
             
             // Send the information inside req.body
             URLSession.shared.dataTask(with: request){ data, response, error in
@@ -62,8 +61,7 @@ struct SignupView: View {
                     }
                     
                     if let data = data, let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
-                        print(errorResponse)
-                        completionHandler(false, errorResponse.message)
+                        completionHandler(false, errorResponse.reason)
                     } else {
                         completionHandler(false, "An unknown error occurred.")
                     }
