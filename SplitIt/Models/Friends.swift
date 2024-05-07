@@ -26,7 +26,7 @@ class FriendsViewModel: ObservableObject {
         errorMessage = nil
         
         if let userId = savedUserId {
-            let url = URL(string: "http://localhost:8080/user/\(userId)/friends")!
+            let url = URL(string: "https://wealthos.onrender.com/user/\(userId)/friends")!
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             

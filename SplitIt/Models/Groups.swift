@@ -26,7 +26,7 @@ class GroupModel: ObservableObject {
         errorMessage = nil
         
         if let userId = savedUserId {
-            let url = URL(string: "http://localhost:8080/user/\(userId)/groups")!
+            let url = URL(string: "https://wealthos.onrender.com/user/\(userId)/groups")!
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             
