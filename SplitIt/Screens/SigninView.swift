@@ -113,25 +113,17 @@ struct SigninView: View {
                     .edgesIgnoringSafeArea(.bottom)
                 
                 VStack {
-                    HStack {
-                        BackButton(action: { dismiss() })
-                        Spacer()
-                        HeaderTitle(first: "wealth", second: "OS")
-                            .font(.largeTitle)
-                            .fontWeight(.thin)
-                        
-                        Spacer()
-                    }
-                    .padding()
-                    .background(Color.tertiaryWhite) // Ensure this matches your app's theme
-                    .foregroundColor(.black)
+                    CustomNavbar(backButtonAction: { dismiss() })
+                        .padding()
+                        .background(Color.tertiaryWhite) // Ensure this matches your app's theme
+                        .foregroundColor(.black)
                     
                     Spacer()
                 }.frame(height: 100)
                 
-                NavigationLink(destination: Home(), isActive: $isAuthenticated){
-                    EmptyView()
-                }
+//                NavigationLink(destination: Home(), isActive: $isAuthenticated){
+//                    EmptyView()
+//                }
                 
             }
             .background(Color.tertiaryWhite)

@@ -213,17 +213,10 @@ struct SignupView: View {
                 .edgesIgnoringSafeArea(.bottom)
                 
                 VStack {
-                    HStack {
-                        BackButton(action: { dismiss()})
-                        Spacer()
-                        HeaderTitle(first: "wealth", second: "OS")
-                            .font(.largeTitle)
-                            .fontWeight(.thin)
-                        Spacer()
-                    }
-                    .padding()
-                    .background(Color.tertiaryWhite) // Ensure this matches your app's theme
-                    .foregroundColor(.black)
+                    CustomNavbar(backButtonAction: { dismiss() })
+                        .padding()
+                        .background(Color.tertiaryWhite)
+                        .foregroundColor(.black)
                     
                     Spacer() // This pushes the top bar to the top
                 }

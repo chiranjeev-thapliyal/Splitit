@@ -14,28 +14,30 @@ struct ContentView: View {
     @AppStorage("email") var savedEmail: String = ""
     
     var body: some View {
-        NavigationStack {
+        
             if !(savedUserId.isEmpty || savedToken.isEmpty || savedName.isEmpty || savedEmail.isEmpty) {
                 Home()
             } else {
-                VStack(spacing: 20) {
-                    HeaderTitle(first: "wealth", second: "OS").font(.system(size: 56)).kerning(2).fontWeight(.thin)
-                    
-                    VStack {
-                        NavigationButton(label: "Sign in", destination: SigninView())
-                        NavigationButton(label: "Sign up", destination: SignupView())
+                NavigationStack {
+                    VStack(spacing: 20) {
+                        HeaderTitle(first: "wealth", second: "OS").font(.system(size: 56)).kerning(2).fontWeight(.thin)
+                        
+                        VStack {
+                            NavigationButton(label: "Sign in", destination: SigninView())
+                            NavigationButton(label: "Sign up", destination: SignupView())
+                        }
+                        .font(.headline)
+                        .kerning(1)
+                        .fontWeight(.light)
+                        .padding(.horizontal, 40)
                     }
-                    .font(.headline)
-                    .kerning(1)
-                    .fontWeight(.light)
-                    .padding(.horizontal, 40)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.tertiaryWhite)
-                .ignoresSafeArea(.all)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.tertiaryWhite)
+                    .ignoresSafeArea(.all)
             }
+            .navigationViewStyle(StackNavigationViewStyle())
         }
-        .navigationViewStyle(StackNavigationViewStyle())
+        
     }
 }
 

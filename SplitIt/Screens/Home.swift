@@ -16,47 +16,13 @@ struct Home: View {
     @StateObject var groupsModel = GroupModel()
     @StateObject var transactionModel = TransactionModel()
     
-    fileprivate func ProfileHome() -> ZStack<TupleView<(some View, some View)>> {
-        return ZStack(alignment: .bottomTrailing) {
-            // Profile Image
-            Circle()
-                .strokeBorder(Color.tertiaryWhite, lineWidth: 4)
-                .overlay(
-                    Image("profile")
-                        .resizable()
-                        .scaledToFill()
-                        .clipShape(Circle())
-                        .padding(4)
-                )
-                .frame(width: 100, height: 100)
-            
-            
-            // Profile Add(+) Button
-            Circle()
-                .fill(Color.darkGreen)
-//                .overlay(
-//                    Image(systemName: "plus") // System image
-//                        .foregroundColor(Color.tertiaryWhite)
-//                )
-                .frame(width: 0, height: 0)
-                .offset(x: 0, y: 0)
-        }
-    }
+    @Environment(\.scenePhase) var scenePhase
     
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottomTrailing) {
                 VStack(spacing: 0) {
-                    HStack {
-                        Spacer()
-                        HeaderTitle(first: "wealth", second: "OS")
-                            .kerning(2)
-                            .font(.largeTitle)
-                            .fontWeight(.thin)
-                        
-                        Spacer()
-                    }
-                    .padding(.top, 8)
+                    CustomNavbar()
                     
                     ScrollView {
                         VStack(spacing: 0) {
@@ -69,7 +35,7 @@ struct Home: View {
                                     .fontWeight(.light)
                                     .kerning(1)
                                 
-                                ProfileHome()
+                                CircularImageWithAction()
                                 
                                 VStack(spacing: 4) {
                                     Text("TOTAL BALANCE")
@@ -149,9 +115,9 @@ struct Home: View {
                             .padding(.horizontal, 16)
                     }
                     .background(Color.tertiaryWhite)
+                    
                 }
                 
-                Spacer()
                 
                 NavigationLink(destination: {}){
                     Image(systemName: "plus")
@@ -165,16 +131,27 @@ struct Home: View {
                 }
                 .padding()
                 .accessibilityLabel("Add New Item")
+                
+                
+                
             }
             .background(Color.tertiaryWhite)
+            
         }
         .navigationBarHidden(true)
         .navigationViewStyle(StackNavigationViewStyle())
-        .onAppear{
-            friendsModel.getFriends()
-            groupsModel.getGroups()
-            transactionModel.getUserTransactions()
+        .onAppear {
+            if friendsModel.friends.isEmpty {
+                friendsModel.getFriends()
+            }
+            if groupsModel.groups.isEmpty {
+                groupsModel.getGroups()
+            }
+            if transactionModel.transactions.isEmpty {
+                transactionModel.getUserTransactions()
+            }
         }
+        .ignoresSafeArea(.all)
     }
 }
 
