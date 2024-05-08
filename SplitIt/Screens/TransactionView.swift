@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct TransactionView: View {
+    let transaction: Transaction
+    
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -30,7 +32,7 @@ struct TransactionView: View {
                     VStack(spacing: 16) {
                         VStack(spacing: 8) {
                             CircularImage(width: 80, height: 80, strokeColor: Color.tertiaryWhite, icon: "airplane", isSystemIcon: true)
-                            Text("Goa Flight")
+                            Text(transaction.description)
                                 .font(.headline)
                                 .foregroundStyle(Color.tertiaryWhite)
                                 .kerning(1)
@@ -41,7 +43,7 @@ struct TransactionView: View {
                                 .font(.title)
                                 .foregroundStyle(Color.tertiaryWhite)
                             
-                            Text("20,000.00")
+                            Text(transaction.amount.formatted(.number.precision(.fractionLength(2))))
                                 .font(.largeTitle)
                                 .bold()
                                 .foregroundStyle(Color.tertiaryWhite)
@@ -122,5 +124,6 @@ struct TransactionView: View {
 }
 
 #Preview {
-    TransactionView()
+    let id = UUID()
+    return TransactionView(transaction: Transaction(id: id, creator: id, creatorName: "Chiranjeev Thapliyal", amount: 2000, description: "Go Goa Gone", shares: []))
 }

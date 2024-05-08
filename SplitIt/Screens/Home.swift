@@ -92,7 +92,9 @@ struct Home: View {
                                 VStack {
                                     if !transactionModel.transactions.isEmpty {
                                         ForEach(transactionModel.transactions, id: \.self){ transaction in
-                                            TransactionRow(payee: transaction.creatorName, amount: transaction.amount, members: transaction.shares, label: transaction.description, icon: "movieclapper.fill", isSystemIcon: true)
+                                            NavigationLink(destination: TransactionView(transaction: transaction)){
+                                                TransactionRow(payee: transaction.creatorName, amount: transaction.amount, members: transaction.shares, label: transaction.description, icon: "movieclapper.fill", isSystemIcon: true)
+                                            }
                                             Divider()
                                         }
                                     } else {
