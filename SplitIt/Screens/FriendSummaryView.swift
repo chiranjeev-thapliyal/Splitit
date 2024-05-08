@@ -116,11 +116,11 @@ struct FriendSummaryView: View {
                     
                     // Transactions
                     VStack(spacing: 8) {
-                       TransactionRow(payee: "Chiranjeev", amount: 500, members: ["Jaskaran"], label: "Movie", icon: "movieclapper", isSystemIcon: true)
+                       TransactionRow(payee: "Chiranjeev", amount: 500, members: [], label: "Movie", icon: "movieclapper", isSystemIcon: true)
                         
                         Divider()
                         
-                       TransactionRow(payee: "Chiranjeev", amount: 500, members: ["Jaskaran"], label: "Movie", icon: "movieclapper", isSystemIcon: true)
+                       TransactionRow(payee: "Chiranjeev", amount: 500, members: [], label: "Movie", icon: "movieclapper", isSystemIcon: true)
                           
                     }
                     .padding(.vertical, 8)
@@ -152,7 +152,7 @@ struct FriendSummaryView: View {
                     // Transactions
                     VStack(spacing: 12) {
                         ForEach(1...5, id: \.self){ index in
-                            TransactionRow(payee: "Chiranjeev", amount: 500, members: ["Jaskaran"], label: "Movie", icon: "movieclapper", isSystemIcon: true)
+                            TransactionRow(payee: "Chiranjeev", amount: 500, members: [], label: "Movie", icon: "movieclapper", isSystemIcon: true)
                              
                             if index != 5 {
                                 Divider()
