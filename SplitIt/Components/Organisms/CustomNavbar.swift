@@ -6,32 +6,43 @@
 //
 
 import SwiftUI
-
 struct CustomNavbar: View {
+    
+    var leftIcon: String?
     var leftIconAction: (() -> Void)?
+    
+    var rightIcon: String?
     var rightIconAction: (() -> Void)?
     
     var body: some View {
-        HStack(alignment: .lastTextBaseline) {
-            if let action = leftIconAction {
-                BackButton(action: action)
+        HStack(alignment: .center) {
+            if let action = leftIconAction, let icon = leftIcon {
+                Button(action: action) {
+                    Image(systemName: icon)
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundStyle(Color.regularGreen)
+                        .frame(width: 28, height: 28)
+                }
             }
+
             Spacer()
+
             HeaderTitle(first: "wealth", second: "OS")
                 .kerning(2)
                 .font(.largeTitle)
                 .fontWeight(.thin)
-            
+
             Spacer()
-            
-            if let action = rightIconAction {
+
+            if let action = rightIconAction, let icon = rightIcon {
                 Button(action: action){
-                    Image(systemName: "power")
+                    Image(systemName: icon)
                         .resizable()
                         .scaledToFit()
                         .foregroundStyle(Color.regularGreen)
+                        .frame(width: 28, height: 28)
                 }
-                .frame(width: 28, height: 28, alignment: .centerLastTextBaseline)
             }
         }
     }

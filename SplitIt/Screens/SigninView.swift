@@ -121,9 +121,9 @@ struct SigninView: View {
                     Spacer()
                 }.frame(height: 100)
                 
-//                NavigationLink(destination: Home(), isActive: $isAuthenticated){
-//                    EmptyView()
-//                }
+                NavigationLink(destination: Home(), isActive: $isAuthenticated){
+                    EmptyView()
+                }
                 
             }
             .background(Color.tertiaryWhite)

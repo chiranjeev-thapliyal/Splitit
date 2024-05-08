@@ -16,7 +16,10 @@ struct Home: View {
     @StateObject var groupsModel = GroupModel()
     @StateObject var transactionModel = TransactionModel()
     
+    @State var navigateToMenu = false
+    
     @Environment(\.scenePhase) var scenePhase
+    @Environment(\.colorScheme) var colorScheme
     
     func logoutUser(){
         savedName = ""
@@ -28,7 +31,11 @@ struct Home: View {
         NavigationView {
             ZStack(alignment: .bottomTrailing) {
                 VStack(spacing: 0) {
-                    CustomNavbar(rightIconAction: {logoutUser()})
+                    CustomNavbar(leftIcon: "line.horizontal.3", leftIconAction: { self.navigateToMenu = true }, rightIcon: "power", rightIconAction: { logoutUser() })
+                        .background(
+                            NavigationLink(destination: MenuView(), isActive: $navigateToMenu) { EmptyView()
+                            }
+                        )
                         .padding(.horizontal, 16)
                     
                     ScrollView {
@@ -113,7 +120,7 @@ struct Home: View {
                                         Text("No Transactions Found")
                                             .font(.headline)
                                             .fontWeight(.light)
-                                            .foregroundStyle(Color.black.opacity(0.9))
+                                            .foregroundStyle(colorScheme == .dark ? Color.tertiaryWhite : Color.black.opacity(0.9))
                                             .kerning(1)
                                     }
                                 
@@ -123,8 +130,6 @@ struct Home: View {
                             .padding(.vertical, 8)
                             .padding(.horizontal, 16)
                     }
-                    .background(Color.tertiaryWhite)
-                    
                 }
                 
                 
@@ -140,11 +145,8 @@ struct Home: View {
                 }
                 .padding()
                 .accessibilityLabel("Add New Item")
-                
-                
-                
+                   
             }
-            .background(Color.tertiaryWhite)
             
         }
         .navigationBarHidden(true)
