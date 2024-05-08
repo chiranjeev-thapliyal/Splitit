@@ -213,7 +213,7 @@ struct SignupView: View {
                 .edgesIgnoringSafeArea(.bottom)
                 
                 VStack {
-                    CustomNavbar(backButtonAction: { dismiss() })
+                    CustomNavbar(leftIconAction: { dismiss() })
                         .padding()
                         .background(Color.tertiaryWhite)
                         .foregroundColor(.black)

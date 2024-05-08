@@ -113,7 +113,7 @@ struct SigninView: View {
                     .edgesIgnoringSafeArea(.bottom)
                 
                 VStack {
-                    CustomNavbar(backButtonAction: { dismiss() })
+                    CustomNavbar(leftIconAction: { dismiss() })
                         .padding()
                         .background(Color.tertiaryWhite) // Ensure this matches your app's theme
                         .foregroundColor(.black)

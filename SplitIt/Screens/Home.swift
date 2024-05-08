@@ -18,11 +18,18 @@ struct Home: View {
     
     @Environment(\.scenePhase) var scenePhase
     
+    func logoutUser(){
+        savedName = ""
+        savedToken = ""
+        savedEmail = ""
+    }
+    
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottomTrailing) {
                 VStack(spacing: 0) {
-                    CustomNavbar()
+                    CustomNavbar(rightIconAction: {logoutUser()})
+                        .padding(.horizontal, 16)
                     
                     ScrollView {
                         VStack(spacing: 0) {
@@ -153,7 +160,6 @@ struct Home: View {
                 transactionModel.getUserTransactions()
             }
         }
-        .ignoresSafeArea(.all)
     }
 }
 
