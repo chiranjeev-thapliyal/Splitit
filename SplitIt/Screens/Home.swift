@@ -38,7 +38,7 @@ struct Home: View {
                         )
                         .padding(.horizontal, 16)
                     
-                    ScrollView {
+                    ScrollView(showsIndicators: false) {
                         VStack(spacing: 0) {
                             // User's Summary Card
                             VStack(spacing: 12) {
@@ -134,16 +134,9 @@ struct Home: View {
                 
                 
                 NavigationLink(destination: {  }){
-                    Image(systemName: "plus")
-                        .font(.title)
-                        .foregroundStyle(Color.tertiaryWhite)
-                        .frame(width: 56, height: 56)
-                        .clipShape(Circle())
-                        .background(Color.darkGreen)
-                        .cornerRadius(28)
+                    FloatingMenu()
                     
                 }
-                .padding()
                 .accessibilityLabel("Add New Item")
                    
             }

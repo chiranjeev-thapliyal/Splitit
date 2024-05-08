@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		61456A292BEAF87200FF9925 /* CustomNavbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61456A282BEAF87200FF9925 /* CustomNavbar.swift */; };
 		61456A2B2BEAFBF000FF9925 /* CircularImageWithAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61456A2A2BEAFBF000FF9925 /* CircularImageWithAction.swift */; };
+		61456A2D2BEBCD6700FF9925 /* FloatingMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61456A2C2BEBCD6700FF9925 /* FloatingMenu.swift */; };
+		61456A2F2BEBD01500FF9925 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61456A2E2BEBD01500FF9925 /* PillButton.swift */; };
+		61456A312BEBD26100FF9925 /* MenuOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61456A302BEBD26100FF9925 /* MenuOption.swift */; };
 		6147D9892BE1D274002CF6E8 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D9882BE1D274002CF6E8 /* NavigationButton.swift */; };
 		6147D98B2BE1D391002CF6E8 /* FriendSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D98A2BE1D391002CF6E8 /* FriendSummaryView.swift */; };
 		6147D98D2BE44019002CF6E8 /* NewTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D98C2BE44019002CF6E8 /* NewTransactionView.swift */; };
@@ -47,6 +50,9 @@
 /* Begin PBXFileReference section */
 		61456A282BEAF87200FF9925 /* CustomNavbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavbar.swift; sourceTree = "<group>"; };
 		61456A2A2BEAFBF000FF9925 /* CircularImageWithAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularImageWithAction.swift; sourceTree = "<group>"; };
+		61456A2C2BEBCD6700FF9925 /* FloatingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingMenu.swift; sourceTree = "<group>"; };
+		61456A2E2BEBD01500FF9925 /* PillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
+		61456A302BEBD26100FF9925 /* MenuOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOption.swift; sourceTree = "<group>"; };
 		6147D9882BE1D274002CF6E8 /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		6147D98A2BE1D391002CF6E8 /* FriendSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSummaryView.swift; sourceTree = "<group>"; };
 		6147D98C2BE44019002CF6E8 /* NewTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTransactionView.swift; sourceTree = "<group>"; };
@@ -127,6 +133,8 @@
 				6147D9882BE1D274002CF6E8 /* NavigationButton.swift */,
 				6147D9AE2BE9EE9E002CF6E8 /* GroupHome.swift */,
 				61456A2A2BEAFBF000FF9925 /* CircularImageWithAction.swift */,
+				61456A2E2BEBD01500FF9925 /* PillButton.swift */,
+				61456A302BEBD26100FF9925 /* MenuOption.swift */,
 			);
 			path = Molecules;
 			sourceTree = "<group>";
@@ -137,6 +145,7 @@
 				6147D99F2BE9C46C002CF6E8 /* FriendsList.swift */,
 				6147D9AC2BE9ECEB002CF6E8 /* GroupsList.swift */,
 				61456A282BEAF87200FF9925 /* CustomNavbar.swift */,
+				61456A2C2BEBCD6700FF9925 /* FloatingMenu.swift */,
 			);
 			path = Organisms;
 			sourceTree = "<group>";
@@ -296,6 +305,7 @@
 				61FF06812BDF099A00DDAD45 /* BackButton.swift in Sources */,
 				6147D9AD2BE9ECEB002CF6E8 /* GroupsList.swift in Sources */,
 				6147D9B12BEA0358002CF6E8 /* Transactions.swift in Sources */,
+				61456A312BEBD26100FF9925 /* MenuOption.swift in Sources */,
 				6147D99B2BE9B9F6002CF6E8 /* Friends.swift in Sources */,
 				6147D9AF2BE9EE9E002CF6E8 /* GroupHome.swift in Sources */,
 				61FF06832BDF119900DDAD45 /* HeaderTitle.swift in Sources */,
@@ -308,6 +318,7 @@
 				6147D9992BE989D0002CF6E8 /* APIHandler.swift in Sources */,
 				6147D9A02BE9C46C002CF6E8 /* FriendsList.swift in Sources */,
 				61E0E3152BC553D200640097 /* SignupTextField.swift in Sources */,
+				61456A2F2BEBD01500FF9925 /* PillButton.swift in Sources */,
 				61C2C5C62BC7266700D74DF5 /* MenuView.swift in Sources */,
 				6147D9AB2BE9EA83002CF6E8 /* Users.swift in Sources */,
 				61456A292BEAF87200FF9925 /* CustomNavbar.swift in Sources */,
@@ -315,6 +326,7 @@
 				61C2C5C82BC7305800D74DF5 /* Color.swift in Sources */,
 				61456A2B2BEAFBF000FF9925 /* CircularImageWithAction.swift in Sources */,
 				6147D9922BE52CF7002CF6E8 /* Authentication.swift in Sources */,
+				61456A2D2BEBCD6700FF9925 /* FloatingMenu.swift in Sources */,
 				61FF068D2BE06ACD00DDAD45 /* FriendHome.swift in Sources */,
 				61E0E2C82BC48EE800640097 /* ContentView.swift in Sources */,
 				6147D9A72BE9D3DE002CF6E8 /* RemoteSVGView.swift in Sources */,
