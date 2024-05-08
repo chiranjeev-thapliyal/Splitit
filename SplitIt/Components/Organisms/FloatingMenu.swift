@@ -45,6 +45,7 @@ struct FloatingMenu: View {
                         .clipShape(Circle())
                         .shadow(radius: 10)
                 }
+                .zIndex(2)
             }
             .padding()
         }

@@ -132,13 +132,9 @@ struct Home: View {
                     }
                 }
                 
+                FloatingMenu()
+                    .accessibilityLabel("Add New Item")
                 
-                NavigationLink(destination: {  }){
-                    FloatingMenu()
-                    
-                }
-                .accessibilityLabel("Add New Item")
-                   
             }
             
         }
