@@ -18,3 +18,8 @@ func prettyPrint(data: Data){
         print("Failed to convert JSON to pretty print format")
     }
 }
+
+func lastTenDigits(of number: String) -> String {
+    let digits = number.filter("0123456789".contains)
+    return String(digits.suffix(10))
+}

@@ -10,9 +10,31 @@ import Contacts
 
 struct ContactList: View {
     @ObservedObject var contactsManager = ContactsManager()
-    @StateObject var friends = FriendsViewModel()
+    @ObservedObject var friendsViewModel = FriendsViewModel()
+    @State private var showingPermissionDeniedAlert = false
     
     @Environment(\.dismiss) var dismiss
+    
+    func loadAndSyncContacts(){
+        self.contactsManager.loadContacts()
+        self.contactsManager.updateFriends(newFriends: self.friendsViewModel.friends)
+    }
+    
+    func syncContactsAndFriends() {
+        let accessStatus = CNContactStore.authorizationStatus(for: .contacts)
+        
+        if accessStatus != .authorized {
+            contactsManager.requestAccess { granted in
+                if granted {
+                    loadAndSyncContacts()
+                } else {
+                    self.showingPermissionDeniedAlert = true
+                }
+            }
+        } else {
+           loadAndSyncContacts()
+        }
+    }
 
     var body: some View {
         NavigationView {
@@ -32,10 +54,10 @@ struct ContactList: View {
 
                         Spacer()
 
-                        if true {
+                        if !contact.isFriend {
                             Button(action: {
 //                                friend.isAdded = true
-                                dismiss()  // Dismiss the list view after adding a friend
+                                dismiss()
                             }) {
                                 Image(systemName: "plus.circle.fill")
                                     .foregroundColor(.green)
@@ -46,7 +68,16 @@ struct ContactList: View {
                 }
             }
             .onAppear {
-                contactsManager.requestAccess()
+                syncContactsAndFriends()
+            }
+            .alert(isPresented: $showingPermissionDeniedAlert) {
+                Alert(
+                    title: Text("Permission Denied"),
+                    message: Text("Access to contacts was denied. Please enable access in your settings if you want to sync contacts."),
+                    dismissButton: .default(Text("OK")){
+                        dismiss()
+                    }
+                )
             }
             .navigationTitle("Contacts")
         }

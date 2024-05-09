@@ -12,18 +12,35 @@ struct Contact: Identifiable, Hashable {
     var name: String
     var phoneNumber: String
     var image: String
+    var isFriend: Bool = false
 }
 
 class ContactsManager: ObservableObject {
     @Published var contacts: [Contact] = []
+    var friends: [Friend] = []
+    
+    func updateFriends(newFriends: [Friend]) {
+        DispatchQueue.main.async {
+            self.friends = newFriends
+            self.evaluateFriends()
+        }
+    }
+    
+    private func evaluateFriends() {
+        contacts = contacts.map { contact in
+            var modifiedContact = contact
+            if friends.contains(where: { lastTenDigits(of: $0.phoneNumber ?? "") == lastTenDigits(of: contact.phoneNumber) }) {
+                modifiedContact.isFriend = true
+            }
+            return modifiedContact
+        }
+    }
 
-    func requestAccess() {
+    func requestAccess(completion: @escaping (Bool) -> Void) {
         let store = CNContactStore()
         store.requestAccess(for: .contacts) { granted, error in
-            if granted {
-                self.loadContacts()
-            } else {
-                print("Access denied: \(String(describing: error))")
+            DispatchQueue.main.async {
+                completion(granted)  // Call completion handler with the 'granted' Boolean
             }
         }
     }
@@ -47,6 +64,7 @@ class ContactsManager: ObservableObject {
                     }
                 }
                 
+                dump(fetchedContacts)
                 DispatchQueue.main.async {
                     self.contacts = fetchedContacts
                 }
