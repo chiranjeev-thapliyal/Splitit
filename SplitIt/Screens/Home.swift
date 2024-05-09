@@ -15,6 +15,7 @@ struct Home: View {
     @StateObject var friendsModel = FriendsViewModel()
     @StateObject var groupsModel = GroupModel()
     @StateObject var transactionModel = TransactionModel()
+    @StateObject var userModel = UserModel()
     
     @State var navigateToMenu = false
     
@@ -55,7 +56,7 @@ struct Home: View {
                                     Text("TOTAL BALANCE")
                                         .font(.caption)
                                         .foregroundColor(.white.opacity(0.7))
-                                    Text("₹ 0")
+                                    Text("₹ \(addPrecision(userModel.totalBalance, precision: 2))")
                                         .font(.title2)
                                         .bold()
                                         .foregroundColor(Color.tertiaryWhite)
@@ -141,15 +142,10 @@ struct Home: View {
         .navigationBarHidden(true)
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
-            if friendsModel.friends.isEmpty {
-                friendsModel.getFriends()
-            }
-            if groupsModel.groups.isEmpty {
-                groupsModel.getGroups()
-            }
-            if transactionModel.transactions.isEmpty {
-                transactionModel.getUserTransactions()
-            }
+            userModel.getUserBalance()
+            friendsModel.getFriends()
+            groupsModel.getGroups()
+            transactionModel.getUserTransactions()
         }
     }
 }

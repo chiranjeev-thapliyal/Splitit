@@ -16,7 +16,7 @@ struct TransactionRow: View {
     var isSystemIcon: Bool = false
     
     var share: Double {
-        amount / Double((members.count + 1))
+        amount / Double((members.count))
     }
     
     var remainingAmount: Double {

@@ -34,10 +34,10 @@ struct FloatingMenu: View {
                         ContactList()
                     }
                     
-                    MenuOption(icon: "person.2.fill", text: "Create Group", action: { print("Create Group selected") })
-                        .transition(.move(edge: .trailing).combined(with: .opacity))
+//                    MenuOption(icon: "person.2.fill", text: "Create Group", action: { print("Create Group selected") })
+//                        .transition(.move(edge: .trailing).combined(with: .opacity))
                     
-                    MenuOption(icon: "gear", text: "Settings", action: { print("Settings selected") })
+                    MenuOption(icon: "gear", text: "App Settings", action: { openAppSettings() })
                         .transition(.move(edge: .trailing).combined(with: .opacity))
                 }
                 

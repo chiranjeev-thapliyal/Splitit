@@ -31,7 +31,7 @@ struct NewTransactionView: View {
             return
         }
         
-        guard let url = URL(string: "https://wealthos.onrender.com/transactions"),
+        guard let url = URL(string: "http://192.168.1.3:8080/transactions"),
               let userId = UUID(uuidString: savedUserId ?? ""),
               let userName = savedName,
               let amount = Double(self.amount) else {
@@ -66,6 +66,10 @@ struct NewTransactionView: View {
         URLSession.shared.dataTask(with: request) { data, response, error in
            
             DispatchQueue.main.async {
+                if let data = data {
+                    prettyPrint(data: data)
+                }
+                
                 guard let httpResponse = response as? HTTPURLResponse else {
                     print("Invalid response from server")
                     return

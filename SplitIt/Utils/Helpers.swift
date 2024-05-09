@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 func prettyPrint(data: Data){
     do {
@@ -22,4 +23,24 @@ func prettyPrint(data: Data){
 func lastTenDigits(of number: String) -> String {
     let digits = number.filter("0123456789".contains)
     return String(digits.suffix(10))
+}
+
+func addPrecision(_ number: Double, precision: Int) -> String {
+    return String(format: "%.\(precision)f", number)
+}
+
+
+func openAppSettings() {
+    guard let settingsUrl = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(settingsUrl) else {
+        print("Unable to open app settings")
+        return
+    }
+
+    UIApplication.shared.open(settingsUrl) { success in
+        if success {
+            print("Settings opened successfully")
+        } else {
+            print("Failed to open settings")
+        }
+    }
 }
