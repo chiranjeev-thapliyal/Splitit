@@ -7,7 +7,7 @@
 
 import Contacts
 
-struct Contact: Identifiable, Hashable {
+struct Contact: Codable, Identifiable, Hashable {
     let id = UUID()
     var name: String
     var phoneNumber: String
@@ -57,14 +57,13 @@ class ContactsManager: ObservableObject {
                     if let phoneNumber = contact.phoneNumbers.first?.value.stringValue {
                         let fullName = "\(contact.givenName) \(contact.familyName)".trimmingCharacters(in: .whitespacesAndNewlines)
                         if !fullName.isEmpty {
-                            let newContact = Contact(name: fullName, phoneNumber: phoneNumber, image: "profile\(Int.random(in: 2...5))")
+                            let newContact = Contact(name: fullName, phoneNumber: lastTenDigits(of: phoneNumber.trimmingCharacters(in: .whitespacesAndNewlines)) , image: "profile\(Int.random(in: 2...5))")
                             fetchedContacts.append(newContact)
                            
                         }
                     }
                 }
                 
-                dump(fetchedContacts)
                 DispatchQueue.main.async {
                     self.contacts = fetchedContacts
                 }

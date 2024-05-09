@@ -25,71 +25,86 @@ class FriendsViewModel: ObservableObject {
     
     let session = URLSession.shared
     
-    func checkAndAddFriend(friend: Friend) {
-        let userId = friend.phoneNumber // Assuming phone number can uniquely identify a user
+    func checkAndAddContact(contact: Contact) {
+        let phoneNumber = lastTenDigits(of: contact.phoneNumber)
 
-        getUser(userId: userId) { [weak self] existingUser in
-            if let user = existingUser {
-                // Friend is already a user, add as friend
-                self?.addFriend(userId: user.userId)
-            } else {
-                // Friend is not a user, create new user
-                self?.createUser(friend: friend) { newUser in
-                    self?.addFriend(userId: newUser.userId)
+        if let userId = savedUserId {
+            getUser(phoneNumber: phoneNumber) { [weak self] existingUser in
+                if let existingUser = existingUser {
+                    // Friend is already a user, add as friend
+                    self?.addFriend(userId: userId, friendId: existingUser.id)
+                } else {
+                    // Friend is not a user, create new user
+                    self?.createUser(contact: contact) { newUser in
+                        self?.addFriend(userId: userId, friendId: newUser.id)
+                    }
                 }
             }
         }
     }
     
-    private func getUser(userId: String, completion: @escaping (User?) -> Void) {
-            let url = URL(string: "https://wealthos.onrender.com//user/\(userId)")!
-            let task = session.dataTask(with: url) { data, response, error in
-                guard let data = data, error == nil else {
-                    print("Failed to fetch user: \(error?.localizedDescription ?? "Unknown error")")
-                    completion(nil)
-                    return
-                }
-
-                let user = try? JSONDecoder().decode(User.self, from: data)
-                completion(user)
+    private func getUser(phoneNumber: String, completion: @escaping (TemporaryUser?) -> Void) {
+        let url = URL(string: "https://wealthos.onrender.com/user/phoneNumber/\(phoneNumber)")!
+        let task = session.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to fetch user: \(error?.localizedDescription ?? "Unknown error")")
+                completion(nil)
+                return
             }
-            task.resume()
+
+            let user = try? JSONDecoder().decode(TemporaryUser.self, from: data)
+            completion(user)
         }
+        task.resume()
+    }
 
-        private func addFriend(userId: String) {
-            let url = URL(string: "https://your.api.endpoint/users/\(userId)/friends/add")!
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
+    private func addFriend(userId: String, friendId: UUID) {
+        let url = URL(string: "https://wealthos.onrender.com/users/\(userId)/friends/add")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = try? JSONEncoder().encode(["id": friendId])
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
-            let task = session.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    print("Error adding friend: \(error.localizedDescription)")
-                    return
-                }
-                print("Friend added successfully")
+        let task = session.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error adding friend: \(error.localizedDescription)")
+                return
             }
-            task.resume()
-        }
-
-        private func createUser(friend: Friend, completion: @escaping (User) -> Void) {
-            let url = URL(string: "https://your.api.endpoint/user")!
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.httpBody = try? JSONEncoder().encode(friend)
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-
-            let task = session.dataTask(with: request) { data, response, error in
-                guard let data = data, error == nil else {
-                    print("Failed to create user: \(error?.localizedDescription ?? "Unknown error")")
-                    return
+            
+            do {
+                if let data = data {
+                    prettyPrint(data: data)
+                    let newFriend = try JSONDecoder().decode(TemporaryUser.self, from: data)
+                    print("newFriend", newFriend)
+//                    self.friends.append(newFriend)
                 }
-
-                if let newUser = try? JSONDecoder().decode(User.self, from: data) {
-                    completion(newUser)
-                }
+            } catch {
+                print("Error while decoding newFriend")
             }
-            task.resume()
+           
         }
+        task.resume()
+    }
+
+    private func createUser(contact: Contact, completion: @escaping (TemporaryUser) -> Void) {
+        let url = URL(string: "https://wealthos.onrender.com/user/temporary")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = try? JSONEncoder().encode(contact)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let task = session.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Failed to create user: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+
+            if let newUser = try? JSONDecoder().decode(TemporaryUser.self, from: data) {
+                completion(newUser)
+            }
+        }
+        task.resume()
+    }
 
     func getFriends() {
         isLoading = true
@@ -118,38 +133,5 @@ class FriendsViewModel: ObservableObject {
         }
         
         
-    }
-    
-    func addFriend(_ newFriend: Friend) {
-        if let userId = savedUserId {
-            // Check if newFriend is already a user
-            
-            // If a user, then directly map with user
-            
-            // If not a user, then create a new user and map it
-            
-            let url = URL(string: "https://wealthos.onrender.com/user/\(userId)/friends/add")!
-            var request = URLRequest(url: url)
-            request.httpMethod = "GET"
-            
-            // Check if user exists in the database
-            
-            
-            URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-                DispatchQueue.main.async {
-                    self?.isLoading = false
-                    guard let data = data, error == nil else {
-                        self?.errorMessage = "Failed to load friends: \(error?.localizedDescription ?? "Unknown error")"
-                        return
-                    }
-                    
-                    do {
-                        self?.friends = try JSONDecoder().decode([Friend].self, from: data)
-                    } catch {
-                        self?.errorMessage = "Failed to decode friends data"
-                    }
-                }
-            }.resume()
-        }
     }
 }

@@ -11,3 +11,9 @@ struct PublicUser: Codable, Hashable {
     let id: UUID
     let name: String
 }
+
+struct TemporaryUser: Codable, Hashable {
+    let id: UUID
+    let name: String
+    let phoneNumber: String
+}

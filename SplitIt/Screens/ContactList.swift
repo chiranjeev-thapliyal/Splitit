@@ -16,6 +16,7 @@ struct ContactList: View {
     @Environment(\.dismiss) var dismiss
     
     func loadAndSyncContacts(){
+        self.friendsViewModel.getFriends()
         self.contactsManager.loadContacts()
         self.contactsManager.updateFriends(newFriends: self.friendsViewModel.friends)
     }
@@ -39,7 +40,7 @@ struct ContactList: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(contactsManager.contacts , id: \.self) { contact in
+                ForEach(contactsManager.contacts.sorted(by: {$0.name < $1.name}) , id: \.self) { contact in
                     HStack {
                         Image(contact.image)  // Display friend's image
                             .resizable()
@@ -56,10 +57,17 @@ struct ContactList: View {
 
                         if !contact.isFriend {
                             Button(action: {
-//                                friend.isAdded = true
-                                dismiss()
+                                friendsViewModel.checkAndAddContact(contact: contact)
                             }) {
                                 Image(systemName: "plus.circle.fill")
+                                    .foregroundColor(.green)
+                                    .font(.title)
+                            }
+                        } else {
+                            Button(action: {
+                                print("Already a friend")
+                            }) {
+                                Image(systemName: "checkmark.seal")
                                     .foregroundColor(.green)
                                     .font(.title)
                             }
