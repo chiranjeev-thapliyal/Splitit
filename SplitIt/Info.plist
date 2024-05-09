@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>NSContactsUsageDescription</key>
-	<string>Allow Contact Details</string>
+	<string>wealthOS needs access to your contacts to simplify financial transactions like bill splitting and payments. You can manage this permission in your device settings at any time.</string>
 </dict>
 </plist>
