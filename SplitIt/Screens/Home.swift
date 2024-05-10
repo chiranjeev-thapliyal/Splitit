@@ -13,7 +13,7 @@ struct Home: View {
     @AppStorage("email") var savedEmail: String = ""
     
     @StateObject var friendsModel = FriendsViewModel()
-    @StateObject var groupsModel = GroupModel()
+//    @StateObject var groupsModel = GroupModel()
     @StateObject var transactionModel = TransactionModel()
     @StateObject var userModel = UserModel()
     
@@ -26,6 +26,13 @@ struct Home: View {
         savedName = ""
         savedToken = ""
         savedEmail = ""
+    }
+    
+    func getHomePageData(){
+        userModel.getUserBalance()
+        friendsModel.getFriends()
+//            groupsModel.getGroups()
+        transactionModel.getUserTransactions()
     }
     
     var body: some View {
@@ -80,12 +87,12 @@ struct Home: View {
                             }
                             
                             // Groups Card
-                            if !groupsModel.groups.isEmpty {
-                                GroupsList(title: "Groups", groupsList: groupsModel.groups)
-                                    .background(Color.darkGreen.opacity(0.1))
-                                    .clipShape(BottomRoundedRectangle(radius: 16))
-                                    .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
-                            }
+//                            if !groupsModel.groups.isEmpty {
+//                                GroupsList(title: "Groups", groupsList: groupsModel.groups)
+//                                    .background(Color.darkGreen.opacity(0.1))
+//                                    .clipShape(BottomRoundedRectangle(radius: 16))
+//                                    .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
+//                            }
                             
                                 
                         }
@@ -106,7 +113,7 @@ struct Home: View {
                                
                                 VStack {
                                     if !transactionModel.transactions.isEmpty {
-                                        ForEach(transactionModel.transactions, id: \.self){ transaction in
+                                        ForEach(transactionModel.transactions.reversed(), id: \.self){ transaction in
                                             NavigationLink(destination: TransactionView(transaction: transaction)){
                                                 TransactionRow(payee: transaction.creatorName, amount: transaction.amount, members: transaction.shares, label: transaction.description, icon: "movieclapper.fill", isSystemIcon: true)
                                             }
@@ -137,15 +144,20 @@ struct Home: View {
                     .accessibilityLabel("Add New Item")
                 
             }
+                .refreshable {
+                    getHomePageData()
+                }
             
         }
         .navigationBarHidden(true)
         .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
-            userModel.getUserBalance()
-            friendsModel.getFriends()
-            groupsModel.getGroups()
-            transactionModel.getUserTransactions()
+            getHomePageData()
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active {
+                getHomePageData()
+            }
         }
     }
 }
