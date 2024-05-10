@@ -78,7 +78,7 @@ struct NewTransactionView: View {
                 if httpResponse.statusCode == 200 {
                     print("Transaction successfully added")
                     showAlert = true
-                    alertMessage = "Success!"
+                    alertMessage = "Transaction successfully added"
                     self.navigateToHome = true
                     
                     print("Transaction successfully added \(navigateToHome)")
@@ -238,12 +238,10 @@ struct NewTransactionView: View {
             }
             .alert(isPresented: $showAlert){
                 Alert(title: Text(alertMessage), dismissButton: .default(Text("Ok")){
-                    self.navigateToHome = true
+                    if navigateToHome {
+                        dismiss()
+                    }
                 })
-            }
-            
-            NavigationLink(destination: Home(), isActive: $navigateToHome) {
-                EmptyView()
             }
             
         }
