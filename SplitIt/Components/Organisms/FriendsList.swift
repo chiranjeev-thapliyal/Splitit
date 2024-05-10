@@ -24,7 +24,7 @@ struct FriendsList: View {
                 HStack(spacing: 20) {
                     ForEach(friendsList, id: \.self){friend in
                         NavigationLink(destination: NewTransactionView(friend: friend)){
-                            FriendHome(name: friend.name, image: friend.imageName ?? "profile")
+                            FriendHome(name: shortenFullName(friend.name) , image: friend.imageName ?? "profile")
                         }
                         
                     }
