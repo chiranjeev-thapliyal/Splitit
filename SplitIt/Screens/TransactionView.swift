@@ -20,12 +20,12 @@ struct TransactionView: View {
                         BackButton(action: { dismiss() })
                         Spacer()
                         
-                        Image(systemName: "ellipsis")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .foregroundStyle(Color.tertiaryWhite)
-                            .rotationEffect(.degrees(90))
-                            .frame(width: 20, height: 20)
+//                        Image(systemName: "ellipsis")
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fit)
+//                            .foregroundStyle(Color.tertiaryWhite)
+//                            .rotationEffect(.degrees(90))
+//                            .frame(width: 20, height: 20)
                         
                     }.padding(.top, 32)
                     
@@ -72,7 +72,7 @@ struct TransactionView: View {
                     VStack(spacing: 16){
                         HStack(alignment: .center, spacing: 0) {
                             CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: "profile")
-                            Text("Chiranjeev T. paid ₹ \(20000)")
+                            Text("\(shortenFullName(transaction.creatorName)) paid ₹ \(addPrecision(transaction.amount, precision: 2))")
                                 .font(.caption)
                                 .foregroundStyle(Color.gray)
                                 .frame(maxWidth: 200)
@@ -82,31 +82,36 @@ struct TransactionView: View {
                             Spacer()
                         }
                         
-                        HStack(alignment: .center, spacing: 8) {
-                            CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: "profile5")
-                            Text("Vaibhav P. paid ₹ 2000.00 and owes ₹ \(20000/3)")
-                                .font(.caption)
-                                .foregroundStyle(Color.gray)
-                                .frame(maxWidth: 200)
-                                .multilineTextAlignment(.leading)
-                                .lineLimit(nil)
-                                .fixedSize(horizontal: false, vertical: true)
-                            
-                            Spacer()
+                        
+                        ForEach(transaction.shares.filter{$0.userId != transaction.creator}, id: \.self){ share in
+                            HStack(alignment: .center, spacing: 8) {
+                                CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: "profile5")
+                                Text("\(shortenFullName(share.userName)) owes ₹ \(addPrecision((transaction.amount*share.percentage/100), precision: 2) ) to \(shortenFullName(transaction.creatorName))")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.gray)
+                                    .frame(maxWidth: 200)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(nil)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                
+                                Spacer()
+                            }
                         }
                         
-                        HStack(alignment: .center, spacing: 0) {
-                            CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: "profile3")
-                            Text("Chirag G. owes ₹ \(20000/3) to Chiranjeev T.")
-                                .font(.caption)
-                                .foregroundStyle(Color.gray)
-                                .frame(maxWidth: 200)
-                                .multilineTextAlignment(.leading)
-                                .lineLimit(nil)
-                                .fixedSize(horizontal: false, vertical: true)
-                            
-                            Spacer()
-                        }
+                        
+                        
+//                        HStack(alignment: .center, spacing: 0) {
+//                            CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: "profile3")
+//                            Text("Chirag G. owes ₹ \(20000/3) to Chiranjeev T.")
+//                                .font(.caption)
+//                                .foregroundStyle(Color.gray)
+//                                .frame(maxWidth: 200)
+//                                .multilineTextAlignment(.leading)
+//                                .lineLimit(nil)
+//                                .fixedSize(horizontal: false, vertical: true)
+//                            
+//                            Spacer()
+//                        }
 
                     }.padding(.vertical, 8)
                     

@@ -44,3 +44,24 @@ func openAppSettings() {
         }
     }
 }
+
+func addEllipsis(string: String, length: Int) -> String {
+    if string.count > length {
+        return "\(string.prefix(length))."
+    }
+    
+    return string
+}
+
+func shortenFullName(_ fullName: String) -> String {
+    let trimmedName = fullName.trimmingCharacters(in: .whitespacesAndNewlines)
+    let nameParts = trimmedName.components(separatedBy: " ")
+    
+    if nameParts.count > 1 {
+        let firstName = nameParts.first!
+        let lastNameInitial = nameParts.last!.first!
+        return "\(firstName) \(lastNameInitial)."
+    } else {
+        return nameParts.first ?? ""
+    }
+}

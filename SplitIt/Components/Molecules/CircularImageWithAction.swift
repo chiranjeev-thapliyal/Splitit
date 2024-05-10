@@ -26,11 +26,11 @@ struct CircularImageWithAction: View {
             // Profile Add(+) Button
             Circle()
                 .fill(Color.darkGreen)
-                .overlay(
-                    Image(systemName: "plus") // System image
-                        .foregroundColor(Color.tertiaryWhite)
-                )
-                .frame(width: 28, height: 28)
+//                .overlay(
+//                    Image(systemName: "plus") // System image
+//                        .foregroundColor(Color.tertiaryWhite)
+//                )
+                .frame(width: 0, height: 0)
                 .offset(x: 0, y: 0)
         }
     }

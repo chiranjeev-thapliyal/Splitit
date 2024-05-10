@@ -31,7 +31,7 @@ struct NewTransactionView: View {
             return
         }
         
-        guard let url = URL(string: "http://192.168.1.3:8080/transactions"),
+        guard let url = URL(string: "https://wealthos.onrender.com/transactions"),
               let userId = UUID(uuidString: savedUserId ?? ""),
               let userName = savedName,
               let amount = Double(self.amount) else {
@@ -105,18 +105,28 @@ struct NewTransactionView: View {
         NavigationView {
             VStack(spacing: 40){
                 HStack {
-                    BackButton(action: { dismiss() })
+                    Button(action: {
+                        dismiss()
+                    }){
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(Color.white)
+                            .bold()
+                            .font(.headline)
+                            
+                    }.padding(.horizontal, 8)
+//                    BackButton(action: { dismiss() })
                     Spacer()
                     Text("Add Expense")
-                        .font(.headline)
+                        .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                         .kerning(1)
+                    
                     Spacer()
                     
                     Button(action: {addTransaction()}){
                         Text("Save")
-                            .font(.caption)
+                            .font(.headline)
                             .fontWeight(.bold)
                             .foregroundColor(.crimson)
                             .kerning(1)
