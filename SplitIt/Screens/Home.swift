@@ -85,15 +85,6 @@ struct Home: View {
                                     .clipShape(BottomRoundedRectangle(radius: 16))
                                     .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
                             }
-                            
-                            // Groups Card
-//                            if !groupsModel.groups.isEmpty {
-//                                GroupsList(title: "Groups", groupsList: groupsModel.groups)
-//                                    .background(Color.darkGreen.opacity(0.1))
-//                                    .clipShape(BottomRoundedRectangle(radius: 16))
-//                                    .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
-//                            }
-                            
                                 
                         }
                         .background(RoundedRectangle(cornerRadius: 16).fill(LinearGradient(colors: [.lightGreen, .regularGreen, .darkGreen], startPoint: .top, endPoint: .bottom)))
@@ -144,9 +135,9 @@ struct Home: View {
                     .accessibilityLabel("Add New Item")
                 
             }
-                .refreshable {
-                    getHomePageData()
-                }
+            .refreshable {
+                getHomePageData()
+            }
             
         }
         .navigationBarHidden(true)

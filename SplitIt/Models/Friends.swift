@@ -12,7 +12,7 @@ struct Friend: Codable, Hashable {
     var id: String
     var name: String
     var email: String?
-    var phoneNumber: String?
+//    var phoneNumber: String?
     var imageName: String?
 }
 
@@ -26,10 +26,10 @@ class FriendsViewModel: ObservableObject {
     let session = URLSession.shared
     
     func checkAndAddContact(contact: Contact) {
-        let phoneNumber = lastTenDigits(of: contact.phoneNumber)
+        let email = lastTenDigits(of: contact.email)
 
         if let userId = savedUserId {
-            getUser(phoneNumber: phoneNumber) { [weak self] existingUser in
+            getUser(email: email) { [weak self] existingUser in
                 if let existingUser = existingUser {
                     // Friend is already a user, add as friend
                     self?.addFriend(userId: userId, friendId: existingUser.id)
@@ -43,11 +43,10 @@ class FriendsViewModel: ObservableObject {
         }
     }
     
-    private func getUser(phoneNumber: String, completion: @escaping (TemporaryUser?) -> Void) {
-        let url = URL(string: "https://wealthos.onrender.com/user/phoneNumber/\(phoneNumber)")!
+    private func getUser(email: String, completion: @escaping (TemporaryUser?) -> Void) {
+        let url = URL(string: "https://wealthos.onrender.com/user/email/\(email)")!
         let task = session.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
-                print("Failed to fetch user: \(error?.localizedDescription ?? "Unknown error")")
                 completion(nil)
                 return
             }
@@ -67,13 +66,11 @@ class FriendsViewModel: ObservableObject {
 
         let task = session.dataTask(with: request) { data, response, error in
             if let error = error {
-                print("Error adding friend: \(error.localizedDescription)")
                 return
             }
             
             do {
                 if let data = data {
-                    prettyPrint(data: data)
                     let newFriend = try JSONDecoder().decode(TemporaryUser.self, from: data)
                     print("newFriend", newFriend)
 //                    self.friends.append(newFriend)

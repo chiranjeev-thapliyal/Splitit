@@ -12,12 +12,18 @@ struct SigninView: View {
     @State var password: String = ""
     @State private var showError: Bool = false
     @State private var error: String = ""
+    @State private var errorMessage: String = ""
+    @State private var showSuccess: Bool = false
+    @State private var successMessage: String = ""
     @State private var isAuthenticated: Bool = false
+    @State var showSignup: Bool = false
     
     @AppStorage("user_id") var savedUserId: String?
     @AppStorage("token") var savedToken: String?
     @AppStorage("name") var savedName: String?
     @AppStorage("email") var savedEmail: String?
+    
+    @StateObject var authentication = AuthenticationModel()
     
     @Environment(\.dismiss) var dismiss
     
@@ -89,8 +95,15 @@ struct SigninView: View {
                             Spacer().frame(height: 40)
                             
                             Button(action: {
-                                login(email: email, password: password)
-                            }){
+                                authentication.loginUser(email: email, password: password){ success, error, message in
+                                    if !success {
+                                        self.errorMessage = message
+                                        self.error = error
+                                        self.showError = true
+                                    } else {
+                                        login(email: self.email, password: self.password)
+                                    }
+                                }}){
                                 Text("Sign in")
                             }
                             .padding(.vertical, 12)
@@ -100,7 +113,54 @@ struct SigninView: View {
                             .font(.headline)
                             .kerning(1)
                             .clipShape(RoundedRectangle(cornerRadius: 25.0))
-                            
+                            .alert(isPresented: $showSuccess){
+                                Alert(title: Text(successMessage), dismissButton: .default(Text("Ok")){
+                                    self.showSuccess = false
+                                    self.successMessage = ""
+                                })
+                            }
+                            .alert(isPresented: $showError){
+                                if error == "Email is not verified yet" {
+                                    return Alert(
+                                        title: Text("Email Verification Needed"),
+                                        message: Text(errorMessage),
+                                        primaryButton: .default(Text("Resend Link"), action: {
+                                            // Call the function to resend the verification email
+                                            authentication.resendVerificationEmail(){ success, error in
+                                                if !success {
+                                                    self.error = error
+                                                    self.showError = true
+                                                } else {
+                                                    self.successMessage = "Verification link sent!"
+                                                    self.showSuccess = true
+                                                }
+                                            }
+                                        }),
+                                        secondaryButton: .cancel({
+                                            // Simply dismiss the alert
+                                            self.showError = false
+                                        })
+                                    )
+                                } else if error == "User doesn't exists" {
+                                    return Alert(
+                                        title: Text(error),
+                                        message: Text("Seems like you don't have an account with us. You create one now!"),
+                                        primaryButton: .default(Text("Sign up"), action: {
+                                            showSignup = true
+                                        }),
+                                        secondaryButton: .cancel({
+                                            self.showError = false
+                                        })
+                                    )
+                                } else {
+                                    return Alert(
+                                        title: Text(error),
+                                        dismissButton: .cancel() {
+                                            self.showError = false
+                                        }
+                                    )
+                                }
+                            }
                             
                         }.padding(.horizontal, 16)
                         
@@ -122,6 +182,10 @@ struct SigninView: View {
                 }.frame(height: 100)
                 
                 NavigationLink(destination: Home(), isActive: $isAuthenticated){
+                    EmptyView()
+                }
+                
+                NavigationLink(destination: SignupView(), isActive: $showSignup) {
                     EmptyView()
                 }
                 

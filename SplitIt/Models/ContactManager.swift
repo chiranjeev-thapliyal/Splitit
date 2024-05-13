@@ -10,7 +10,7 @@ import Contacts
 struct Contact: Codable, Identifiable, Hashable {
     let id = UUID()
     var name: String
-    var phoneNumber: String
+    var email: String
     var image: String
     var isFriend: Bool = false
 }
@@ -29,7 +29,7 @@ class ContactsManager: ObservableObject {
     private func evaluateFriends() {
         contacts = contacts.map { contact in
             var modifiedContact = contact
-            if friends.contains(where: { lastTenDigits(of: $0.phoneNumber ?? "") == lastTenDigits(of: contact.phoneNumber) }) {
+            if friends.contains(where: { $0.email == contact.email }) {
                 modifiedContact.isFriend = true
             }
             return modifiedContact
@@ -45,34 +45,34 @@ class ContactsManager: ObservableObject {
         }
     }
 
-    func loadContacts() {
-        DispatchQueue.global(qos: .userInitiated).async {
-            let store = CNContactStore()
-            let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey] as [CNKeyDescriptor]
-            let request = CNContactFetchRequest(keysToFetch: keys)
-            var fetchedContacts = [Contact]()
-            
-            do {
-                try store.enumerateContacts(with: request) { contact, stop in
-                    if let phoneNumber = contact.phoneNumbers.first?.value.stringValue {
-                        let fullName = "\(contact.givenName) \(contact.familyName)".trimmingCharacters(in: .whitespacesAndNewlines)
-                        if !fullName.isEmpty {
-                            let newContact = Contact(name: fullName, phoneNumber: lastTenDigits(of: phoneNumber.trimmingCharacters(in: .whitespacesAndNewlines)) , image: "profile\(Int.random(in: 2...5))")
-                            fetchedContacts.append(newContact)
-                           
-                        }
-                    }
-                }
-                
-                DispatchQueue.main.async {
-                    self.contacts = fetchedContacts
-                }
-            } catch {
-                DispatchQueue.main.async {
-                   print("Failed to fetch contacts: \(error)")
-               }
-            }
-        }
-    }
+//    func loadContacts() {
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            let store = CNContactStore()
+//            let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactemailsKey] as [CNKeyDescriptor]
+//            let request = CNContactFetchRequest(keysToFetch: keys)
+//            var fetchedContacts = [Contact]()
+//            
+//            do {
+//                try store.enumerateContacts(with: request) { contact, stop in
+//                    if let email = contact.emails.first?.value.stringValue {
+//                        let fullName = "\(contact.givenName) \(contact.familyName)".trimmingCharacters(in: .whitespacesAndNewlines)
+//                        if !fullName.isEmpty {
+//                            let newContact = Contact(name: fullName, email: lastTenDigits(of: email.trimmingCharacters(in: .whitespacesAndNewlines)) , image: "profile\(Int.random(in: 2...5))")
+//                            fetchedContacts.append(newContact)
+//                           
+//                        }
+//                    }
+//                }
+//                
+//                DispatchQueue.main.async {
+//                    self.contacts = fetchedContacts
+//                }
+//            } catch {
+//                DispatchQueue.main.async {
+//                   print("Failed to fetch contacts: \(error)")
+//               }
+//            }
+//        }
+//    }
 }
 

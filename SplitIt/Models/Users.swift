@@ -16,7 +16,7 @@ struct PublicUser: Codable, Hashable {
 struct TemporaryUser: Codable, Hashable {
     let id: UUID
     let name: String
-    let phoneNumber: String
+    let email: String
 }
 
 struct BalanceResponse: Codable, Hashable {

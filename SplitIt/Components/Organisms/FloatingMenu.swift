@@ -31,7 +31,7 @@ struct FloatingMenu: View {
                     })
                     .transition(.move(edge: .trailing).combined(with: .opacity))
                     .sheet(isPresented: $showFriendsList) {
-                        ContactList()
+//                        ContactList()
                     }
                     
 //                    MenuOption(icon: "person.2.fill", text: "Create Group", action: { print("Create Group selected") })

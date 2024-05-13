@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SignupFormData: Codable {
     let name: String
-    let phoneNumber: String
+//    let phoneNumber: String
     let email: String
     let password: String
 }
@@ -22,10 +22,8 @@ struct SignupView: View {
     @AppStorage("email") var savedEmail: String?
     
     @State private var fullName: String = ""
-    @State private var phoneNumber: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var currency: String = ""
     
     @State private var nameError = ""
     @State private var phoneNumberError = ""
@@ -35,7 +33,40 @@ struct SignupView: View {
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
     
+    
+    @State private var showSuccessAlert = false
+    @State private var successMessage = ""
+    
+    
+    @State private var showLoginScreen = false
+    
+    @StateObject var authentication = AuthenticationModel()
+    
     @Environment(\.dismiss) var dismiss
+    
+    func submitSignupForm() {
+        authentication.createUser(name: fullName, email: email, password: password) { success, error in
+            DispatchQueue.main.async {
+                if !success {
+                    self.errorMessage = error
+                    self.showErrorAlert = true
+                } else {
+                    let formData = SignupFormData(name: fullName, email: email, password: password)
+                    submitSignupForm(data: formData) { success, message in
+                        if !success {
+                            self.errorMessage = message
+                            self.showErrorAlert = true
+                        } else {
+                            self.successMessage = message
+                            self.showSuccessAlert = true
+                            print("Success handler called")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     
     func submitSignupForm(data: SignupFormData, completionHandler: @escaping (Bool, String) -> Void){
         do {
@@ -56,11 +87,9 @@ struct SignupView: View {
                     if httpResponse.statusCode == 200, let data = data {
                         do {
                             let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
-                            self.savedUserId = loginResponse.id
-                            self.savedToken = loginResponse.token
-                            self.savedName = loginResponse.name
                             self.savedEmail = loginResponse.email
                             
+                            print("Inside user created success")
                             completionHandler(true, "User created successfully.")
                         } catch {
                             completionHandler(false, "Failed to decode the response")
@@ -87,14 +116,6 @@ struct SignupView: View {
         }
         
         return "Enter a valid name"
-    }
-    
-    func validatePhoneNumber(_ phoneNumber: String) -> String {
-        if !(phoneNumber.count == 10){
-            return "Enter 10 digit mobile number"
-        }
-        
-        return ""
     }
     
     func validateEmail(_ email: String) -> String {
@@ -135,19 +156,6 @@ struct SignupView: View {
                         )
                         
                         SignupTextField(
-                            icon: "phone",
-                            placeholder: "Phone Number",
-                            keyboardType: .numberPad,
-                            onCommit: { phoneNumberError = validatePhoneNumber(phoneNumber) },
-                            onChange: { newValue in 
-                                phoneNumber = newValue.filter{ $0.isNumber }
-                                phoneNumberError = ""
-                            },
-                            errorMessage: phoneNumberError,
-                            text: $phoneNumber
-                        )
-                        
-                        SignupTextField(
                             icon: "at",
                             placeholder: "Email",
                             onCommit: { emailError = validateEmail(email) },
@@ -172,22 +180,15 @@ struct SignupView: View {
                         
                         Button(action: {
                             nameError = validateName(fullName)
-                            phoneNumberError = validatePhoneNumber(phoneNumber)
                             emailError = validateEmail(email)
                             passwordError = validatePassword(password)
                             
-                            if !(nameError.isEmpty && phoneNumberError.isEmpty && emailError.isEmpty && passwordError.isEmpty) {
+                            if !(nameError.isEmpty && emailError.isEmpty && passwordError.isEmpty) {
                                 return
                             }
                             
-                            let formData = SignupFormData(name: fullName, phoneNumber: phoneNumber, email: email, password: password)
+                            submitSignupForm()
                             
-                            submitSignupForm(data: formData){ success, message in
-                                if !success {
-                                    self.errorMessage = message
-                                    self.showErrorAlert = true
-                                }
-                            }
                         }) {
                             Text("Sign up")
                                 .padding(.horizontal, 32)
@@ -220,8 +221,18 @@ struct SignupView: View {
                     
                     Spacer() // This pushes the top bar to the top
                 }
+                .alert(isPresented: $showSuccessAlert) {
+                    Alert(title: Text(successMessage), message: Text("We've sent verification link to your email"), dismissButton: .default(Text("OK")){
+                        showSuccessAlert = false
+                        showLoginScreen = true
+                    })
+                }
                 .frame(height: 100)
                 .background(Color.tertiaryWhite)
+                
+                NavigationLink(destination: SigninView(), isActive: $showLoginScreen) {
+                    EmptyView()
+                }
                 
             }.background(Color.tertiaryWhite)
             
