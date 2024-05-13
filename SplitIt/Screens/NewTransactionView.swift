@@ -66,10 +66,6 @@ struct NewTransactionView: View {
         URLSession.shared.dataTask(with: request) { data, response, error in
            
             DispatchQueue.main.async {
-                if let data = data {
-                    prettyPrint(data: data)
-                }
-                
                 guard let httpResponse = response as? HTTPURLResponse else {
                     print("Invalid response from server")
                     return

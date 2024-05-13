@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SignupFormData: Codable {
     let name: String
-//    let phoneNumber: String
     let email: String
     let password: String
 }

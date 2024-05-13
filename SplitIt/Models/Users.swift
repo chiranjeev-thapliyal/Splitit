@@ -39,7 +39,7 @@ class UserModel: ObservableObject {
         request.httpMethod = "GET"
         
         session.dataTask(with: request){ data, response, error in
-            guard let httpResponse = response as? HTTPURLResponse else {
+            guard let _ = response as? HTTPURLResponse else {
                 print("Invalid response from server")
                 return
             }

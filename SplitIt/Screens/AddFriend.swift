@@ -29,7 +29,7 @@ struct FriendSearchView: View {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 // Handle potential errors in the request
-                if let error = error {
+                if let _ = error {
                     completion(false, "Something went wrong")
                     return
                 }
@@ -106,21 +106,8 @@ struct FriendSearchView: View {
         }
     }
     
-    
-   
-    func searchFriend(email: String) {
-        if email.lowercased().contains("exists") {
-            // Simulate finding the friend
-            foundFriend = Friend(id: UUID(), name: "John Doe", email: email, imageName: "person.circle.fill")
-        } else {
-            // Simulate not finding the friend
-            foundFriend = nil
-            showNotFoundAlert = true
-        }
-    }
-    
     func createTempUser() {
-        foundFriend = Friend(id: UUID() ,name: tempFriendName, email: friendEmail, imageName: "person.circle.fill")
+        foundFriend = Friend(id: UUID(), name: tempFriendName, email: friendEmail, imageName: "profile\(Int.random(in: 2...5))")
         showNotFoundAlert = false
     }
 }

@@ -10,68 +10,12 @@ import SwiftUI
 struct FriendCard: View {
     var friend: Friend
     
+    @StateObject var friendModel = FriendsViewModel()
+    
     @State private var alertMessage = ""
     @State private var showAlert = false
+    
     @AppStorage("user_id") var savedUserId: String?
-    
-    func addFriend(userId: String, friendId: UUID, completion: @escaping (String) -> Void) {
-        guard let url = URL(string: "https://wealthos.onrender.com/users/\(userId)/friends/add") else {
-            completion("Invalid URL")
-            return
-        }
-        
-        // Create the payload
-        let payload: [String: String] = ["id": friendId.uuidString]
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        do {
-            request.httpBody = try JSONEncoder().encode(payload)
-        } catch {
-            completion("Failed to encode payload")
-            return
-        }
-        
-        // Perform the request
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    completion("Network error: \(error.localizedDescription)")
-                    return
-                }
-                
-                guard let httpResponse = response as? HTTPURLResponse else {
-                    completion("Invalid response from server")
-                    return
-                }
-                
-                if let data = data, let body = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
-                    print(body)
-                    prettyPrint(data: data)
-                }
-                
-                switch httpResponse.statusCode {
-                case 200:
-                    completion("Added \(self.friend.name) to friend list")
-                case 400:
-                    if let data = data, let body = try? JSONDecoder().decode(ErrorResponse.self, from: data), body.reason == "Already a friend" {
-                        completion("Already a friend")
-                    } else {
-                        completion("Bad request")
-                    }
-                default:
-                    if let data = data, let body = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
-                        completion(body.reason)
-                    } else {
-                        completion("Bad Request: \(httpResponse.statusCode)")
-                    }
-                }
-            }
-        }
-        task.resume()
-    }
-    
     
     var body: some View {
         VStack(alignment: .leading, spacing: 28) {
@@ -94,11 +38,9 @@ struct FriendCard: View {
                 Spacer()
                 
                 Button(action: {
-                    if let userId = savedUserId {
-                        addFriend(userId: userId, friendId: friend.id ) { message in
-                            self.alertMessage = message
-                            self.showAlert = true
-                        }
+                    friendModel.checkAndAddFriend(friend: friend){ success, message in
+                        self.alertMessage = message
+                        self.showAlert = true
                     }
                 }){
                     Image(systemName: "plus.circle")

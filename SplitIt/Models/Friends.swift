@@ -24,18 +24,22 @@ class FriendsViewModel: ObservableObject {
     
     let session = URLSession.shared
     
-    func checkAndAddContact(contact: Contact) {
-        let email = lastTenDigits(of: contact.email)
+    func checkAndAddFriend(friend: Friend, completionHandler: @escaping (Bool, String) -> Void) {
+        let email = friend.email
 
         if let userId = savedUserId {
             getUser(email: email) { [weak self] existingUser in
                 if let existingUser = existingUser {
                     // Friend is already a user, add as friend
-                    self?.addFriend(userId: userId, friendId: existingUser.id)
+                    self?.addFriend(userId: userId, friendId: existingUser.id){ success, message in
+                        completionHandler(success, message)
+                    }
                 } else {
                     // Friend is not a user, create new user
-                    self?.createUser(contact: contact) { newUser in
-                        self?.addFriend(userId: userId, friendId: newUser.id)
+                    self?.createUser(friend: friend) { newUser in
+                        self?.addFriend(userId: userId, friendId: newUser.id){ success, message in
+                            completionHandler(success, message)
+                        }
                     }
                 }
             }
@@ -49,14 +53,13 @@ class FriendsViewModel: ObservableObject {
                 completion(nil)
                 return
             }
-
             let user = try? JSONDecoder().decode(TemporaryUser.self, from: data)
             completion(user)
         }
         task.resume()
     }
 
-    private func addFriend(userId: String, friendId: UUID) {
+    private func addFriend(userId: String, friendId: UUID, completionHandler: @escaping (Bool, String) -> Void) {
         let url = URL(string: "https://wealthos.onrender.com/users/\(userId)/friends/add")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -65,28 +68,31 @@ class FriendsViewModel: ObservableObject {
 
         let task = session.dataTask(with: request) { data, response, error in
             if let error = error {
+                completionHandler(false, error.localizedDescription)
                 return
             }
             
             do {
                 if let data = data {
-                    let newFriend = try JSONDecoder().decode(TemporaryUser.self, from: data)
-                    print("newFriend", newFriend)
-//                    self.friends.append(newFriend)
+                    let newFriend = try JSONDecoder().decode(Friend.self, from: data)
+                    DispatchQueue.main.async {
+                        self.friends.append(newFriend)
+                        completionHandler(true, "User \(newFriend.name) added to friend list successfully.")
+                    }
                 }
             } catch {
-                print("Error while decoding newFriend")
+                completionHandler(false, "Error while decoding newFriend")
             }
            
         }
         task.resume()
     }
 
-    private func createUser(contact: Contact, completion: @escaping (TemporaryUser) -> Void) {
+    private func createUser(friend: Friend, completion: @escaping (TemporaryUser) -> Void) {
         let url = URL(string: "https://wealthos.onrender.com/user/temporary")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.httpBody = try? JSONEncoder().encode(contact)
+        request.httpBody = try? JSONEncoder().encode(friend)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let task = session.dataTask(with: request) { data, response, error in

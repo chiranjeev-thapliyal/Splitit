@@ -45,7 +45,7 @@ class AuthenticationModel: ObservableObject {
     
     func loginUser(email: String, password: String, completionHandler: @escaping (Bool, String, String) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
-            guard let self = self else { return }
+            guard let _ = self else { return }
             
             if let error = error {
                 completionHandler(false, "User doesn't exists", error.localizedDescription)
