@@ -23,6 +23,26 @@ struct LoginResponse: Codable, Hashable {
 
 class AuthenticationModel: ObservableObject {
     
+    func deleteUser(completionHandler: @escaping (Bool, String) -> Void) {
+        // Check if there is a user logged in
+        guard let user = Auth.auth().currentUser else {
+            completionHandler(false, "No user is logged in.")
+            return
+        }
+
+        // Proceed to delete the user
+        user.delete { error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Error deleting user: \(error.localizedDescription)")
+                    completionHandler(false, error.localizedDescription)
+                } else {
+                    completionHandler(true, "User successfully deleted.")
+                }
+            }
+        }
+    }
+    
     func loginUser(email: String, password: String, completionHandler: @escaping (Bool, String, String) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
             guard let self = self else { return }

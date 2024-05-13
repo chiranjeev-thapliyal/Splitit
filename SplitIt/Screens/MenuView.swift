@@ -11,37 +11,48 @@ struct MenuView: View {
     @AppStorage("token") var savedToken: String?
     @AppStorage("user_id") var savedUserId: String?
     
+    @StateObject var authentication = AuthenticationModel()
+    
+    @State var showError = false
+    @State var errorMessage = ""
+    
     @State var showDeleteAccount = false
     @State var deleteConfirmationText = ""
     
     @Environment(\.dismiss) var dismiss
     
     func deleteUser(){
-        if let userId = savedUserId {
-            guard let url = URL(string: "https://wealthos.onrender.com/user/\(userId)") else {
-                print("Unable to parse url")
-                return
-            }
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = "DELETE"
-            
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                DispatchQueue.main.async {
-                    guard let httpResponse = response as? HTTPURLResponse else {
-                        print("Invalid response from server")
+        authentication.deleteUser(){ success, message in
+            if success {
+                if let userId = savedUserId {
+                    guard let url = URL(string: "https://wealthos.onrender.com/user/\(userId)") else {
+                        print("Unable to parse url")
                         return
                     }
                     
-                    print("httpResponse", httpResponse)
-                    if httpResponse.statusCode == 200 {
-                        savedToken = ""
-                        savedUserId = ""
-                    }
+                    var request = URLRequest(url: url)
+                    request.httpMethod = "DELETE"
+                    
+                    URLSession.shared.dataTask(with: request) { data, response, error in
+                        DispatchQueue.main.async {
+                            guard let httpResponse = response as? HTTPURLResponse else {
+                                print("Invalid response from server")
+                                return
+                            }
+                            
+                            if httpResponse.statusCode == 200 {
+                                self.savedToken = ""
+                                self.savedUserId = ""
+                            }
+                                
+                        }
                         
+                    }.resume()
                 }
-                
-            }.resume()
+            } else {
+                self.errorMessage = message
+                self.showError = true
+            }
         }
     }
     
@@ -126,6 +137,8 @@ struct MenuView: View {
                         .foregroundStyle(Color.tertiaryWhite)
                         .frame(width: 24, height: 24)
                         .padding()
+                }.alert(isPresented: $showError){
+                    Alert(title: Text("Something went wrong"), message: Text(errorMessage), dismissButton: .cancel())
                 }
             }
         }
