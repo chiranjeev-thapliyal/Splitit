@@ -12,7 +12,6 @@
 		61456A2D2BEBCD6700FF9925 /* FloatingMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61456A2C2BEBCD6700FF9925 /* FloatingMenu.swift */; };
 		61456A2F2BEBD01500FF9925 /* PillButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61456A2E2BEBD01500FF9925 /* PillButton.swift */; };
 		61456A312BEBD26100FF9925 /* MenuOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61456A302BEBD26100FF9925 /* MenuOption.swift */; };
-		61456A332BEC142600FF9925 /* ContactList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61456A322BEC142600FF9925 /* ContactList.swift */; };
 		6147D9892BE1D274002CF6E8 /* NavigationButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D9882BE1D274002CF6E8 /* NavigationButton.swift */; };
 		6147D98B2BE1D391002CF6E8 /* FriendSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D98A2BE1D391002CF6E8 /* FriendSummaryView.swift */; };
 		6147D98D2BE44019002CF6E8 /* NewTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D98C2BE44019002CF6E8 /* NewTransactionView.swift */; };
@@ -29,6 +28,8 @@
 		6147D9B32BEA69FD002CF6E8 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6147D9B22BEA69FD002CF6E8 /* Helpers.swift */; };
 		61C1DBD02BF29AB1005AC2EE /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 61C1DBCF2BF29AB1005AC2EE /* FirebaseAuth */; };
 		61C1DBD22BF29EDF005AC2EE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 61C1DBD12BF29EDF005AC2EE /* GoogleService-Info.plist */; };
+		61C1DBD42BF2BB85005AC2EE /* AddFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C1DBD32BF2BB85005AC2EE /* AddFriend.swift */; };
+		61C1DBD62BF2C6A2005AC2EE /* FriendCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C1DBD52BF2C6A2005AC2EE /* FriendCard.swift */; };
 		61C2C5C62BC7266700D74DF5 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C2C5C52BC7266700D74DF5 /* MenuView.swift */; };
 		61C2C5C82BC7305800D74DF5 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C2C5C72BC7305800D74DF5 /* Color.swift */; };
 		61D4BE602BEC362200A45B19 /* ContactManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D4BE5F2BEC362200A45B19 /* ContactManager.swift */; };
@@ -54,7 +55,6 @@
 		61456A2C2BEBCD6700FF9925 /* FloatingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingMenu.swift; sourceTree = "<group>"; };
 		61456A2E2BEBD01500FF9925 /* PillButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillButton.swift; sourceTree = "<group>"; };
 		61456A302BEBD26100FF9925 /* MenuOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOption.swift; sourceTree = "<group>"; };
-		61456A322BEC142600FF9925 /* ContactList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactList.swift; sourceTree = "<group>"; };
 		6147D9882BE1D274002CF6E8 /* NavigationButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationButton.swift; sourceTree = "<group>"; };
 		6147D98A2BE1D391002CF6E8 /* FriendSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendSummaryView.swift; sourceTree = "<group>"; };
 		6147D98C2BE44019002CF6E8 /* NewTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTransactionView.swift; sourceTree = "<group>"; };
@@ -70,6 +70,8 @@
 		6147D9B02BEA0358002CF6E8 /* Transactions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transactions.swift; sourceTree = "<group>"; };
 		6147D9B22BEA69FD002CF6E8 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		61C1DBD12BF29EDF005AC2EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		61C1DBD32BF2BB85005AC2EE /* AddFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriend.swift; sourceTree = "<group>"; };
+		61C1DBD52BF2C6A2005AC2EE /* FriendCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCard.swift; sourceTree = "<group>"; };
 		61C2C5C52BC7266700D74DF5 /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		61C2C5C72BC7305800D74DF5 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		61D4BE5F2BEC362200A45B19 /* ContactManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactManager.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				61456A2A2BEAFBF000FF9925 /* CircularImageWithAction.swift */,
 				61456A2E2BEBD01500FF9925 /* PillButton.swift */,
 				61456A302BEBD26100FF9925 /* MenuOption.swift */,
+				61C1DBD52BF2C6A2005AC2EE /* FriendCard.swift */,
 			);
 			path = Molecules;
 			sourceTree = "<group>";
@@ -214,7 +217,7 @@
 				6147D98A2BE1D391002CF6E8 /* FriendSummaryView.swift */,
 				6147D98C2BE44019002CF6E8 /* NewTransactionView.swift */,
 				6147D98E2BE459A8002CF6E8 /* TransactionView.swift */,
-				61456A322BEC142600FF9925 /* ContactList.swift */,
+				61C1DBD32BF2BB85005AC2EE /* AddFriend.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -311,8 +314,8 @@
 				6147D9AD2BE9ECEB002CF6E8 /* GroupsList.swift in Sources */,
 				6147D9B12BEA0358002CF6E8 /* Transactions.swift in Sources */,
 				61456A312BEBD26100FF9925 /* MenuOption.swift in Sources */,
-				61456A332BEC142600FF9925 /* ContactList.swift in Sources */,
 				6147D99B2BE9B9F6002CF6E8 /* Friends.swift in Sources */,
+				61C1DBD62BF2C6A2005AC2EE /* FriendCard.swift in Sources */,
 				6147D9AF2BE9EE9E002CF6E8 /* GroupHome.swift in Sources */,
 				61FF06832BDF119900DDAD45 /* HeaderTitle.swift in Sources */,
 				61FF06932BE12B1A00DDAD45 /* CircularImage.swift in Sources */,
@@ -323,6 +326,7 @@
 				61FF068B2BDF133400DDAD45 /* Home.swift in Sources */,
 				6147D9992BE989D0002CF6E8 /* APIHandler.swift in Sources */,
 				6147D9A02BE9C46C002CF6E8 /* FriendsList.swift in Sources */,
+				61C1DBD42BF2BB85005AC2EE /* AddFriend.swift in Sources */,
 				61E0E3152BC553D200640097 /* SignupTextField.swift in Sources */,
 				61456A2F2BEBD01500FF9925 /* PillButton.swift in Sources */,
 				61C2C5C62BC7266700D74DF5 /* MenuView.swift in Sources */,

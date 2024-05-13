@@ -52,7 +52,7 @@ struct NewTransactionView: View {
             description: self.description,
             shares: [
                 Share(userId: userId, userName: userName, percentage: 50),
-                Share(userId: UUID(uuidString: friend.id)!, userName: friend.name, percentage: 50)
+                Share(userId: friend.id, userName: friend.name, percentage: 50)
             ])
         
         do {
@@ -252,5 +252,5 @@ struct NewTransactionView: View {
 }
 
 #Preview {
-    NewTransactionView(friend: Friend(id: "1", name: "Aman", imageName: "profile"))
+    NewTransactionView(friend: Friend(id: UUID(), name: "Aman", email: "test@gmail.com", imageName: "profile"))
 }

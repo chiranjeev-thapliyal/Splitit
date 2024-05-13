@@ -20,13 +20,6 @@ struct TransactionView: View {
                         BackButton(action: { dismiss() })
                         Spacer()
                         
-//                        Image(systemName: "ellipsis")
-//                            .resizable()
-//                            .aspectRatio(contentMode: .fit)
-//                            .foregroundStyle(Color.tertiaryWhite)
-//                            .rotationEffect(.degrees(90))
-//                            .frame(width: 20, height: 20)
-                        
                     }.padding(.top, 32)
                     
                     VStack(spacing: 16) {
@@ -97,21 +90,6 @@ struct TransactionView: View {
                                 Spacer()
                             }
                         }
-                        
-                        
-                        
-//                        HStack(alignment: .center, spacing: 0) {
-//                            CircularImage(width: 52, height: 52, strokeColor: Color.regularGreen, icon: "profile3")
-//                            Text("Chirag G. owes ₹ \(20000/3) to Chiranjeev T.")
-//                                .font(.caption)
-//                                .foregroundStyle(Color.gray)
-//                                .frame(maxWidth: 200)
-//                                .multilineTextAlignment(.leading)
-//                                .lineLimit(nil)
-//                                .fixedSize(horizontal: false, vertical: true)
-//                            
-//                            Spacer()
-//                        }
 
                     }.padding(.vertical, 8)
                     

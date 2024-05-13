@@ -9,10 +9,9 @@ import Foundation
 import SwiftUI
 
 struct Friend: Codable, Hashable {
-    var id: String
+    var id: UUID
     var name: String
-    var email: String?
-//    var phoneNumber: String?
+    var email: String
     var imageName: String?
 }
 
