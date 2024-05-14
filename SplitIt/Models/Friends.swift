@@ -76,12 +76,11 @@ class FriendsViewModel: ObservableObject {
                 if let data = data {
                     let newFriend = try JSONDecoder().decode(Friend.self, from: data)
                     DispatchQueue.main.async {
-                        self.friends.append(newFriend)
                         completionHandler(true, "User \(newFriend.name) added to friend list successfully.")
                     }
                 }
             } catch {
-                completionHandler(false, "Error while decoding newFriend")
+                completionHandler(false, "Already a friend.")
             }
            
         }

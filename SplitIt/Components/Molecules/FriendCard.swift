@@ -9,62 +9,72 @@ import SwiftUI
 
 struct FriendCard: View {
     var friend: Friend
+    var onAddFriend: (Friend) -> Void
     
-    @StateObject var friendModel = FriendsViewModel()
-    
-    @State var alertMessage = ""
-    @State var showAlert = false
-    
+    @State private var alertMessage = ""
+    @State private var showAlert = false
+
     var body: some View {
         VStack(alignment: .leading, spacing: 28) {
-            HStack(spacing: 8) {
-                Image(friend.imageName ?? "profile4")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 60, height: 60)
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.gray, lineWidth: 1))
-                
-                VStack(alignment: .leading) {
-                    Text(friend.name)
-                        .font(.subheadline)
-                    Text(friend.email)
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                }
-                
-                Spacer()
-                
-                Button(action: {
-                        friendModel.checkAndAddFriend(friend: friend){ success, message in
-                            DispatchQueue.main.async {
-                                self.alertMessage = message
-                                self.showAlert = true
-                            }
-                        }
-                }){
-                    Image(systemName: "plus.circle")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 28, height: 28)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.gray, lineWidth: 1))
-                }
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text(alertMessage), dismissButton: .default(Text("OK")))
-                }
-                
-            }
-            .padding()
-            .background(Color.white)
-            .cornerRadius(10)
-            .shadow(radius: 5)
-            
+            friendInfoRow
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(10)
+        .shadow(radius: 5)
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
+        
+    }
+
+    private var friendInfoRow: some View {
+        HStack(spacing: 8) {
+            profileImage
+            friendDetails
             Spacer()
+            addButton
+        }
+    }
+
+    private var profileImage: some View {
+        Image(friend.imageName ?? "profile4")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 60, height: 60)
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color.gray, lineWidth: 1))
+    }
+
+    private var friendDetails: some View {
+        VStack(alignment: .leading) {
+            Text(friend.name)
+                .foregroundColor(.black)
+                .font(.subheadline)
+            Text(friend.email)
+                .font(.caption)
+                .foregroundColor(.gray)
+        }
+    }
+
+    private var addButton: some View {
+        Button(action: {
+            onAddFriend(friend)
+        }) {
+            Image(systemName: "plus.circle")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 28, height: 28)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(Color.gray, lineWidth: 1))
         }
     }
 }
 
 #Preview {
-    FriendCard(friend: Friend(id: UUID(), name: "Jaskaran", email: "jaskaran@gmail.com"))
+    var friend = Friend(id: UUID(), name: "Jaskaran", email: "jaskaran@gmail.com")
+    
+    func addFriendAction(friend: Friend) {}
+    
+    return FriendCard(friend: friend, onAddFriend: addFriendAction)
 }

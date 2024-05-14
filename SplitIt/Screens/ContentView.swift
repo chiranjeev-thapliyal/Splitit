@@ -13,20 +13,25 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             if authentication.isAuthenticated {
-                    Home()
-                } else {
-                    VStack(spacing: 20) {
-                        HeaderTitle(first: "wealth", second: "OS").font(.system(size: 56)).kerning(2).fontWeight(.thin)
-                        
-                        VStack {
-                            NavigationButton(label: "Sign in", destination: SigninView())
-                            NavigationButton(label: "Sign up", destination: SignupView())
-                        }
-                        .font(.headline)
-                        .kerning(1)
-                        .fontWeight(.light)
-                        .padding(.horizontal, 40)
+                    NavigationStack {
+                        Home()
                     }
+                } 
+                else {
+                    NavigationStack {
+                        VStack(spacing: 20) {
+                            HeaderTitle(first: "wealth", second: "OS").font(.system(size: 56)).kerning(2).fontWeight(.thin)
+                            
+                            VStack {
+                                NavigationButton(label: "Sign in", destination: SigninView())
+                                NavigationButton(label: "Sign up", destination: SignupView())
+                            }
+                            .font(.headline)
+                            .kerning(1)
+                            .fontWeight(.light)
+                            .padding(.horizontal, 40)
+                        }
+                }
             }
         }
         .onAppear {
@@ -38,6 +43,7 @@ struct ContentView: View {
         .ignoresSafeArea(.all)
     }
 }
+    
 
 #Preview {
     ContentView()
