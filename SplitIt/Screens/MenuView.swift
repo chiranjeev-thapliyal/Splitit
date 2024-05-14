@@ -14,6 +14,8 @@ struct MenuView: View {
     @State var showDeleteAccount = false
     @State var deleteConfirmationText = ""
     
+    @State private var isNotAuthenticated = false
+    
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var authentication: AuthenticationModel
     
@@ -51,6 +53,10 @@ struct MenuView: View {
         }
     }
     
+    private func updateAuthenticationStatus() {
+        isNotAuthenticated = !authentication.isAuthenticated
+    }
+    
     var body: some View {
         NavigationStack {
             ZStack(alignment: .topLeading){
@@ -86,6 +92,16 @@ struct MenuView: View {
                     
                         Rectangle()
                             .frame(height: 1).foregroundStyle(.white).clipShape(RoundedRectangle(cornerRadius: 20))
+                        
+                        NavigationLink(destination: ContentView(), isActive: $isNotAuthenticated) {
+                            EmptyView()
+                        }
+                    }
+                    .onAppear {
+                        updateAuthenticationStatus()
+                    }
+                    .onChange(of: authentication.isAuthenticated) { isAuthenticated in
+                        isNotAuthenticated = !isAuthenticated
                     }
                     
                     VStack {

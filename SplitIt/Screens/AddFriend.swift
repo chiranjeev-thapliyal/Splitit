@@ -14,7 +14,17 @@ struct FriendSearchView: View {
     @State private var tempFriendName = ""
     @State private var foundFriend: Friend?
     
+    @State private var showError = false
+    @State private var errorMessage = ""
+    
+    @EnvironmentObject var authentication: AuthenticationModel
+    
     func searchFriendByEmail(email: String, completion: @escaping (Bool, String) -> Void) {
+        if !isValidEmail(email) {
+            completion(false, "Please enter a valid email address.")
+            return
+        }
+        
         guard let encodedEmail = email.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
               let url = URL(string: "https://wealthos.onrender.com/user/email/\(encodedEmail)") else {
             completion(false, "Please enter valid email")
@@ -76,7 +86,12 @@ struct FriendSearchView: View {
                 Button("Search Friend") {
                     searchFriendByEmail(email: friendEmail){ success, message in
                         if !success {
-                            showNotFoundAlert = true
+                            if message == "Please enter a valid email address." {
+                                showError = true
+                                errorMessage = message
+                            } else {
+                                showNotFoundAlert = true
+                            }
                         } else {
                             showDetails = true
                         }
@@ -97,10 +112,16 @@ struct FriendSearchView: View {
             .padding()
             .alert("User not found", isPresented: $showNotFoundAlert) {
                 TextField("Enter name for temporary user", text: $tempFriendName)
-                Button("Continue", action: createTempUser)
+                Button("Continue", action:  createTempUser)
                 Button("Cancel", role: .cancel) {}
             } message: {
                 Text("You can continue by providing a name for this new friend.")
+            }
+            .alert(isPresented: $showError){
+                Alert(title: Text(errorMessage), dismissButton: .default(Text("Ok")){
+                    showError = false
+                    errorMessage = ""
+                })
             }
         }
         .navigationBarBackButtonHidden(true)
@@ -115,4 +136,5 @@ struct FriendSearchView: View {
 
 #Preview {
     FriendSearchView()
+        .environmentObject(AuthenticationModel())
 }

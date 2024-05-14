@@ -13,6 +13,7 @@ struct Home: View {
     @StateObject var userModel = UserModel()
     
     @State var navigateToMenu = false
+    @State private var isNotAuthenticated = false
     
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
@@ -23,6 +24,11 @@ struct Home: View {
         userModel.getUserBalance()
         friendsModel.getFriends()
         transactionModel.getUserTransactions()
+    }
+    
+    
+    private func updateAuthenticationStatus() {
+        isNotAuthenticated = !authentication.isAuthenticated
     }
     
     var body: some View {
@@ -124,9 +130,18 @@ struct Home: View {
                 FloatingMenu()
                     .accessibilityLabel("Add New Item")
                 
+                NavigationLink(destination: ContentView(), isActive: $isNotAuthenticated) {
+                    EmptyView()
+                }
             }
             .refreshable {
                 getHomePageData()
+            }
+            .onAppear {
+                updateAuthenticationStatus()
+            }
+            .onChange(of: authentication.isAuthenticated) { isAuthenticated in
+                isNotAuthenticated = !isAuthenticated
             }
             
         }
