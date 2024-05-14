@@ -95,7 +95,6 @@ struct FriendSearchView: View {
                 Spacer()
             }
             .padding()
-            .navigationBarBackButtonHidden(true)
             .alert("User not found", isPresented: $showNotFoundAlert) {
                 TextField("Enter name for temporary user", text: $tempFriendName)
                 Button("Continue", action: createTempUser)
@@ -104,6 +103,8 @@ struct FriendSearchView: View {
                 Text("You can continue by providing a name for this new friend.")
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func createTempUser() {

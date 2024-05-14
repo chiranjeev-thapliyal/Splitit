@@ -57,8 +57,8 @@ struct SigninView: View {
                 
                 if let httpResponse = response as? HTTPURLResponse {
                     print("HTTP Status Code: \(httpResponse.statusCode)")
-                    if httpResponse.statusCode != 200 {
-                        self.error = "Server error: \(httpResponse.statusCode)"
+                    if httpResponse.statusCode != 200, let data = data, let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
+                        self.error = "\(errorResponse.reason)"
                         self.showError = true
                     }
                 }
@@ -193,9 +193,22 @@ struct SigninView: View {
             .background(Color.tertiaryWhite)
         }
         .ignoresSafeArea(.all)
-        .navigationBarHidden(true)
         .background(Color.tertiaryWhite)
         .navigationViewStyle(StackNavigationViewStyle())
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: {
+                    dismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left") // Icon
+                        Text("Back") // Text
+                    }
+                    .foregroundColor(Color.darkGreen) // Custom color
+                }
+            }
+        }
         
     }
 }

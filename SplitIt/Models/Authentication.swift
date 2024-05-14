@@ -22,6 +22,85 @@ struct LoginResponse: Codable, Hashable {
 }
 
 class AuthenticationModel: ObservableObject {
+    @AppStorage("user_id") var savedUserId: String?
+    @AppStorage("token") var savedToken: String?
+    @AppStorage("name") var savedName: String?
+    @AppStorage("email") var savedEmail: String?
+    
+    @Published var isAuthenticated = false {
+        didSet {
+            if !isAuthenticated {
+                logoutUser()
+            }
+        }
+    }
+    
+    func logoutUser(){
+        savedName = ""
+        savedToken = ""
+        savedEmail = ""
+        savedUserId = ""
+    }
+    
+    func checkIsAuthenticated() {
+        if let userId = savedUserId, let userToken = savedToken, let userName = savedName, let userEmail = savedEmail {
+            if !(userId.isEmpty || userToken.isEmpty || userName.isEmpty || userEmail.isEmpty) {
+                isAuthenticated = isValidUser()
+            } else {
+                isAuthenticated = false
+            }
+        } else {
+            isAuthenticated = false
+        }
+    }
+    
+    func isValidUser() -> Bool {
+        var result = false
+        
+        guard let userEmail = savedEmail else {
+            return false
+        }
+        
+        guard let url = URL(string: "https://wealthos.onrender.com/user/email/\(userEmail)") else {
+            return false
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if let _ = error {
+                    result = false
+                    return
+                }
+                
+                
+                if let httpResponse = response as? HTTPURLResponse {
+                    print("HTTP Status Code: \(httpResponse.statusCode)")
+                    if httpResponse.statusCode != 200 {
+                        result = false
+                        return
+                    }
+                }
+                
+                if let data = data {
+                    do {
+                        let _ = try JSONDecoder().decode(LoginResponse.self, from: data)
+                        result = true
+                    } catch {
+                        result = false
+                        return
+                    }
+                }
+            }
+        }
+        
+        task.resume()
+       
+        return result
+    }
     
     func deleteUser(completionHandler: @escaping (Bool, String) -> Void) {
         // Check if there is a user logged in

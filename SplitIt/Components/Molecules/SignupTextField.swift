@@ -19,6 +19,8 @@ struct SignupTextField: View {
     
     var isSecure: Bool = false
     
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         VStack(alignment: .trailing) {
             HStack {
@@ -28,7 +30,7 @@ struct SignupTextField: View {
                 
                 if isSecure {
                     SecureField(placeholder, text: $text, onCommit: onCommit ?? {})
-                        .foregroundStyle(Color.black.opacity(0.8))
+                        .foregroundColor(.black)
                         .keyboardType(keyboardType)
                         .onChange(of: text, perform: { newValue in
                             onChange?(newValue)
@@ -36,7 +38,7 @@ struct SignupTextField: View {
                         .padding(.leading, 10)
                 } else {
                     TextField(placeholder, text: $text, onCommit: onCommit ?? {})
-                        .foregroundStyle(Color.black.opacity(0.8))
+                        .foregroundColor(.black)
                         .kerning(1)
                         .keyboardType(keyboardType)
                         .onChange(of: text, perform: { newValue in

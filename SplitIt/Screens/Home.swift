@@ -13,7 +13,6 @@ struct Home: View {
     @AppStorage("email") var savedEmail: String = ""
     
     @StateObject var friendsModel = FriendsViewModel()
-//    @StateObject var groupsModel = GroupModel()
     @StateObject var transactionModel = TransactionModel()
     @StateObject var userModel = UserModel()
     
@@ -31,7 +30,6 @@ struct Home: View {
     func getHomePageData(){
         userModel.getUserBalance()
         friendsModel.getFriends()
-//            groupsModel.getGroups()
         transactionModel.getUserTransactions()
     }
     
