@@ -277,7 +277,6 @@
 			);
 			mainGroup = 61E0E2B92BC48EE800640097;
 			packageReferences = (
-				6147D9A12BE9D36D002CF6E8 /* XCRemoteSwiftPackageReference "SVGKit" */,
 				61C1DBCE2BF29AB1005AC2EE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 61E0E2C32BC48EE800640097 /* Products */;
@@ -559,14 +558,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6147D9A12BE9D36D002CF6E8 /* XCRemoteSwiftPackageReference "SVGKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SVGKit/SVGKit.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 3.0.0;
-			};
-		};
 		61C1DBCE2BF29AB1005AC2EE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";

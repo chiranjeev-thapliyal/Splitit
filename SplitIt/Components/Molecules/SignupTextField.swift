@@ -30,7 +30,7 @@ struct SignupTextField: View {
                 
                 if isSecure {
                     SecureField(placeholder, text: $text, onCommit: onCommit ?? {})
-                        .foregroundColor(.black)
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                         .keyboardType(keyboardType)
                         .onChange(of: text, perform: { newValue in
                             onChange?(newValue)
@@ -38,7 +38,7 @@ struct SignupTextField: View {
                         .padding(.leading, 10)
                 } else {
                     TextField(placeholder, text: $text, onCommit: onCommit ?? {})
-                        .foregroundColor(.black)
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                         .kerning(1)
                         .keyboardType(keyboardType)
                         .onChange(of: text, perform: { newValue in
@@ -52,7 +52,7 @@ struct SignupTextField: View {
             .padding(.vertical, 10)
             .padding(.horizontal)
             .foregroundStyle(.black)
-            .background(.white)
+            .background(colorScheme == .dark ? .black : .white)
             .clipShape(RoundedRectangle(cornerRadius: 50))
             
             if !errorMessage.isEmpty {

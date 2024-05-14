@@ -8,11 +8,6 @@
 import SwiftUI
 
 struct MenuView: View {
-    @AppStorage("token") var savedToken: String?
-    @AppStorage("user_id") var savedUserId: String?
-    
-    @StateObject var authentication = AuthenticationModel()
-    
     @State var showError = false
     @State var errorMessage = ""
     
@@ -20,11 +15,12 @@ struct MenuView: View {
     @State var deleteConfirmationText = ""
     
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var authentication: AuthenticationModel
     
     func deleteUser(){
         authentication.deleteUser(){ success, message in
             if success {
-                if let userId = savedUserId {
+                if let userId = authentication.savedUserId {
                     guard let url = URL(string: "https://wealthos.onrender.com/user/\(userId)") else {
                         print("Unable to parse url")
                         return
@@ -41,8 +37,7 @@ struct MenuView: View {
                             }
                             
                             if httpResponse.statusCode == 200 {
-                                self.savedToken = ""
-                                self.savedUserId = ""
+                                self.authentication.logoutUser()
                             }
                                 
                         }
@@ -79,7 +74,7 @@ struct MenuView: View {
                     
                     VStack {
                         Button(action: {
-                            self.savedToken = ""
+                            authentication.logoutUser()
                         }) {
                             Text("Logout")
                                 .font(.title)
@@ -149,4 +144,5 @@ struct MenuView: View {
 
 #Preview {
     MenuView()
+        .environmentObject(AuthenticationModel())
 }

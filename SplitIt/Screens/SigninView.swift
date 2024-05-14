@@ -10,21 +10,17 @@ import SwiftUI
 struct SigninView: View {
     @State var email: String = ""
     @State var password: String = ""
+    
     @State private var showError: Bool = false
     @State private var error: String = ""
     @State private var errorMessage: String = ""
+    
     @State private var showSuccess: Bool = false
     @State private var successMessage: String = ""
-    @State private var isAuthenticated: Bool = false
+    
     @State var showSignup: Bool = false
     
-    @AppStorage("user_id") var savedUserId: String?
-    @AppStorage("token") var savedToken: String?
-    @AppStorage("name") var savedName: String?
-    @AppStorage("email") var savedEmail: String?
-    
-    @StateObject var authentication = AuthenticationModel()
-    
+    @EnvironmentObject var authentication: AuthenticationModel
     @Environment(\.dismiss) var dismiss
     
     func login(email: String, password: String) {
@@ -66,11 +62,13 @@ struct SigninView: View {
                 if let data = data {
                     do {
                         let responseData = try JSONDecoder().decode(LoginResponse.self, from: data)
-                        savedUserId = responseData.id
-                        savedToken = responseData.token
-                        savedName = responseData.name
-                        savedEmail = responseData.email
-                        isAuthenticated = true
+                        DispatchQueue.main.async {
+                            self.authentication.savedUserId = responseData.id
+                            self.authentication.savedToken = responseData.token
+                            self.authentication.savedName = responseData.name
+                            self.authentication.savedEmail = responseData.email
+                            self.authentication.isAuthenticated = true
+                        }
                     } catch {
                         print("Error in decoding response data")
                         return
@@ -101,15 +99,15 @@ struct SigninView: View {
                                         self.error = error
                                         self.showError = true
                                     } else {
-                                        login(email: self.email, password: self.password)
+                                        self.login(email: self.email, password: self.password)
                                     }
                                 }}){
                                 Text("Sign in")
+                                        .foregroundStyle(Color.tertiaryWhite)
                             }
                             .padding(.vertical, 12)
                             .padding(.horizontal, 24)
                             .background(Color.darkGreen)
-                            .foregroundStyle(Color.tertiaryWhite)
                             .font(.headline)
                             .kerning(1)
                             .clipShape(RoundedRectangle(cornerRadius: 25.0))
@@ -146,7 +144,7 @@ struct SigninView: View {
                                         title: Text(error),
                                         message: Text("Seems like you don't have an account with us. You create one now!"),
                                         primaryButton: .default(Text("Sign up"), action: {
-                                            showSignup = true
+                                            self.showSignup = true
                                         }),
                                         secondaryButton: .cancel({
                                             self.showError = false
@@ -175,13 +173,12 @@ struct SigninView: View {
                 VStack {
                     CustomNavbar(leftIconAction: { dismiss() })
                         .padding()
-                        .background(Color.tertiaryWhite) // Ensure this matches your app's theme
                         .foregroundColor(.black)
                     
                     Spacer()
                 }.frame(height: 100)
                 
-                NavigationLink(destination: Home(), isActive: $isAuthenticated){
+                NavigationLink(destination: Home(), isActive: $authentication.isAuthenticated){
                     EmptyView()
                 }
                 
@@ -190,10 +187,9 @@ struct SigninView: View {
                 }
                 
             }
-            .background(Color.tertiaryWhite)
+
         }
         .ignoresSafeArea(.all)
-        .background(Color.tertiaryWhite)
         .navigationViewStyle(StackNavigationViewStyle())
         .navigationBarBackButtonHidden(true)
         .toolbar {
@@ -202,10 +198,10 @@ struct SigninView: View {
                     dismiss()
                 }) {
                     HStack {
-                        Image(systemName: "chevron.left") // Icon
+                        Image(systemName: "chevron.left")
                         Text("Back") // Text
                     }
-                    .foregroundColor(Color.darkGreen) // Custom color
+                    .foregroundColor(Color.darkGreen)
                 }
             }
         }
@@ -215,4 +211,5 @@ struct SigninView: View {
 
 #Preview {
     SigninView()
+        .environmentObject(AuthenticationModel())
 }

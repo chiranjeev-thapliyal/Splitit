@@ -14,235 +14,230 @@ struct SignupFormData: Codable {
 }
 
 struct SignupView: View {
-    
-    @AppStorage("user_id") var savedUserId: String?
-    @AppStorage("token") var savedToken: String?
-    @AppStorage("name") var savedName: String?
-    @AppStorage("email") var savedEmail: String?
-    
     @State private var fullName: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
     
     @State private var nameError = ""
-    @State private var phoneNumberError = ""
     @State private var emailError = ""
     @State private var passwordError = ""
     
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
     
-    
     @State private var showSuccessAlert = false
     @State private var successMessage = ""
     
-    
     @State private var showLoginScreen = false
     
-    @StateObject var authentication = AuthenticationModel()
+    @EnvironmentObject var authentication: AuthenticationModel
     
     @Environment(\.dismiss) var dismiss
-    
-    func submitSignupForm() {
-        authentication.createUser(name: fullName, email: email, password: password) { success, error in
-            DispatchQueue.main.async {
-                if !success {
-                    self.errorMessage = error
-                    self.showErrorAlert = true
-                } else {
-                    let formData = SignupFormData(name: fullName, email: email, password: password)
-                    submitSignupForm(data: formData) { success, message in
-                        if !success {
-                            self.errorMessage = message
-                            self.showErrorAlert = true
-                        } else {
-                            self.successMessage = message
-                            self.showSuccessAlert = true
-                            print("Success handler called")
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    
-    func submitSignupForm(data: SignupFormData, completionHandler: @escaping (Bool, String) -> Void){
-        do {
-            let url = URL(string: "https://wealthos.onrender.com/user")!
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = try JSONEncoder().encode(data)
-            
-            // Send the information inside req.body
-            URLSession.shared.dataTask(with: request){ data, response, error in
-                DispatchQueue.main.async {
-                    guard let httpResponse = response as? HTTPURLResponse else {
-                        completionHandler(false, "Invalid response from server")
-                        return
-                    }
-                    
-                    if httpResponse.statusCode == 200, let data = data {
-                        do {
-                            let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
-                            self.savedEmail = loginResponse.email
-                            
-                            print("Inside user created success")
-                            completionHandler(true, "User created successfully.")
-                        } catch {
-                            completionHandler(false, "Failed to decode the response")
-                        }
-                        return
-                    }
-                    
-                    if let data = data, let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
-                        completionHandler(false, errorResponse.reason)
-                    } else {
-                        completionHandler(false, "An unknown error occurred.")
-                    }
-                }
-            }.resume()
-        } catch {
-            print("Failed to encode formData")
-        }
-        
-    }
-    
-    func validateName(_ name: String) -> String {
-        if name.count > 0 {
-            return ""
-        }
-        
-        return "Enter a valid name"
-    }
-    
-    func validateEmail(_ email: String) -> String {
-        let emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailPattern)
-        if !emailPredicate.evaluate(with: email){
-            return "Enter valid email"
-        }
-        
-        return ""
-    }
-    
-    func validatePassword(_ password: String) -> String {
-        if password.count < 6 {
-            return "Password should be more than 6 characters"
-        }
-        
-        return ""
-    }
     
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
-                
                 VStack(spacing: 20) {
                     Spacer().frame(height: 40)
                     
-                    Group {
-                        SignupTextField(
-                            icon: "person",
-                            placeholder: "Full Name",
-                            onCommit: { nameError = validateName(fullName) },
-                            onChange: { newValue in
-                                nameError = ""
-                            },
-                            errorMessage: nameError,
-                            text: $fullName
-                        )
-                        
-                        SignupTextField(
-                            icon: "at",
-                            placeholder: "Email",
-                            onCommit: { emailError = validateEmail(email) },
-                            onChange: { newValue in
-                                emailError = ""
-                            },
-                            errorMessage: emailError, 
-                            text: $email
-                        )
-                        
-                        SignupTextField(
-                            icon: "lock",
-                            placeholder: "Password",
-                            onCommit: { passwordError = validatePassword(password) },
-                            onChange: { newValue in
-                                passwordError = ""
-                            },
-                            errorMessage: passwordError,
-                            text: $password, 
-                            isSecure: true
-                        )
-                        
-                        Button(action: {
-                            nameError = validateName(fullName)
-                            emailError = validateEmail(email)
-                            passwordError = validatePassword(password)
-                            
-                            if !(nameError.isEmpty && emailError.isEmpty && passwordError.isEmpty) {
-                                return
-                            }
-                            
-                            submitSignupForm()
-                            
-                        }) {
-                            Text("Sign up")
-                                .padding(.horizontal, 32)
-                                .padding(.vertical, 16)
-                                .background(Color.darkGreen)
-                                .foregroundColor(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 25.0))
-                                .fontWeight(.light)
-                            
+                    formContent
+                        .padding(.horizontal, 16)
+                        .alert(isPresented: $showErrorAlert) {
+                            Alert(title: Text("Error"), message: Text(errorMessage), dismissButton: .default(Text("OK")))
                         }
-                        .padding(.horizontal)
-                    }
-                    .padding(.horizontal, 16)
-                    .alert(isPresented: $showErrorAlert) {
-                        Alert(title: Text(errorMessage), message: Text("Retry with valid details"), dismissButton: .default(Text("OK")))
-                    }
                     
                     Spacer()
                 }
                 .background(LinearGradient(colors: [.darkGreen, .regularGreen, .lightGreen], startPoint: .top, endPoint: .bottom))
                 .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                .padding(.top, 100) // Adjust this padding to control where the bottom sheet starts.
+                .padding(.top, 100)
                 .edgesIgnoringSafeArea(.bottom)
                 
                 VStack {
                     CustomNavbar(leftIconAction: { dismiss() })
                         .padding()
-                        .background(Color.tertiaryWhite)
                         .foregroundColor(.black)
                     
-                    Spacer() // This pushes the top bar to the top
-                }
-                .alert(isPresented: $showSuccessAlert) {
-                    Alert(title: Text(successMessage), message: Text("We've sent verification link to your email"), dismissButton: .default(Text("OK")){
-                        showSuccessAlert = false
-                        showLoginScreen = true
-                    })
+                    Spacer()
                 }
                 .frame(height: 100)
-                .background(Color.tertiaryWhite)
-                
-                NavigationLink(destination: SigninView(), isActive: $showLoginScreen) {
-                    EmptyView()
-                }
-                
-            }.background(Color.tertiaryWhite)
-            
+            }
         }
         .ignoresSafeArea(.all)
-        .navigationBarHidden(true)
-        .background(Color.tertiaryWhite)
         .navigationViewStyle(StackNavigationViewStyle())
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                backButton
+            }
+        }
+        .alert(isPresented: $showSuccessAlert) {
+            Alert(title: Text("Success"), message: Text(successMessage), dismissButton: .default(Text("OK")) {
+                self.showSuccessAlert = false
+                self.showLoginScreen = true
+            })
+        }
+        
+        NavigationLink(destination: SigninView(), isActive: $showLoginScreen) {
+            EmptyView()
+        }
+    }
+    
+    var formContent: some View {
+        Group {
+            SignupTextField(
+                icon: "person",
+                placeholder: "Full Name",
+                onCommit: { nameError = validateName(fullName) },
+                onChange: { newValue in nameError = "" },
+                errorMessage: nameError,
+                text: $fullName
+            )
+            
+            SignupTextField(
+                icon: "at",
+                placeholder: "Email",
+                onCommit: { emailError = validateEmail(email) },
+                onChange: { newValue in emailError = "" },
+                errorMessage: emailError,
+                text: $email
+            )
+            
+            SignupTextField(
+                icon: "lock",
+                placeholder: "Password",
+                onCommit: { passwordError = validatePassword(password) },
+                onChange: { newValue in passwordError = "" },
+                errorMessage: passwordError,
+                text: $password,
+                isSecure: true
+            )
+            
+            Button("Sign up") {
+                performSignup()
+            }
+            .buttonStyle()
+        }
+    }
+    
+    var backButton: some View {
+        Button(action: { dismiss() }) {
+            HStack {
+                Image(systemName: "chevron.left")
+                Text("Back")
+            }
+            .foregroundColor(.darkGreen)
+        }
+    }
+    
+    func performSignup() {
+        nameError = validateName(fullName)
+        emailError = validateEmail(email)
+        passwordError = validatePassword(password)
+        
+        guard nameError.isEmpty, emailError.isEmpty, passwordError.isEmpty else {
+            return
+        }
+        
+        authentication.createUser(name: fullName, email: email, password: password) { success, message in
+            if success {
+                let formData = SignupFormData(name: fullName, email: email, password: password)
+                submitSignupForm(data: formData) { success, message in
+                    if success {
+                        DispatchQueue.main.async {
+                            successMessage = message
+                            showSuccessAlert = true
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            errorMessage = message
+                            showErrorAlert = true
+                        }
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    errorMessage = message
+                    showErrorAlert = true
+                }
+            }
+        }
+    }
+    
+    func submitSignupForm(data: SignupFormData, completionHandler: @escaping (Bool, String) -> Void) {
+        guard let url = URL(string: "https://wealthos.onrender.com/user") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(data)
+        } catch {
+            print("Failed to encode formData")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let httpResponse = response as? HTTPURLResponse, let data = data else {
+                completionHandler(false, "Invalid response from server")
+                return
+            }
+            
+            if httpResponse.statusCode == 200 {
+                do {
+                    let loginResponse = try JSONDecoder().decode(LoginResponse.self, from: data)
+                    DispatchQueue.main.async {
+                        authentication.savedEmail = loginResponse.email
+                        completionHandler(true, "User created successfully.")
+                    }
+                } catch {
+                    completionHandler(false, "Failed to decode the response")
+                }
+            } else {
+                if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
+                    completionHandler(false, errorResponse.reason)
+                } else {
+                    completionHandler(false, "An unknown error occurred.")
+                }
+            }
+        }.resume()
+    }
+    
+    func validateName(_ name: String) -> String {
+        name.isEmpty ? "Enter a valid name" : ""
+    }
+    
+    func validateEmail(_ email: String) -> String {
+        let emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailPattern)
+        return emailPredicate.evaluate(with: email) ? "" : "Enter valid email"
+    }
+    
+    func validatePassword(_ password: String) -> String {
+        password.count >= 6 ? "" : "Password should be more than 6 characters"
+    }
+}
+
+struct ButtonStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .padding(.horizontal, 32)
+            .padding(.vertical, 16)
+            .background(Color.darkGreen)
+            .foregroundColor(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 25.0))
+            .fontWeight(.light)
+            .padding(.horizontal)
+    }
+}
+
+extension View {
+    func buttonStyle() -> some View {
+        modifier(ButtonStyle())
     }
 }
 
 #Preview {
     SignupView()
+        .environmentObject(AuthenticationModel())
 }

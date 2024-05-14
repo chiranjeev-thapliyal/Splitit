@@ -10,11 +10,6 @@ import SwiftUI
 struct NewTransactionView: View {
     let friend: Friend
     
-    @AppStorage("user_id") var savedUserId: String?
-    @AppStorage("token") var savedToken: String?
-    @AppStorage("name") var savedName: String?
-    @AppStorage("email") var savedEmail: String?
-    
     @State var description = ""
     @State var amount = ""
     
@@ -22,6 +17,7 @@ struct NewTransactionView: View {
     @State var alertMessage = ""
     @State var navigateToHome = false
     
+    @EnvironmentObject var authentication: AuthenticationModel
     @Environment(\.dismiss) var dismiss
     
     func addTransaction(){
@@ -32,8 +28,8 @@ struct NewTransactionView: View {
         }
         
         guard let url = URL(string: "https://wealthos.onrender.com/transactions"),
-              let userId = UUID(uuidString: savedUserId ?? ""),
-              let userName = savedName,
+              let userId = UUID(uuidString: authentication.savedUserId ?? ""),
+              let userName = authentication.savedName,
               let amount = Double(self.amount) else {
             showAlert = true
             alertMessage = "Invalid data or configuration"
@@ -249,4 +245,5 @@ struct NewTransactionView: View {
 
 #Preview {
     NewTransactionView(friend: Friend(id: UUID(), name: "Aman", email: "test@gmail.com", imageName: "profile"))
+        .environmentObject(AuthenticationModel())
 }

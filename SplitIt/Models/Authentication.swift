@@ -27,42 +27,41 @@ class AuthenticationModel: ObservableObject {
     @AppStorage("name") var savedName: String?
     @AppStorage("email") var savedEmail: String?
     
-    @Published var isAuthenticated = false {
-        didSet {
-            if !isAuthenticated {
-                logoutUser()
-            }
-        }
-    }
+    @Published var isAuthenticated = false
     
     func logoutUser(){
-        savedName = ""
-        savedToken = ""
-        savedEmail = ""
-        savedUserId = ""
+        DispatchQueue.main.async {
+            print("Logging out")
+            self.savedName = ""
+            self.savedToken = ""
+            self.savedEmail = ""
+            self.savedUserId = ""
+            self.isAuthenticated = false
+            print("isAuthenticated set to false")
+        }
     }
     
     func checkIsAuthenticated() {
-        if let userId = savedUserId, let userToken = savedToken, let userName = savedName, let userEmail = savedEmail {
+        if let userId = self.savedUserId, let userToken = self.savedToken, let userName = self.savedName, let userEmail = self.savedEmail {
             if !(userId.isEmpty || userToken.isEmpty || userName.isEmpty || userEmail.isEmpty) {
-                isAuthenticated = isValidUser()
-            } else {
-                isAuthenticated = false
+                self.isAuthenticated = true
+                return
             }
-        } else {
-            isAuthenticated = false
         }
+            
+        self.isAuthenticated = false
     }
     
-    func isValidUser() -> Bool {
-        var result = false
+    func isValidUser(completion: @escaping (Bool) -> Void) {
         
         guard let userEmail = savedEmail else {
-            return false
+            completion(false)
+            return
         }
         
         guard let url = URL(string: "https://wealthos.onrender.com/user/email/\(userEmail)") else {
-            return false
+            completion(false)
+            return
         }
         
         var request = URLRequest(url: url)
@@ -72,7 +71,7 @@ class AuthenticationModel: ObservableObject {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 if let _ = error {
-                    result = false
+                    completion(false)
                     return
                 }
                 
@@ -80,26 +79,17 @@ class AuthenticationModel: ObservableObject {
                 if let httpResponse = response as? HTTPURLResponse {
                     print("HTTP Status Code: \(httpResponse.statusCode)")
                     if httpResponse.statusCode != 200 {
-                        result = false
+                        completion(false)
                         return
                     }
                 }
                 
-                if let data = data {
-                    do {
-                        let _ = try JSONDecoder().decode(LoginResponse.self, from: data)
-                        result = true
-                    } catch {
-                        result = false
-                        return
-                    }
-                }
+                completion(true)
+                return
             }
         }
         
         task.resume()
-       
-        return result
     }
     
     func deleteUser(completionHandler: @escaping (Bool, String) -> Void) {

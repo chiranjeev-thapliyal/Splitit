@@ -8,10 +8,6 @@
 import SwiftUI
 
 struct Home: View {
-    @AppStorage("token") var savedToken: String = ""
-    @AppStorage("name") var savedName: String = ""
-    @AppStorage("email") var savedEmail: String = ""
-    
     @StateObject var friendsModel = FriendsViewModel()
     @StateObject var transactionModel = TransactionModel()
     @StateObject var userModel = UserModel()
@@ -21,11 +17,7 @@ struct Home: View {
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
     
-    func logoutUser(){
-        savedName = ""
-        savedToken = ""
-        savedEmail = ""
-    }
+    @EnvironmentObject var authentication: AuthenticationModel
     
     func getHomePageData(){
         userModel.getUserBalance()
@@ -37,7 +29,7 @@ struct Home: View {
         NavigationView {
             ZStack(alignment: .bottomTrailing) {
                 VStack(spacing: 0) {
-                    CustomNavbar(leftIcon: "line.horizontal.3", leftIconAction: { self.navigateToMenu = true }, rightIcon: "power", rightIconAction: { logoutUser() })
+                    CustomNavbar(leftIcon: "line.horizontal.3", leftIconAction: { self.navigateToMenu = true }, rightIcon: "power", rightIconAction: { authentication.logoutUser() })
                         .background(
                             NavigationLink(destination: MenuView(), isActive: $navigateToMenu) { EmptyView()
                             }
@@ -48,7 +40,7 @@ struct Home: View {
                         VStack(spacing: 0) {
                             // User's Summary Card
                             VStack(spacing: 12) {
-                                Text(savedName)
+                                Text(authentication.savedName ?? "User")
                                     .font(.headline)
                                     .foregroundStyle(Color.tertiaryWhite)
                                     .textCase(.uppercase)
@@ -138,11 +130,11 @@ struct Home: View {
             }
             
         }
-        .navigationBarHidden(true)
-        .navigationViewStyle(StackNavigationViewStyle())
         .onAppear {
             getHomePageData()
         }
+        .navigationBarHidden(true)
+        .navigationViewStyle(StackNavigationViewStyle())
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
                 getHomePageData()
@@ -153,5 +145,6 @@ struct Home: View {
 
 #Preview {
     Home()
+        .environmentObject(AuthenticationModel())
 }
 
