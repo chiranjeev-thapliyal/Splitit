@@ -12,10 +12,8 @@ struct FriendCard: View {
     
     @StateObject var friendModel = FriendsViewModel()
     
-    @State private var alertMessage = ""
-    @State private var showAlert = false
-    
-    @AppStorage("user_id") var savedUserId: String?
+    @State var alertMessage = ""
+    @State var showAlert = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 28) {
@@ -38,10 +36,12 @@ struct FriendCard: View {
                 Spacer()
                 
                 Button(action: {
-                    friendModel.checkAndAddFriend(friend: friend){ success, message in
-                        self.alertMessage = message
-                        self.showAlert = true
-                    }
+                        friendModel.checkAndAddFriend(friend: friend){ success, message in
+                            DispatchQueue.main.async {
+                                self.alertMessage = message
+                                self.showAlert = true
+                            }
+                        }
                 }){
                     Image(systemName: "plus.circle")
                         .resizable()
@@ -51,12 +51,7 @@ struct FriendCard: View {
                         .overlay(Circle().stroke(Color.gray, lineWidth: 1))
                 }
                 .alert(isPresented: $showAlert) {
-                    Alert(title: Text(alertMessage), dismissButton: .default(Text("OK"), action: {
-                        // Redirect or perform further actions based on the message
-                        if alertMessage == "Added to friend list" {
-                            // Navigate to Home or perform success action
-                        }
-                    }))
+                    Alert(title: Text(alertMessage), dismissButton: .default(Text("OK")))
                 }
                 
             }

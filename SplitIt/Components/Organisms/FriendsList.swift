@@ -24,12 +24,12 @@ struct FriendsList: View {
                 HStack(spacing: 20) {
                     ForEach(friendsList, id: \.self){friend in
                         NavigationLink(destination: NewTransactionView(friend: friend)){
-                            FriendHome(name: shortenFullName(friend.name) , image: friend.imageName ?? "profile")
+                            FriendHome(name: shortenFullName(friend.name) , image: friend.imageName ?? "profile\(Int.random(in: 2...5))")
                         }
                         
                     }
                 }
-                .padding(.horizontal, 8) // Add horizontal padding to the card
+                .padding(.horizontal, 8)
                 .padding(.vertical, 12)
             }
             
