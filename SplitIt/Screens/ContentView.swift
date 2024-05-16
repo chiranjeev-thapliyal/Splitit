@@ -20,7 +20,10 @@ struct ContentView: View {
                 else {
                     NavigationStack {
                         VStack(spacing: 20) {
-                            HeaderTitle(first: "wealth", second: "OS").font(.system(size: 56)).kerning(2).fontWeight(.thin)
+                            HeaderTitle(first: "wealth", second: "OS")
+                                .font(.system(size: 56))
+                                .kerning(2)
+                                .fontWeight(.thin)
                             
                             VStack {
                                 NavigationButton(label: "Sign in", destination: SigninView())

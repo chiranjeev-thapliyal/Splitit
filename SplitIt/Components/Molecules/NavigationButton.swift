@@ -19,6 +19,7 @@ struct NavigationButton<Destination: View>: View {
                 .padding(.horizontal, 60)
                 .background(Color.darkGreen)
                 .clipShape(RoundedRectangle(cornerRadius: 24.0))
+                .shadow(color: Color.gray.opacity(0.5), radius: 5, x: 2, y: 2)
         }
     }
 }
