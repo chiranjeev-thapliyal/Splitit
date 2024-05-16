@@ -19,6 +19,7 @@ struct SigninView: View {
     @State private var successMessage: String = ""
     
     @State var showSignup: Bool = false
+    @State var isLoading = false
     
     @EnvironmentObject var authentication: AuthenticationModel
     @Environment(\.dismiss) var dismiss
@@ -94,6 +95,15 @@ struct SigninView: View {
                             Spacer().frame(height: 40)
                             
                             Button(action: {
+                                isLoading = true
+                                
+                                if email.isEmpty || password.isEmpty {
+                                    error = "Please enter valid details"
+                                    showError = true
+                                    isLoading = false
+                                    return
+                                }
+                                
                                 authentication.loginUser(email: email, password: password){ success, error, message in
                                     if !success {
                                         self.errorMessage = message
@@ -102,10 +112,17 @@ struct SigninView: View {
                                     } else {
                                         self.login(email: self.email, password: self.password)
                                     }
+                                isLoading = false
                                 }}){
-                                Text("Sign in")
-                                        .foregroundStyle(Color.tertiaryWhite)
+                                    if isLoading {
+                                        ProgressView()
+                                    } else {
+                                        Text("Sign in")
+                                                .foregroundStyle(Color.tertiaryWhite)
+                                    }
+                                
                             }
+                            .disabled(isLoading)
                             .padding(.vertical, 12)
                             .padding(.horizontal, 24)
                             .background(Color.darkGreen)

@@ -32,6 +32,9 @@ struct SignupView: View {
     @State private var showLoginScreen = false
     @State private var selectedAvatar: String = "profile"
     
+    @State private var isLoading = false
+
+    
     @EnvironmentObject var authentication: AuthenticationModel
     
     @Environment(\.dismiss) var dismiss
@@ -121,10 +124,19 @@ struct SignupView: View {
                 }
                 
                 
-                Button("Sign up") {
+                Button(action: {
+                    isLoading = true
                     performSignup()
+                }){
+                    if isLoading {
+                        ProgressView()
+                    } else {
+                        Text("Sign up")
+                    }
+                    
                 }
                 .buttonStyle()
+                .disabled(isLoading)
             }
         }
         .padding(.horizontal)
@@ -146,6 +158,11 @@ struct SignupView: View {
         passwordError = validatePassword(password)
         
         guard nameError.isEmpty, emailError.isEmpty, passwordError.isEmpty else {
+            DispatchQueue.main.async {
+                successMessage = "Please enter valid details"
+                showErrorAlert = true
+                isLoading = false
+            }
             return
         }
         
@@ -157,12 +174,14 @@ struct SignupView: View {
                         DispatchQueue.main.async {
                             successMessage = message
                             showSuccessAlert = true
+                            isLoading = false
                         }
                     } else {
                         authentication.deleteUser() { success, message in
                             DispatchQueue.main.async {
                                 errorMessage = "Please try again."
                                 showErrorAlert = true
+                                isLoading = false
                             }
                         }
                         
@@ -172,6 +191,7 @@ struct SignupView: View {
                 DispatchQueue.main.async {
                     errorMessage = message
                     showErrorAlert = true
+                    isLoading = false
                 }
             }
         }
