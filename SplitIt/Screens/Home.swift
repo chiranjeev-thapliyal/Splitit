@@ -15,6 +15,8 @@ struct Home: View {
     @State var navigateToMenu = false
     @State private var isNotAuthenticated = false
     
+    @State var openLogoutDialog = false
+    
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
     
@@ -34,7 +36,9 @@ struct Home: View {
             NavigationView {
                 ZStack(alignment: .bottomTrailing) {
                     VStack(spacing: 0) {
-                        CustomNavbar(leftIcon: "line.horizontal.3", leftIconAction: { self.navigateToMenu = true }, rightIcon: "power", rightIconAction: { authentication.logoutUser() })
+                        CustomNavbar(leftIcon: "line.horizontal.3", leftIconAction: { self.navigateToMenu = true }, rightIcon: "power", rightIconAction: { 
+                            openLogoutDialog = true
+                        })
                             .background(
                                 NavigationLink(destination: MenuView(), isActive: $navigateToMenu) { EmptyView()
                                 }
@@ -136,6 +140,13 @@ struct Home: View {
                 }
                 .refreshable {
                     getHomePageData()
+                }
+                .alert(isPresented: $openLogoutDialog){
+                    Alert(title: Text("Are you sure?"), message: Text("Do you want to continue to logout?"), primaryButton: .default(Text("Yes")){
+                        authentication.logoutUser()
+                    }, secondaryButton: .destructive(Text("No")){
+                        openLogoutDialog = false
+                    })
                 }
     
             }
