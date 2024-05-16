@@ -19,6 +19,7 @@ struct LoginResponse: Codable, Hashable {
     let token: String
     let email: String
     let name: String
+    let avatar: String
 }
 
 class AuthenticationModel: ObservableObject {
@@ -26,6 +27,7 @@ class AuthenticationModel: ObservableObject {
     @AppStorage("token") var savedToken: String?
     @AppStorage("name") var savedName: String?
     @AppStorage("email") var savedEmail: String?
+    @AppStorage("avatar") var savedAvatar: String?
     
     @Published var isAuthenticated = false
     
@@ -36,14 +38,15 @@ class AuthenticationModel: ObservableObject {
             self.savedToken = ""
             self.savedEmail = ""
             self.savedUserId = ""
+            self.savedAvatar = ""
             self.isAuthenticated = false
             print("isAuthenticated set to false")
         }
     }
     
     func checkIsAuthenticated() {
-        if let userId = self.savedUserId, let userToken = self.savedToken, let userName = self.savedName, let userEmail = self.savedEmail {
-            if !(userId.isEmpty || userToken.isEmpty || userName.isEmpty || userEmail.isEmpty) {
+        if let userId = self.savedUserId, let userToken = self.savedToken, let userName = self.savedName, let userEmail = self.savedEmail, let userAvatar = self.savedAvatar {
+            if !(userId.isEmpty || userToken.isEmpty || userName.isEmpty || userEmail.isEmpty || userAvatar.isEmpty) {
                 self.isAuthenticated = true
                 return
             }

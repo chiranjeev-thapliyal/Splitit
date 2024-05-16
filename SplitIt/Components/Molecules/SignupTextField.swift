@@ -63,7 +63,7 @@ struct SignupTextField: View {
                     .padding(.horizontal, 8)
             }
         }
-        .padding(.horizontal)
+//        .padding(.horizontal)
     }
 }
 

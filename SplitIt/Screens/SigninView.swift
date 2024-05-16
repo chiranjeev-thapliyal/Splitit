@@ -67,6 +67,7 @@ struct SigninView: View {
                             self.authentication.savedToken = responseData.token
                             self.authentication.savedName = responseData.name
                             self.authentication.savedEmail = responseData.email
+                            self.authentication.savedAvatar = responseData.avatar
                             self.authentication.isAuthenticated = true
                         }
                     } catch {

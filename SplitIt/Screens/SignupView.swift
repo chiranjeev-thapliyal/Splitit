@@ -11,6 +11,7 @@ struct SignupFormData: Codable {
     let name: String
     let email: String
     let password: String
+    let avatar: String
 }
 
 struct SignupView: View {
@@ -29,6 +30,7 @@ struct SignupView: View {
     @State private var successMessage = ""
     
     @State private var showLoginScreen = false
+    @State private var selectedAvatar: String = "profile"
     
     @EnvironmentObject var authentication: AuthenticationModel
     
@@ -84,40 +86,48 @@ struct SignupView: View {
     }
     
     var formContent: some View {
-        Group {
-            SignupTextField(
-                icon: "person",
-                placeholder: "Full Name",
-                onCommit: { nameError = validateName(fullName) },
-                onChange: { newValue in nameError = "" },
-                errorMessage: nameError,
-                text: $fullName
-            )
-            
-            SignupTextField(
-                icon: "at",
-                placeholder: "Email",
-                onCommit: { emailError = validateEmail(email) },
-                onChange: { newValue in emailError = "" },
-                errorMessage: emailError,
-                text: $email
-            )
-            
-            SignupTextField(
-                icon: "lock",
-                placeholder: "Password",
-                onCommit: { passwordError = validatePassword(password) },
-                onChange: { newValue in passwordError = "" },
-                errorMessage: passwordError,
-                text: $password,
-                isSecure: true
-            )
-            
-            Button("Sign up") {
-                performSignup()
+        GeometryReader { geometry in
+            VStack(spacing: 16) {
+                SignupTextField(
+                    icon: "person",
+                    placeholder: "Full Name",
+                    onCommit: { nameError = validateName(fullName) },
+                    onChange: { newValue in nameError = "" },
+                    errorMessage: nameError,
+                    text: $fullName
+                )
+                
+                SignupTextField(
+                    icon: "at",
+                    placeholder: "Email",
+                    onCommit: { emailError = validateEmail(email) },
+                    onChange: { newValue in emailError = "" },
+                    errorMessage: emailError,
+                    text: $email
+                )
+                
+                SignupTextField(
+                    icon: "lock",
+                    placeholder: "Password",
+                    onCommit: { passwordError = validatePassword(password) },
+                    onChange: { newValue in passwordError = "" },
+                    errorMessage: passwordError,
+                    text: $password,
+                    isSecure: true
+                )
+                
+                HStack(spacing: 16) {
+                    AvatarSelectionView(selectedAvatar: $selectedAvatar)
+                }
+                
+                
+                Button("Sign up") {
+                    performSignup()
+                }
+                .buttonStyle()
             }
-            .buttonStyle()
         }
+        .padding(.horizontal)
     }
     
     var backButton: some View {
@@ -141,7 +151,7 @@ struct SignupView: View {
         
         authentication.createUser(name: fullName, email: email, password: password) { success, message in
             if success {
-                let formData = SignupFormData(name: fullName, email: email, password: password)
+                let formData = SignupFormData(name: fullName, email: email, password: password, avatar: selectedAvatar)
                 submitSignupForm(data: formData) { success, message in
                     if success {
                         DispatchQueue.main.async {
@@ -149,10 +159,13 @@ struct SignupView: View {
                             showSuccessAlert = true
                         }
                     } else {
-                        DispatchQueue.main.async {
-                            errorMessage = message
-                            showErrorAlert = true
+                        authentication.deleteUser() { success, message in
+                            DispatchQueue.main.async {
+                                errorMessage = "Please try again."
+                                showErrorAlert = true
+                            }
                         }
+                        
                     }
                 }
             } else {
