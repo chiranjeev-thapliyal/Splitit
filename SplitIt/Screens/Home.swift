@@ -105,7 +105,7 @@ struct Home: View {
                                         if !transactionModel.transactions.isEmpty {
                                             ForEach(transactionModel.transactions.reversed(), id: \.self){ transaction in
                                                 NavigationLink(destination: TransactionView(transaction: transaction)){
-                                                    TransactionRow(payee: transaction.creatorName, amount: transaction.amount, members: transaction.shares, label: transaction.description, icon: "movieclapper.fill", isSystemIcon: true)
+                                                    TransactionRow(payee: transaction.creatorName, amount: transaction.amount, members: transaction.shares, label: transaction.description, icon:  symbolForTransaction(transaction.description), isSystemIcon: true)
                                                 }
                                                 Divider()
                                             }

@@ -24,7 +24,7 @@ struct TransactionView: View {
                     
                     VStack(spacing: 16) {
                         VStack(spacing: 8) {
-                            CircularImage(width: 80, height: 80, strokeColor: Color.tertiaryWhite, icon: "airplane", isSystemIcon: true)
+                            CircularImage(width: 80, height: 80, strokeColor: Color.tertiaryWhite, icon: symbolForTransaction(transaction.description) , isSystemIcon: true)
                             Text(transaction.description)
                                 .font(.headline)
                                 .foregroundStyle(Color.tertiaryWhite)

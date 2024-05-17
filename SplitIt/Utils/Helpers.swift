@@ -72,3 +72,32 @@ func isValidEmail(_ email: String) -> Bool {
     let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegex)
     return emailTest.evaluate(with: email)
 }
+
+func symbolForTransaction(_ description: String) -> String {
+    let transactionKeywords: [String: String] = [
+        "flight": "airplane",
+        "trip": "airplane",
+        "movie": "film",
+        "food": "fork.knife",
+        "restaurant": "fork.knife",
+        "train": "tram",
+        "bus": "bus",
+        "coffee": "cup.and.saucer",
+        "book": "book",
+        "music": "music.note",
+        "shopping": "cart",
+        "hotel": "bed.double",
+        "taxi": "car",
+        "groceries": "cart.fill",
+        "medicine": "pills",
+        "subscription": "creditcard"
+    ]
+    
+    for (keyword, symbol) in transactionKeywords {
+        if description.lowercased().contains(keyword) {
+            return symbol
+        }
+    }
+    
+    return "note.text"
+}
